@@ -1,0 +1,237 @@
+<!--##########################################
+    #                                        #
+    #  TimePix reconstruction steering file  #
+    #                                        #
+    ##########################################-->
+
+
+<marlin>
+ <execute>
+  <processor name="MyAIDAProcessor"/>
+  <processor name="MyConditionsProcessor"/>
+  <processor name="MyTimePixMapHandlerProcessor"/>
+  
+  <processor name="MyInGridSimpleClusterFinder"/>
+   <processor name="MyMEANvsXCorrectionProcessor"/>
+  <processor name="MyTimePixHoughTransformNormalProcessor"/>
+  <!--processor name="MyAssignHitsToTrackProcessor"/-->
+  <processor name="MyLinearRegressionProcessor"/>
+  <processor name="MyAssignHitsToTrackProcessor1"/>
+  
+  <processor name="MyTimePixTrackEventDisplayProcessor"/>
+  <!--processor name="MyAidaPerEventCommitterProcessor"/-->
+ <processor name="MyLCIOOutputProcessor"/>  
+ </execute>
+
+ <global>
+    <parameter name="LCIOInputFiles"> ../LCIOFile </parameter>
+    <parameter name="GearXMLFile" value="GearTB_fine0TAlex3rotm0_008_1rotm0_008.xml"/>
+    <parameter name="MaxRecordNumber" value="0"/>
+    <parameter name="SkipNEvents" value="0"/>
+    <parameter name="SupressCheck" value="false"/>
+    <parameter name="Verbosity" value="MESSAGE"/>
+ </global> 
+
+ <processor name="MyAIDAProcessor" type="AIDAProcessor">
+ <!--Processor that handles AIDA files. Creates on directory per processor.  Processors only need to create and fill the histograms, clouds and tuples. Needs to be the first ActiveProcessor-->
+  <!-- compression of output file 0: false >0: true (default) -->
+  <parameter name="Compress" type="int" value="1"/>
+  <!-- filename without extension-->
+  <parameter name="FileName" type="string" value="aida_file"/>
+  <!-- type of output file root (default) or xml )-->
+  <parameter name="FileType" type="string" value="root"/>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string" value=""/-->
+</processor>
+
+<processor name="MyConditionsProcessor" type="ConditionsProcessor">
+  <!--Initialization of a simple conditions file handler-->
+  <!--parameter name="SimpleFileHandler" type="StringVec">conditionsName
+  conditions.slcio collectionName  </parameter-->
+  <parameter name="SimpleFileHandler" type="StringVec">TimePixModeMap  
+    /home/tpc/marlintpc/lupberger/TimePixModeMap160TIME.slcio 
+    TimePixModeMap160TIME  </parameter>
+  <parameter name="SimpleFileHandler" type="StringVec">TimePixStatusMap
+    ../StatusMap
+    TimePixStatusMap  </parameter>
+  <!--parameter name="SimpleFileHandler" type="StringVec"> TimePixCalibrationMap 
+    /home/data/Workspace/conditionsForAllRuns/TimePixDistrDelayCorrectionMap_empty.slcio  
+    TimePixCalibrationMap  </parameter-->
+  <!--parameter name="SimpleFileHandler" type="StringVec"> TimePixCalibrationParameters 
+    /home/data/Workspace/conditionsForAllRuns/TimePixCalibrationParametersOctoboard.slcio 
+    TimePixCalibrationParameters  </parameter-->
+</processor>
+
+ <processor name="MyTimePixMapHandlerProcessor" type="TimePixMapHandlerProcessor">
+ <!--TimePixMapHandlerProcessor further seperates the clusters found in the TimePixClusterFinderProcessor by projecting them onto their own axis-->
+  <!--Name of the mode map collection-->
+  <parameter name="ModeMapCollectionName" type="string" lcioInType="LCGenericObject"> TimePixModeMap </parameter>
+  <!--Name of the status map collection-->
+  <parameter name="StatusMapCollectionName" type="string" lcioInType="LCGenericObject"> TimePixStatusMap </parameter>
+  <!--if not 0 the output collection is set transient-->
+  <parameter name="SetOutputTransient" type="int" value="0"/>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string" value=""/-->
+</processor>
+
+<processor name="MyMEANvsXCorrectionProcessor" type="MEANvsXCorrectionProcessor">
+  <parameter name="InputCollectionName" type="string" lcioInType="TrackerData">TimePixHitsToCor </parameter>
+  <parameter name="OutputCollectionName" type="string" lcioOutType="TrackerHit">TimePixHits </parameter>
+  <!--parameter name="MeansCorrection" type="string" value="MeansCorrectionOrigFromUncorr" /-->
+</processor>
+  
+<processor name="MyInGridSimpleClusterFinder" type="InGridSimpleClusterFinder">
+ <!--InGridSimpleClusterFinder is intended to ...-->
+ <!--drift velocity of gas in mm/us-->
+  <parameter name="DriftVelocity" type="double">../Vdrift</parameter>
+  <!--Name of the input TrackerData collection, default: TPCData-->
+  <parameter name="InputCollectionName" type="string" lcioInType="TrackerData">TimePixCleanedThrownData </parameter>
+  <!--use median filter to suppress noisy pixels in time mode? 1:true (default), 0:false-->
+  <parameter name="Median Filter" type="int">0 </parameter>
+  <!--Name of the output  collection-->
+  <parameter name="OutputCollectionName" type="string" lcioOutType="TrackerHit">TimePixHitsToCor </parameter>
+  <!--Name of the output collection with sepatated tracker data objects (default TimePixSepData)-->
+  <parameter name="OutputTrackerDataCollectionName" type="string" lcioOutType="TrackerData">TimePixSepData </parameter>
+  <!--readout frequency of TimePix chip in MHz-->
+  <parameter name="ReadoutFrequency" type="double">../Freq </parameter>
+  <!--if not 0 the output collection is set transient-->
+  <parameter name="SetOutputTransient" type="int">0 </parameter>
+  <!--length of shutter signal in us-->
+  <parameter name="Shutter" type="double">../Shutter</parameter>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+</processor>
+
+
+ <processor name="MyAidaPerEventCommitterProcessor" type="AidaPerEventCommitterProcessor">
+ <!--AidaPerEventCommitterProcessor writes all Aida Histogramms to disk, if check flag is enabled; needs to be the last processor before OutputProcessor-->
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+</processor>
+
+ <processor name="MyTimePixHoughTransformNormalProcessor" type="TimePixHoughTransformNormalProcessor">
+ <!--TimePixHoughTransformProcessor is intended to take an inputCollection of TrackerHits, treat those TrackerHits in groups (based on their CellID1), and reconstruct Tracks for each group separately. Which CellID1 is used can be specified setting "ProcessedChipID", default is -1 meaning all CellID1s will be used.
+Straight line is parameterized as:
+	y = x * tan(phi) + rac{D0}{cos(phi)} = x * rac{sin(phi)}{cos(phi)} + rac{D0}{cos(phi)}
+or in Hough space:
+	b = y * cos(phi) - x * sin(phi).-->
+  <!--Name of the input TrackerData collection, default: TimePixHits-->
+  <parameter name="InputCollectionName" type="string" lcioInType="TrackerHit"> TimePixHits </parameter>
+  <!--Name of the output Track collection( default: TimePixTrackCandidates)-->
+  <parameter name="OutputCollectionName" type="string" lcioOutType="Track"> TimePixTrackCandidates </parameter>
+  <!--Histograms will be written to this file (default: "HoughSpaceXZ.root")-->
+  <parameter name="FileName" type="string" value="HoughSpace.root"/>
+  <!--The half range (-max..max) of the Hough space histogram in 'D0' direction (default 65)-->
+  <parameter name="HoughSpaceMaxD0" type="float" value="270"/>
+  <!--The half range (HoughSpaceMinPhi .. HoughSpaceMaxPhi) of the Hough space histogram in 'phi' direction (default +1.0 pi)-->
+  <parameter name="HoughSpaceMaxPhi" type="float" value="1.88496"/>
+  <!--The half range (HoughSpaceMinPhi .. HoughSpaceMaxPhi) of the Hough space histogram in 'phi' direction (default -0.5 pi)-->
+  <parameter name="HoughSpaceMinPhi" type="float" value="-1.5708"/>
+  <!--The number of bins in the Hough space histogram in 'D0' direction (default 200)-->
+  <parameter name="HoughSpaceNBinsD0" type="int" value="200"/>
+  <!--The number of bins in the Hough space histogram in 'phi' direction (default 200)-->
+  <parameter name="HoughSpaceNBinsPhi" type="int" value="400"/>
+  <!--maximum number of events for which histograms will be saved (default: 30)-->
+  <parameter name="MaxHisto" type="int" value="2"/>
+  <!--Maximum distance of a hit to the track in mm in the xy plane-->
+  <parameter name="MaximumDistanceToTrack" type="double" value="../HTDistanceToTrack"/>
+  <!--minimum number of hits on one track-->
+  <parameter name="NHitsOnTrack" type="int" value="300"/>
+  <!--only the chip with _ChipID (CellID0) will be processed; if set to -1 all chipIDs will be processed (default: -1)-->
+  <parameter name="ProcessedChipID" type="int" value="-1"/>
+  <!--if not 0 the output collection is set transient (default 0)-->
+  <parameter name="SetOutputTransient" type="int" value="0"/>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string" value=""/-->
+</processor>
+
+<processor name="MyAssignHitsToTrackProcessor" type="AssignHitsToTrackProcessor">
+<parameter name="InputHitColName" type="string" lcioType="TrackerHit">TimePixHits</parameter>
+<parameter name="InputTrackColName" type="string" lcioType="Track">TimePixTrackCandidatesHT</parameter>
+<parameter name="OutputTrackColName" type="string" lcioType="Track">TimePixTrackCandidates</parameter>
+<parameter name="MinHitsPerTrack" type="int">300</parameter>
+<parameter name="NSigmaXY" type="float">../AssignHitsNSigmaXY</parameter>
+<parameter name="NSigmaZ" type="float">../AssignHitsNSigmaZ</parameter>
+<parameter name="DT" type="float">../AssignHitsDT</parameter>
+<parameter name="DL" type="float">../AssignHitsDL</parameter>
+<parameter name="LongitudinalResolution" type="float">../AssignHitsLongRes</parameter>
+<parameter name="UseZ" type="bool">true</parameter>
+<parameter name="Verbosity" type="string">ERROR</parameter>
+</processor>
+
+<processor name="MyLinearRegressionProcessor" type="LinearRegressionProcessor">
+ <!--Calculates seed track parameters from  in the TrackerHits in the track candidates collection!-->
+  <!--The the name of the input collection of track candidates (default: TPCTrackCandidates)-->
+  <parameter name="InputTrackCandidates" type="string" lcioInType="Track">TimePixTrackCandidates </parameter>
+  <!--The name of the collection the seed tracks be stored under (default: TPCSeedTracks)-->
+  <parameter name="OutputSeedTracks" type="string" lcioOutType="Track">TimePixFittedTracks </parameter>
+  <!--if not 0 the output hits collection is set transient (default: 0)-->
+  <parameter name="SetOutputTransient" type="int">0 </parameter>
+</processor>
+
+<processor name="MyAssignHitsToTrackProcessor1" type="AssignHitsToTrackProcessor">
+<parameter name="InputHitColName" type="string" lcioType="TrackerHit">TimePixHits</parameter>
+<parameter name="InputTrackColName" type="string" lcioType="Track">TimePixFittedTracks</parameter>
+<parameter name="OutputTrackColName" type="string" lcioType="Track">TimePixFittedAssignedTracks</parameter>
+<parameter name="MinHitsPerTrack" type="int">300</parameter>
+<parameter name="NSigmaXY" type="float">../AssignHitsNSigmaXY</parameter>
+<parameter name="NSigmaZ" type="float">../AssignHitsNSigmaZ</parameter>
+<parameter name="DT" type="float">../AssignHitsDT</parameter>
+<parameter name="DL" type="float">../AssignHitsDL</parameter>
+<parameter name="LongitudinalResolution" type="float">../AssignHitsLongRes</parameter>
+<parameter name="UseZ" type="bool">true</parameter>
+<parameter name="Verbosity" type="string">ERROR</parameter>
+</processor>
+
+ <processor name="MyTimePixTrackEventDisplayProcessor" type="TimePixTrackEventDisplayProcessor">
+ <!--TimePixTrackEventDisplayProcessor draws all TrackerHits in an event as black dots (kFullDotMedium). Also Tracks are draw on top of their corresponding Hits where the tracks and hits have the same color. Tracks are only drawn in the xy plane.-->
+  <!--Name of the input Track collection (default TPCTracks)-->
+  <parameter name="InputCollectionNameTracks" type="string" lcioInType="Track"> TimePixFittedAssignedTracks </parameter>
+  <!--the name of an collection that contains all TrackerHits (default: TimePixCorrectedHits)-->
+  <parameter name="TrackerDataColVec" type="string" lcioInType="TrackerHit"> TimePixHits </parameter>
+  <!--maximum number of created histograms (default: 500)-->
+  <parameter name="MaxNumberOfHistograms" type="int" value="100"/>
+  <!--if not 0 the output collection is set transient (default: 0)-->
+  <parameter name="SetOutputTransient" type="int" value="0"/>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string" value=""/-->
+  <!--maximum value of x range (default: 65.0 mm)-->
+  <parameter name="xMax" type="float" value="100"/>
+  <!--minimum value of x range (default: 0.0 mm)-->
+  <parameter name="xMin" type="float" value="-100"/>
+  <!--number of pixels in x direction (default: 256)-->
+  <parameter name="xPixel" type="int" value="2000"/>
+  <!--maximum value of y range (default: 45.0 mm)-->
+  <parameter name="yMax" type="float" value="260"/>
+  <!--minimum value of y range (default: 0.0 mm)-->
+  <parameter name="yMin" type="float" value="-260"/>
+  <!--number of pixels in y direction (default: 256)-->
+  <parameter name="yPixel" type="int" value="5200"/>
+  <!--maximum value of z range (default: 600.0 mm)-->
+  <parameter name="zMax" type="float" value="800"/>
+  <!--minimum value of z range (default: 0.0 mm)-->
+  <parameter name="zMin" type="float" value="-5"/>
+</processor>
+  
+
+<processor name="MyLCIOOutputProcessor" type="LCIOOutputProcessor">
+ <!--Writes the current event to the specified LCIO outputfile. Needs to be the last ActiveProcessor.-->
+  <!--drops the named collections from the event-->
+  <!--parameter name="DropCollectionNames" type="StringVec">TPCHits HCalHits  </parameter-->
+  <!--drops all collections of the given type from the event-->
+  <!--parameter name="DropCollectionTypes" type="StringVec">SimTrackerHit SimCalorimeterHit  </parameter-->
+  <!-- write complete objects in subset collections to the file (i.e. ignore subset flag)-->
+  <!--parameter name="FullSubsetCollections" type="StringVec">MCParticlesSkimmed  </parameter-->
+  <!--force keep of the named collections - overrules DropCollectionTypes (and DropCollectionNames)-->
+  <!--parameter name="KeepCollectionNames" type="StringVec">MyPreciousSimTrackerHits  </parameter-->
+  <!-- name of output file -->
+  <parameter name="LCIOOutputFile" type="string">TimePixTracks.slcio </parameter>
+  <!--write mode for output file:  WRITE_APPEND or WRITE_NEW-->
+  <parameter name="LCIOWriteMode" type="string">WRITE_NEW </parameter>
+  <!--will split output file if size in kB exceeds given value - doesn't work with APPEND and NEW-->
+  <!--parameter name="SplitFileSizekB" type="int">1992294 </parameter-->
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+</processor>
+
+</marlin>
