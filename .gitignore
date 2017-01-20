@@ -1,6 +1,9 @@
 Run*
 
+.*
+
 *.root
 *.slcio
 
 *.log
+*.pdf
