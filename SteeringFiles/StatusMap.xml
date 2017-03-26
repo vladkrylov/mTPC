@@ -22,7 +22,7 @@
 
    <global>
       <parameter name="LCIOInputFiles"> </parameter>
-      <parameter name="GearXMLFile" value="GearTB_fine.xml"/>
+      <parameter name="GearXMLFile" value="GearLAL.xml"/>
       <parameter name="MaxRecordNumber" value="0"/>
       <parameter name="SkipNEvents" value="0"/>
       <parameter name="SupressCheck" value="false"/>
@@ -40,7 +40,7 @@
   <!--CellID0s of Columns to be marked as dead-->
   <parameter name="DeadColumns" type="IntVec" value="../deadCols"/>
   <!--CellID0s of pixels to be marked as dead-->
-  <parameter name="DeadPixels" type="IntVec" value="../deadPix"/>
+  <!-- <parameter name="DeadPixels" type="IntVec" value="../deadPix"/> -->
   <!--CellID0s of Rows to be marked as dead-->
   <parameter name="DeadRows" type="IntVec" value="../deadRows"/>
   <!--Description of data-->
@@ -78,7 +78,7 @@
   <!--force keep of the named collections - overrules DropCollectionTypes (and DropCollectionNames)-->
   <!--parameter name="KeepCollectionNames" type="StringVec" value="MyPreciousSimTrackerHits"/-->
   <!-- name of output file -->
-  <parameter name="LCIOOutputFile" type="string" value="TimePixStatusMap160DeadChipsSinglePixel.slcio"/>
+  <parameter name="LCIOOutputFile" type="string" value="StatusMap96.slcio"/>
   <!--write mode for output file:  WRITE_APPEND or WRITE_NEW-->
   <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
   <!--will split output file if size in kB exceeds given value - doesn't work with APPEND and NEW-->

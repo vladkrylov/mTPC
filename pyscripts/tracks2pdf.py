@@ -8,7 +8,7 @@ from memory_profiler import profile
 def save_hist(fname, hist_base_name, eventID):
         f = TFile(fname)
         # read the hist
-        h = f.MyLinearRegressionProcessor.Get("%s%d" % (hist_base_name, eventID))
+        h = f.MyLinearRegressionProcessor.Get("%s_#;%d" % (hist_base_name, eventID))
         # draw and save
         h.Draw()
         canvas.Update()
@@ -25,11 +25,12 @@ def save_hist(fname, hist_base_name, eventID):
 # @profile
 def main_func():
     fname = '/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/Run_000102_150402_12-08-06/Results/Run_000102_150402_12-08-06RecoTracks3rotm0_008_1rotm0_008.root'
-    hist_base_name = 'XY_full_Evt_'
+#     hist_base_name = 'XY_full_Evt_'
+    hist_base_name = 'Residuals_'
     save_files = []
     
     canvas = TCanvas( "canvas", "canvas", 50, 50, 1200, 600 )
-    for eventID in range(100):
+    for eventID in range(1, 11):
         save_file = save_hist(fname, hist_base_name, eventID)
         save_files.append(save_file)
     # raw_input('Press Enter to exit')

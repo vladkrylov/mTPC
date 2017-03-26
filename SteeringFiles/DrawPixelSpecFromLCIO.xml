@@ -27,7 +27,7 @@
 
    <global>
       <parameter name="LCIOInputFiles"> ../LCIOFile </parameter>
-      <parameter name="GearXMLFile" value="GearTB_fine.xml"/>
+      <parameter name="GearXMLFile" value="GearLAL.xml"/>
       <parameter name="MaxRecordNumber" value=""/>
       <parameter name="SkipNEvents" value="0"/>
       <parameter name="SupressCheck" value="false"/>
@@ -51,8 +51,8 @@
   <!--parameter name="SimpleFileHandler" type="StringVec">conditionsName
   conditions.slcio collectionName  </parameter-->
   <parameter name="SimpleFileHandler" type="StringVec">TimePixModeMap  
-    /home/tpc/marlintpc/lupberger/TimePixModeMap160TIME.slcio 
-    TimePixModeMap160TIME  </parameter>
+    /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/TimePixModeMap96TOT.slcio 
+    TimePixModeMap96TOT  </parameter>
   <parameter name="SimpleFileHandler" type="StringVec">TimePixStatusMap
     ../StatusMap
     TimePixStatusMap  </parameter>
@@ -117,7 +117,7 @@
   <!--Name of the input collection-->
   <parameter name="InputCollectionName" type="string" lcioInType="TrackerData"> TimePixPreCleanedData </parameter>
   <!--High threshold from wich pixel are collected in _myBadPixelLocation2dHisto-->
-  <parameter name="HighTH" type="int" value="../HighTH"/>
+  <parameter name="HighTH" type="int" value="600"/>
   <!--Position of logfile-->
   <parameter name="LogFile" type="string" value="PixelSpecLog"/>
   <!--Low threshold from wich pixel are collected in _myBadPixelLocation2dHisto-->
@@ -135,7 +135,7 @@
   <!--Number ob bins in z, 0 means one Histo without z cut (default: 100)-->
   <parameter name="nBins" type="int" value="0"/>
   <!--Number of chips (default: 1)-->
-  <parameter name="NumberOfChips" type="int" value="160"/>
+  <parameter name="NumberOfChips" type="int" value="96"/>
   <!--% of events in which a pixel counts more than HighTH before getting masked (default: 100)-->
   <parameter name="HighCountCutVal" type="double" value="../PerCentHighCountsPerPixel"/>
   <!--Number of pixels with a count higher than _HighTH allowed per chip in an event, before it is reported (default: 256*256 = no cut)-->
