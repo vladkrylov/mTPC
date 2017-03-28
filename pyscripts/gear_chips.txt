@@ -1,0 +1,107 @@
+<!--Module: 2; Octoboard: 1; Chip: 1--><module> <offset x_r="-79.77632" y_phi="57.03601" /><angle value=".01" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 2--><module> <offset x_r="-65.38573" y_phi="57.2241" /><angle value=".01045" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 3--><module> <offset x_r="-50.84527" y_phi="57.37637" /><angle value=".01117" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 4--><module> <offset x_r="-36.39533" y_phi="57.39247" /><angle value=".00404" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 5--><module> <offset x_r="-50.70365" y_phi="85.69349" /><angle value="3.15167" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 6--><module> <offset x_r="-65.24755" y_phi="85.64375" /><angle value="3.15079" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 7--><module> <offset x_r="-79.88347" y_phi="85.45852" /><angle value="3.16" /></module>
+<!--Module: 2; Octoboard: 1; Chip: 8--><module> <offset x_r="-94.22249" y_phi="85.33533" /><angle value="3.1525" /></module>
+
+<!--Module: 2; Octoboard: 2; Chip: 1--><module> <offset x_r="-87.03459" y_phi="16.20416" /><angle value=".00661" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 2--><module> <offset x_r="-72.65197" y_phi="16.28334" /><angle value=".00451" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 3--><module> <offset x_r="-58.16382" y_phi="16.28351" /><angle value=".0029" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 4--><module> <offset x_r="-43.50703" y_phi="16.42828" /><angle value=".01228" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 5--><module> <offset x_r="-57.80204" y_phi="44.74118" /><angle value="3.14856" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 6--><module> <offset x_r="-72.2894" y_phi="44.65592" /><angle value="3.14359" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 7--><module> <offset x_r="-86.87542" y_phi="44.57215" /><angle value="3.15017" /></module>
+<!--Module: 2; Octoboard: 2; Chip: 8--><module> <offset x_r="-101.2889" y_phi="44.54186" /><angle value="3.14568" /></module>
+
+<!--Module: 2; Octoboard: 3; Chip: 1--><module> <offset x_r="-80.51588" y_phi="-24.55607" /><angle value="-.01241" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 2--><module> <offset x_r="-65.98125" y_phi="-24.74233" /><angle value="-.01665" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 3--><module> <offset x_r="-51.24028" y_phi="-24.76987" /><angle value="-.00635" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 4--><module> <offset x_r="-36.63222" y_phi="-24.75659" /><angle value="-.00042" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 5--><module> <offset x_r="-50.72232" y_phi="3.63711" /><angle value="3.14365" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 6--><module> <offset x_r="-65.17437" y_phi="3.66417" /><angle value="3.13966" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 7--><module> <offset x_r="-79.63428" y_phi="3.84193" /><angle value="3.12803" /></module>
+<!--Module: 2; Octoboard: 3; Chip: 8--><module> <offset x_r="-94.63804" y_phi="3.9707" /><angle value="3.14359" /></module>
+
+<!--Module: 2; Octoboard: 4; Chip: 1--><module> <offset x_r="-86.91317" y_phi="-65.4561" /><angle value=".00203" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 2--><module> <offset x_r="-72.42711" y_phi="-65.36378" /><angle value=".00601" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 3--><module> <offset x_r="-58.05696" y_phi="-65.35341" /><angle value="-.00119" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 4--><module> <offset x_r="-43.61041" y_phi="-65.4277" /><angle value="-.00507" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 5--><module> <offset x_r="-57.56028" y_phi="-36.98363" /><angle value="3.14651" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 6--><module> <offset x_r="-72.13536" y_phi="-36.97664" /><angle value="3.14745" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 7--><module> <offset x_r="-86.70482" y_phi="-37.10114" /><angle value="3.15065" /></module>
+<!--Module: 2; Octoboard: 4; Chip: 8--><module> <offset x_r="-101.11513" y_phi="-37.15713" /><angle value="3.14549" /></module>
+
+<!--Module: 2; Octoboard: 5; Chip: 1--><module> <offset x_r="-11.78767" y_phi="57.28363" /><angle value="-.00189" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 2--><module> <offset x_r="2.71682" y_phi="57.11754" /><angle value="-.00443" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 3--><module> <offset x_r="17.29473" y_phi="57.16187" /><angle value="-.00109" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 4--><module> <offset x_r="31.88023" y_phi="57.1971" /><angle value=".00593" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 5--><module> <offset x_r="17.84039" y_phi="85.48269" /><angle value="3.14404" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 6--><module> <offset x_r="3.30722" y_phi="85.62762" /><angle value="3.13324" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 7--><module> <offset x_r="-11.2518" y_phi="85.54824" /><angle value="3.13567" /></module>
+<!--Module: 2; Octoboard: 5; Chip: 8--><module> <offset x_r="-25.90918" y_phi="85.62083" /><angle value="3.14369" /></module>
+
+<!--Module: 2; Octoboard: 6; Chip: 1--><module> <offset x_r="-18.42531" y_phi="16.10248" /><angle value=".00632" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 2--><module> <offset x_r="-3.94267" y_phi="16.25253" /><angle value=".00678" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 3--><module> <offset x_r="10.64114" y_phi="16.3097" /><angle value=".00294" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 4--><module> <offset x_r="25.1262" y_phi="16.3608" /><angle value=".00154" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 5--><module> <offset x_r="11.05966" y_phi="44.74591" /><angle value="3.13903" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 6--><module> <offset x_r="-3.51115" y_phi="44.69122" /><angle value="3.14279" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 7--><module> <offset x_r="-18.0927" y_phi="44.55154" /><angle value="3.14944" /></module>
+<!--Module: 2; Octoboard: 6; Chip: 8--><module> <offset x_r="-32.73703" y_phi="44.41199" /><angle value="3.15035" /></module>
+
+<!--Module: 2; Octoboard: 7; Chip: 1--><module> <offset x_r="-12.09616" y_phi="-24.79751" /><angle value=".00523" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 2--><module> <offset x_r="2.4292" y_phi="-24.74731" /><angle value=".0139" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 3--><module> <offset x_r="16.96581" y_phi="-24.60023" /><angle value=".00904" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 4--><module> <offset x_r="31.31151" y_phi="-24.51526" /><angle value=".01528" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 5--><module> <offset x_r="17.12493" y_phi="3.75818" /><angle value="3.15432" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 6--><module> <offset x_r="2.7263" y_phi="3.76396" /><angle value="3.15294" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 7--><module> <offset x_r="-11.92279" y_phi="3.64976" /><angle value="3.16063" /></module>
+<!--Module: 2; Octoboard: 7; Chip: 8--><module> <offset x_r="-26.32926" y_phi="3.49544" /><angle value="3.15251" /></module>
+
+<!--Module: 2; Octoboard: 8; Chip: 1--><module> <offset x_r="-19.04772" y_phi="-65.51615" /><angle value="-.00068" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 2--><module> <offset x_r="-4.57888" y_phi="-65.58901" /><angle value="-.00115" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 3--><module> <offset x_r="10.04819" y_phi="-65.53949" /><angle value=".00301" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 4--><module> <offset x_r="24.58186" y_phi="-65.4512" /><angle value=".00414" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 5--><module> <offset x_r="10.40158" y_phi="-37.14963" /><angle value="3.14715" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 6--><module> <offset x_r="-4.14387" y_phi="-37.19475" /><angle value="3.14749" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 7--><module> <offset x_r="-18.6422" y_phi="-37.13362" /><angle value="3.13921" /></module>
+<!--Module: 2; Octoboard: 8; Chip: 8--><module> <offset x_r="-33.16701" y_phi="-37.15795" /><angle value="3.1484" /></module>
+
+<!--Module: 2; Octoboard: 9; Chip: 1--><module> <offset x_r="86.22099" y_phi="89.50069" /><angle value="3.14549" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 2--><module> <offset x_r="71.70684" y_phi="89.47225" /><angle value="3.14499" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 3--><module> <offset x_r="57.24348" y_phi="89.48012" /><angle value="3.14247" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 4--><module> <offset x_r="42.75884" y_phi="89.55627" /><angle value="3.13968" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 5--><module> <offset x_r="56.9969" y_phi="52.94827" /><angle value=".00194" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 6--><module> <offset x_r="71.42386" y_phi="52.91088" /><angle value="-.00216" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 7--><module> <offset x_r="85.98341" y_phi="52.9258" /><angle value="-.00034" /></module>
+<!--Module: 2; Octoboard: 9; Chip: 8--><module> <offset x_r="100.48618" y_phi="52.94796" /><angle value="-.00112" /></module>
+
+<!--Module: 2; Octoboard: 10; Chip: 1--><module> <offset x_r="49.45251" y_phi="16.02725" /><angle value="-.00744" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 2--><module> <offset x_r="64.083" y_phi="15.97818" /><angle value=".00214" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 3--><module> <offset x_r="78.54311" y_phi="15.96102" /><angle value=".00348" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 4--><module> <offset x_r="92.96048" y_phi="15.91899" /><angle value="-.00162" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 5--><module> <offset x_r="78.94323" y_phi="44.33578" /><angle value="3.14117" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 6--><module> <offset x_r="64.49023" y_phi="44.33083" /><angle value="3.14254" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 7--><module> <offset x_r="50.1046" y_phi="44.3594" /><angle value="3.14082" /></module>
+<!--Module: 2; Octoboard: 10; Chip: 8--><module> <offset x_r="35.64041" y_phi="44.49646" /><angle value="3.13856" /></module>
+
+<!--Module: 2; Octoboard: 11; Chip: 1--><module> <offset x_r="56.24573" y_phi="-24.78985" /><angle value="-.01133" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 2--><module> <offset x_r="70.60041" y_phi="-24.94718" /><angle value="-.01543" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 3--><module> <offset x_r="85.11327" y_phi="-25.10218" /><angle value="-.01325" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 4--><module> <offset x_r="99.62472" y_phi="-25.15542" /><angle value="-.0079" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 5--><module> <offset x_r="85.98235" y_phi="3.35179" /><angle value="3.13101" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 6--><module> <offset x_r="71.61355" y_phi="3.48977" /><angle value="3.1268" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 7--><module> <offset x_r="56.99793" y_phi="3.63163" /><angle value="3.1247" /></module>
+<!--Module: 2; Octoboard: 11; Chip: 8--><module> <offset x_r="42.47345" y_phi="3.71308" /><angle value="3.13561" /></module>
+
+<!--Module: 2; Octoboard: 12; Chip: 1--><module> <offset x_r="49.1929" y_phi="-65.74068" /><angle value="-.00904" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 2--><module> <offset x_r="63.68032" y_phi="-65.90074" /><angle value="-.01201" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 3--><module> <offset x_r="78.2152" y_phi="-65.96673" /><angle value="-.00493" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 4--><module> <offset x_r="92.71399" y_phi="-66.05526" /><angle value="-.00563" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 5--><module> <offset x_r="79.06237" y_phi="-37.52212" /><angle value="3.13015" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 6--><module> <offset x_r="64.53857" y_phi="-37.44692" /><angle value="3.13507" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 7--><module> <offset x_r="49.98333" y_phi="-37.37736" /><angle value="3.13183" /></module>
+<!--Module: 2; Octoboard: 12; Chip: 8--><module> <offset x_r="35.61612" y_phi="-37.13484" /><angle value="3.12738" /></module>
