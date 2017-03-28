@@ -26,7 +26,7 @@
    </execute>
 
    <global>
-      <parameter name="LCIOInputFiles"> ../LCIOFile </parameter>
+      <parameter name="LCIOInputFiles"> TimePixRawData96.slcio </parameter>
       <parameter name="GearXMLFile" value="GearLAL.xml"/>
       <parameter name="MaxRecordNumber" value="2"/>
       <parameter name="SkipNEvents" value="0"/>
@@ -130,7 +130,7 @@
   <parameter name="nColumnModules" type="int" value="12"/>
   <!--Number of modules/chips in a row-->
   <parameter name="nRowModules" type="int" value="8"/>
-  <parameter name="CutMaxOcc" type="double" value = "../CutVal"/>
+  <parameter name="CutMaxOcc" type="double" value = "2"/>
   <parameter name="CutDeadPixelOnChip" type="int" value="3500"/>
   <parameter name="CutDeadPixelOnRow" type="int" value="85"/>
   <parameter name="CutDeadPixelOnCol" type="int" value="85"/>

@@ -1,9 +1,13 @@
-Run*
+*Run_*
 
 .*
+sed*
 
 *.root
 *.slcio
 
 *.log
 *.pdf
+
+_MaskedLog
+log.txt
