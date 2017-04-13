@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<gear>
+  <!-- 
+    GEAR xml file for the end plate of the LP TPC with GEM module
+  -->
+  <BField type="ConstantBField" x="0.0" y="0.0" z="0.0"/>
+  <!--global detectorName="LPTPCDetector" /-->
+  <detectors>
+    <!-- The TPC has geartype set to TPCParameters -->
+    <detector name="TPC" geartype="TPCParameters">
+      <parameter name="BField" type="double"> 0.0 </parameter>
+      <!-- First set the global parameters -->
+      <!-- Drift length in mm -->
+      <maxDriftLength value="600.0"/>
+      <coordinateType value="cartesian"/>
+      <!--driftVelocity value="75200000." / -->
+      <!-- readoutFrequency value="4.0e+07" / -->
+      <!-- The module section
+         The first module has ID 20, for all following
+         modules the ID is increased by 1 -->
+      <modules moduleIDStartCount="0">
+        <!-- The below description is defined as default module. -->
+        <default>
+          <!-- 40 MHz readout electronics -->
+          <readoutFrequency value="40000000"/>
+          <PadRowLayout2D type="RectangularPadRowLayout" xMin="-7.0555" xMax="7.0555" yMin="0">
+            <row repeat="256" nPad="256" padHeight="0.055" padWidth="0.055" rowHeight="0.055"/>
+          </PadRowLayout2D>
+        </default>
+<!-- Octoboard: 1; Chip: 1--><module> <offset x_r="49.240000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 1; Chip: 2--><module> <offset x_r="35.160000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 1; Chip: 3--><module> <offset x_r="21.080000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 1; Chip: 4--><module> <offset x_r="7.000000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 1; Chip: 5--><module> <offset x_r="21.080000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 1; Chip: 6--><module> <offset x_r="35.160000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 1; Chip: 7--><module> <offset x_r="49.240000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 1; Chip: 8--><module> <offset x_r="63.320000" y_phi="148.640000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 2; Chip: 1--><module> <offset x_r="42.240000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 2; Chip: 2--><module> <offset x_r="28.160000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 2; Chip: 3--><module> <offset x_r="14.080000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 2; Chip: 4--><module> <offset x_r="0.000000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 2; Chip: 5--><module> <offset x_r="14.080000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 2; Chip: 6--><module> <offset x_r="28.160000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 2; Chip: 7--><module> <offset x_r="42.240000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 2; Chip: 8--><module> <offset x_r="56.320000" y_phi="108.480000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 3; Chip: 1--><module> <offset x_r="49.240000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 3; Chip: 2--><module> <offset x_r="35.160000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 3; Chip: 3--><module> <offset x_r="21.080000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 3; Chip: 4--><module> <offset x_r="7.000000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 3; Chip: 5--><module> <offset x_r="21.080000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 3; Chip: 6--><module> <offset x_r="35.160000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 3; Chip: 7--><module> <offset x_r="49.240000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 3; Chip: 8--><module> <offset x_r="63.320000" y_phi="68.320000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 4; Chip: 1--><module> <offset x_r="42.240000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 4; Chip: 2--><module> <offset x_r="28.160000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 4; Chip: 3--><module> <offset x_r="14.080000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 4; Chip: 4--><module> <offset x_r="0.000000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 4; Chip: 5--><module> <offset x_r="14.080000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 4; Chip: 6--><module> <offset x_r="28.160000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 4; Chip: 7--><module> <offset x_r="42.240000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 4; Chip: 8--><module> <offset x_r="56.320000" y_phi="28.160000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 5; Chip: 1--><module> <offset x_r="117.560000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 5; Chip: 2--><module> <offset x_r="103.480000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 5; Chip: 3--><module> <offset x_r="89.400000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 5; Chip: 4--><module> <offset x_r="75.320000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 5; Chip: 5--><module> <offset x_r="89.400000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 5; Chip: 6--><module> <offset x_r="103.480000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 5; Chip: 7--><module> <offset x_r="117.560000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 5; Chip: 8--><module> <offset x_r="131.640000" y_phi="148.640000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 6; Chip: 1--><module> <offset x_r="110.560000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 6; Chip: 2--><module> <offset x_r="96.480000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 6; Chip: 3--><module> <offset x_r="82.400000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 6; Chip: 4--><module> <offset x_r="68.320000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 6; Chip: 5--><module> <offset x_r="82.400000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 6; Chip: 6--><module> <offset x_r="96.480000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 6; Chip: 7--><module> <offset x_r="110.560000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 6; Chip: 8--><module> <offset x_r="124.640000" y_phi="108.480000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 7; Chip: 1--><module> <offset x_r="117.560000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 7; Chip: 2--><module> <offset x_r="103.480000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 7; Chip: 3--><module> <offset x_r="89.400000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 7; Chip: 4--><module> <offset x_r="75.320000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 7; Chip: 5--><module> <offset x_r="89.400000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 7; Chip: 6--><module> <offset x_r="103.480000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 7; Chip: 7--><module> <offset x_r="117.560000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 7; Chip: 8--><module> <offset x_r="131.640000" y_phi="68.320000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 8; Chip: 1--><module> <offset x_r="110.560000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 8; Chip: 2--><module> <offset x_r="96.480000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 8; Chip: 3--><module> <offset x_r="82.400000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 8; Chip: 4--><module> <offset x_r="68.320000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 8; Chip: 5--><module> <offset x_r="82.400000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 8; Chip: 6--><module> <offset x_r="96.480000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 8; Chip: 7--><module> <offset x_r="110.560000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 8; Chip: 8--><module> <offset x_r="124.640000" y_phi="28.160000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 9; Chip: 1--><module> <offset x_r="185.880000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 9; Chip: 2--><module> <offset x_r="171.800000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 9; Chip: 3--><module> <offset x_r="157.720000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 9; Chip: 4--><module> <offset x_r="143.640000" y_phi="120.480000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 9; Chip: 5--><module> <offset x_r="157.720000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 9; Chip: 6--><module> <offset x_r="171.800000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 9; Chip: 7--><module> <offset x_r="185.880000" y_phi="148.640000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 9; Chip: 8--><module> <offset x_r="199.960000" y_phi="148.640000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 10; Chip: 1--><module> <offset x_r="178.880000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 10; Chip: 2--><module> <offset x_r="164.800000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 10; Chip: 3--><module> <offset x_r="150.720000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 10; Chip: 4--><module> <offset x_r="136.640000" y_phi="80.320000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 10; Chip: 5--><module> <offset x_r="150.720000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 10; Chip: 6--><module> <offset x_r="164.800000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 10; Chip: 7--><module> <offset x_r="178.880000" y_phi="108.480000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 10; Chip: 8--><module> <offset x_r="192.960000" y_phi="108.480000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 11; Chip: 1--><module> <offset x_r="185.880000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 11; Chip: 2--><module> <offset x_r="171.800000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 11; Chip: 3--><module> <offset x_r="157.720000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 11; Chip: 4--><module> <offset x_r="143.640000" y_phi="40.160000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 11; Chip: 5--><module> <offset x_r="157.720000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 11; Chip: 6--><module> <offset x_r="171.800000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 11; Chip: 7--><module> <offset x_r="185.880000" y_phi="68.320000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 11; Chip: 8--><module> <offset x_r="199.960000" y_phi="68.320000" /><angle value="3.141593" /></module>
+
+<!-- Octoboard: 12; Chip: 1--><module> <offset x_r="178.880000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 12; Chip: 2--><module> <offset x_r="164.800000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 12; Chip: 3--><module> <offset x_r="150.720000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 12; Chip: 4--><module> <offset x_r="136.640000" y_phi="0.000000" /><angle value="0.000000" /></module>
+<!-- Octoboard: 12; Chip: 5--><module> <offset x_r="150.720000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 12; Chip: 6--><module> <offset x_r="164.800000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 12; Chip: 7--><module> <offset x_r="178.880000" y_phi="28.160000" /><angle value="3.141593" /></module>
+<!-- Octoboard: 12; Chip: 8--><module> <offset x_r="192.960000" y_phi="28.160000" /><angle value="3.141593" /></module>
+
+
+      </modules>
+      <!--Special parameters for HepRep event display-->
+      <!--It should be 357. -->
+      <parameter name="TPCRadius" type="double"> 357 </parameter>
+      <!-- Do not set inner parameter, nothing to draw -->
+      <!-- the Inner raius shouldbe 0.0 -->
+      <parameter name="TPCInnerRadius" type="double"> 0.0  </parameter>
+      <!--parameter name="TPC_cylinder_centre_c0"      type="double" > 0.0 </parameter-->
+      <parameter name="TPC_cylinder_centre_c0" type="double"> 1503.615 </parameter>
+      <parameter name="TPC_cylinder_centre_c1" type="double"> 0.0 </parameter>
+    </detector>
+  </detectors>
+</gear>
