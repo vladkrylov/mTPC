@@ -27,8 +27,8 @@
 
    <global>
       <parameter name="LCIOInputFiles"> TimePixRawData96.slcio </parameter>
-      <parameter name="GearXMLFile" value="GearLAL.xml"/>
-      <parameter name="MaxRecordNumber" value="2"/>
+      <parameter name="GearXMLFile" value="GearLALideal.xml"/>
+      <parameter name="MaxRecordNumber" value="10"/>
       <parameter name="SkipNEvents" value="0"/>
       <parameter name="SupressCheck" value="false"/>
       <parameter name="Verbosity" value="MESSAGE"/>

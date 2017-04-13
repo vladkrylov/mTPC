@@ -1,32 +1,3 @@
-<?xml version="1.0"?>
-<gear>
-  <!-- 
-    GEAR xml file for the end plate of the LP TPC with GEM module
-  -->
-  <BField type="ConstantBField" x="0.0" y="0.0" z="0.0"/>
-  <!--global detectorName="LPTPCDetector" /-->
-  <detectors>
-    <!-- The TPC has geartype set to TPCParameters -->
-    <detector name="TPC" geartype="TPCParameters">
-      <parameter name="BField" type="double"> 0.0 </parameter>
-      <!-- First set the global parameters -->
-      <!-- Drift length in mm -->
-      <maxDriftLength value="600.0"/>
-      <coordinateType value="cartesian"/>
-      <!--driftVelocity value="75200000." / -->
-      <!-- readoutFrequency value="4.0e+07" / -->
-      <!-- The module section
-         The first module has ID 20, for all following
-         modules the ID is increased by 1 -->
-      <modules moduleIDStartCount="0">
-        <!-- The below description is defined as default module. -->
-        <default>
-          <!-- 40 MHz readout electronics -->
-          <readoutFrequency value="40000000"/>
-          <PadRowLayout2D type="RectangularPadRowLayout" xMin="-7.0555" xMax="7.0555" yMin="0">
-            <row repeat="256" nPad="256" padHeight="0.055" padWidth="0.055" rowHeight="0.055"/>
-          </PadRowLayout2D>
-        </default>
 <!--Module: 2; Octoboard: 1; Chip: 1--><module> <offset x_r="-79.77632" y_phi="57.03601" /><angle value=".01" /></module>
 <!--Module: 2; Octoboard: 1; Chip: 2--><module> <offset x_r="-65.38573" y_phi="57.2241" /><angle value=".01045" /></module>
 <!--Module: 2; Octoboard: 1; Chip: 3--><module> <offset x_r="-50.84527" y_phi="57.37637" /><angle value=".01117" /></module>
@@ -134,18 +105,3 @@
 <!--Module: 2; Octoboard: 12; Chip: 6--><module> <offset x_r="64.53857" y_phi="-37.44692" /><angle value="3.13507" /></module>
 <!--Module: 2; Octoboard: 12; Chip: 7--><module> <offset x_r="49.98333" y_phi="-37.37736" /><angle value="3.13183" /></module>
 <!--Module: 2; Octoboard: 12; Chip: 8--><module> <offset x_r="35.61612" y_phi="-37.13484" /><angle value="3.12738" /></module>
-
-
-      </modules>
-      <!--Special parameters for HepRep event display-->
-      <!--It should be 357. -->
-      <parameter name="TPCRadius" type="double"> 357 </parameter>
-      <!-- Do not set inner parameter, nothing to draw -->
-      <!-- the Inner raius shouldbe 0.0 -->
-      <parameter name="TPCInnerRadius" type="double"> 0.0  </parameter>
-      <!--parameter name="TPC_cylinder_centre_c0"      type="double" > 0.0 </parameter-->
-      <parameter name="TPC_cylinder_centre_c0" type="double"> 1503.615 </parameter>
-      <parameter name="TPC_cylinder_centre_c1" type="double"> 0.0 </parameter>
-    </detector>
-  </detectors>
-</gear>
