@@ -8,8 +8,8 @@ Shutter=14.038 #13.8(shutter)+0.238(trigger delay)=14.038 #15.188 for run 90!
 
 Run=${RUNFOLDER%%/}
 echo "$Run"
-RUNLCIOFILE=$Run/${RUNFOLDER%%/}_MirroredTimePixCleanedThrownData.slcio
-RUNMAP=$Run/${RUNFOLDER%%/}_MirroredStatusMap.slcio
+RUNLCIOFILE=$Run/${RUNFOLDER%%/}TimePixCleanedThrownData.slcio
+RUNMAP=$Run/${RUNFOLDER%%/}StatusMap.slcio
 echo "$RUNLCIOFILE"
 
 if [ ! $# == 3 ]; then
@@ -49,7 +49,7 @@ sed -i "s%../LCIOFile%$RUNLCIOFILE%g" NormalHoughTrafo.xml
 sed -i "s%../StatusMap%$RUNMAP%g" NormalHoughTrafo.xml
 sed -i "s%../Vdrift%$VDrift%g" NormalHoughTrafo.xml
 sed -i "s%../HTDistanceToTrack%$FourSigmaXYWidth%g" NormalHoughTrafo.xml
-sed -i "s%../AssignHitsNSigmaXY%4%g" NormalHoughTrafo.xml
+sed -i "s%../AssignHitsNSigmaXY%40%g" NormalHoughTrafo.xml
 sed -i "s%../AssignHitsNSigmaZ%5%g" NormalHoughTrafo.xml
 sed -i "s%../AssignHitsDT%$DT%g" NormalHoughTrafo.xml
 sed -i "s%../AssignHitsDL%$DL%g" NormalHoughTrafo.xml
@@ -57,7 +57,6 @@ sed -i "s%../AssignHitsLongRes%$ZBinning%g" NormalHoughTrafo.xml
 sed -i "s%../Shutter%$Shutter%g" NormalHoughTrafo.xml
 sed -i "s%../Freq%$Freq%g" NormalHoughTrafo.xml
 
-echo "Here"
 Marlin NormalHoughTrafo.xml
 # mkdir -p /media/tpc/HD3/20150331-0406_testbeam_DESY_Analysis/$Run/ReconstructionNTracksPhiD0
 # mv aida_file.root /media/tpc/HD3/20150331-0406_testbeam_DESY_Analysis/$Run/ReconstructionNTracksPhiD0/${RUNFOLDER%%/}RecoTracks3rotm0_008_1rotm0_008.root

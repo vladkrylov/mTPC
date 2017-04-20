@@ -28,7 +28,7 @@
 
    <global>
       <parameter name="LCIOInputFiles"> ../LCIOFile </parameter>
-      <parameter name="GearXMLFile" value="GearLAL.xml"/>
+      <parameter name="GearXMLFile" value="GearLALideal.xml"/>
       <parameter name="MaxRecordNumber" value=""/>
       <parameter name="SkipNEvents" value="0"/>
       <parameter name="SupressCheck" value="false"/>

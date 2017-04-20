@@ -1,3 +1,13 @@
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000000_170217_13-35-02.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000001_170217_13-35-02.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000002_170217_13-35-02.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000003_170217_13-35-03.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000004_170217_13-35-03.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000005_170217_13-35-03.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000006_170217_13-35-03.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000007_170217_13-35-03.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000008_170217_13-35-04.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000009_170217_13-35-04.txt
 /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000010_170217_13-35-04.txt
 /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000011_170217_13-35-04.txt
 /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000012_170217_13-35-04.txt
@@ -5,3 +15,7 @@
 /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000014_170217_13-35-05.txt
 /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000015_170217_13-35-05.txt
 /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000016_170217_13-35-05.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000017_170217_13-35-05.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000018_170217_13-35-06.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000019_170217_13-35-06.txt
+/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/97_Run_000097_170217_13-35-01/21ev/run_000097_data_000020_170217_13-35-06.txt

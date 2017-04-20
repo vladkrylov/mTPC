@@ -24,8 +24,8 @@
 
  <global>
     <parameter name="LCIOInputFiles"> ../LCIOFile </parameter>
-    <parameter name="GearXMLFile" value="GearTB_fine0TAlex3rotm0_008_1rotm0_008.xml"/>
-    <parameter name="MaxRecordNumber" value="2"/>
+    <parameter name="GearXMLFile" value="GearLALideal.xml"/>
+    <parameter name="MaxRecordNumber" value="20"/>
     <parameter name="SkipNEvents" value="0"/>
     <parameter name="SupressCheck" value="false"/>
     <parameter name="Verbosity" value="MESSAGE"/>
@@ -48,10 +48,10 @@
   <!--parameter name="SimpleFileHandler" type="StringVec">conditionsName
   conditions.slcio collectionName  </parameter-->
   <parameter name="SimpleFileHandler" type="StringVec">TimePixModeMap  
-    /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/TimePixModeMap160TIME.slcio 
-    TimePixModeMap160TIME  </parameter>
+    /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/TimePixModeMap96TOT.slcio
+    TimePixModeMap96TOT  </parameter>
   <parameter name="SimpleFileHandler" type="StringVec">TimePixStatusMap
-    ../StatusMap
+    /home/vlad/Program_Files/ilcsoft/marlintpc/workspace/TimePixRawData96/TimePixRawData96StatusMap.slcio
     TimePixStatusMap  </parameter>
   <!--parameter name="SimpleFileHandler" type="StringVec"> TimePixCalibrationMap 
     /home/data/Workspace/conditionsForAllRuns/TimePixDistrDelayCorrectionMap_empty.slcio  
@@ -130,7 +130,7 @@ or in Hough space:
   <!--Maximum distance of a hit to the track in mm in the xy plane-->
   <parameter name="MaximumDistanceToTrack" type="double" value="../HTDistanceToTrack"/>
   <!--minimum number of hits on one track-->
-  <parameter name="NHitsOnTrack" type="int" value="300"/>
+  <parameter name="NHitsOnTrack" type="int" value="50"/>
   <!--only the chip with _ChipID (CellID0) will be processed; if set to -1 all chipIDs will be processed (default: -1)-->
   <parameter name="ProcessedChipID" type="int" value="-1"/>
   <!--if not 0 the output collection is set transient (default 0)-->
@@ -143,7 +143,7 @@ or in Hough space:
 <parameter name="InputHitColName" type="string" lcioType="TrackerHit">TimePixHits</parameter>
 <parameter name="InputTrackColName" type="string" lcioType="Track">TimePixTrackCandidatesHT</parameter>
 <parameter name="OutputTrackColName" type="string" lcioType="Track">TimePixTrackCandidates</parameter>
-<parameter name="MinHitsPerTrack" type="int">300</parameter>
+<parameter name="MinHitsPerTrack" type="int">50</parameter>
 <parameter name="NSigmaXY" type="float">../AssignHitsNSigmaXY</parameter>
 <parameter name="NSigmaZ" type="float">../AssignHitsNSigmaZ</parameter>
 <parameter name="DT" type="float">../AssignHitsDT</parameter>
@@ -167,13 +167,13 @@ or in Hough space:
 <parameter name="InputHitColName" type="string" lcioType="TrackerHit">TimePixHits</parameter>
 <parameter name="InputTrackColName" type="string" lcioType="Track">TimePixFittedTracks</parameter>
 <parameter name="OutputTrackColName" type="string" lcioType="Track">TimePixFittedAssignedTracks</parameter>
-<parameter name="MinHitsPerTrack" type="int">300</parameter>
+<parameter name="MinHitsPerTrack" type="int">1</parameter>
 <parameter name="NSigmaXY" type="float">../AssignHitsNSigmaXY</parameter>
 <parameter name="NSigmaZ" type="float">../AssignHitsNSigmaZ</parameter>
 <parameter name="DT" type="float">../AssignHitsDT</parameter>
 <parameter name="DL" type="float">../AssignHitsDL</parameter>
 <parameter name="LongitudinalResolution" type="float">../AssignHitsLongRes</parameter>
-<parameter name="UseZ" type="bool">true</parameter>
+<parameter name="UseZ" type="bool">false</parameter>
 <parameter name="Verbosity" type="string">ERROR</parameter>
 </processor>
 
@@ -190,21 +190,21 @@ or in Hough space:
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <!--parameter name="Verbosity" type="string" value=""/-->
   <!--maximum value of x range (default: 65.0 mm)-->
-  <parameter name="xMax" type="float" value="100"/>
+  <parameter name="xMax" type="float" value="200"/>
   <!--minimum value of x range (default: 0.0 mm)-->
-  <parameter name="xMin" type="float" value="-100"/>
+  <parameter name="xMin" type="float" value="0"/>
   <!--number of pixels in x direction (default: 256)-->
   <parameter name="xPixel" type="int" value="2000"/>
   <!--maximum value of y range (default: 45.0 mm)-->
-  <parameter name="yMax" type="float" value="260"/>
+  <parameter name="yMax" type="float" value="150"/>
   <!--minimum value of y range (default: 0.0 mm)-->
-  <parameter name="yMin" type="float" value="-260"/>
+  <parameter name="yMin" type="float" value="0"/>
   <!--number of pixels in y direction (default: 256)-->
-  <parameter name="yPixel" type="int" value="5200"/>
+  <parameter name="yPixel" type="int" value="1500"/>
   <!--maximum value of z range (default: 600.0 mm)-->
-  <parameter name="zMax" type="float" value="800"/>
+  <parameter name="zMax" type="float" value="20"/>
   <!--minimum value of z range (default: 0.0 mm)-->
-  <parameter name="zMin" type="float" value="-5"/>
+  <parameter name="zMin" type="float" value="0"/>
 </processor>
   
 
