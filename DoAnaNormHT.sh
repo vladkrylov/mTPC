@@ -1,3 +1,3 @@
 #! / bin / bash   
 
-bash DoNormalHT.sh TimePixRawData96 230 7
+bash DoNormalHT.sh Run97 230 7

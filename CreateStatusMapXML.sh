@@ -1,5 +1,6 @@
 #! / bin / bash           
 RUNLCIOFILE=$1
+RunName=$2
 
 OccCutVal=2 # cut in occupancy in percent of number of events
 SpecHighCountOccCutVal=1.0 # cut in occupany for high count hits
@@ -34,8 +35,8 @@ linesToSkip=6
 } <MaskedLog
 
 Run=${RUNLCIOFILE##*LCIO_}
-RunName=${Run%.slcio}
-echo "$RunName"
+# RunName=${Run%.slcio}
+# echo "$RunName"
 
 cp SteeringFiles/StatusMap.xml .
 sed -i "s%../deadChips%$chips%g" StatusMap.xml
@@ -46,38 +47,38 @@ sed -i "s%../deadPix%$pixel%g" StatusMap.xml
 echo -e "\tCreating status map"
 sleep 2s
 Marlin StatusMap.xml
-# 
-# echo -e "\tCreadting TOT spectrum"
+
+# # echo -e "\tCreadting TOT spectrum"
+# # sleep 2s
+# # cp SteeringFiles/DrawPixelSpecFromLCIO.xml .
+# # sed -i "s%../LCIOFile%$RUNLCIOFILE%g" DrawPixelSpecFromLCIO.xml
+# # sed -i "s%../StatusMap%`pwd`/StatusMap96.slcio%g" DrawPixelSpecFromLCIO.xml
+# # sed -i "s%../PerCentHighCountsPerPixel%$SpecHighCountOccCutVal%g" DrawPixelSpecFromLCIO.xml
+# # sed -i "s%../allowedHighCountsPerChip%$AllowedHighCountsPerChipCutVal%g" DrawPixelSpecFromLCIO.xml
+# # Marlin DrawPixelSpecFromLCIO.xml
+# # 
+# # mv PixelSpecLog $RunName/${Run%.slcio}PixelSpecLog
+# # mv HighCountEvents $RunName/${Run%.slcio}HighCountEvents
+# # 
+# # echo -e "\tCreating new StatusMap including HighTOA count pixels"
+# # sleep 2s
+# # 
+# # linesToSkip=12
+# # {
+# #   for ((i=$linesToSkip;i--;))
+# #   do
+# #     read
+# #   done
+# #   read line
+# #   HighCountPixel=$(echo $line | cut -d':' -f2)
+# #   echo -e $file
+# # } <MaskedLog
+# # 
+# # sed -i "s%$pixel%$pixel$HighCountPixel%g" StatusMap.xml
+# # Marlin StatusMap.xml
+# # 
+# echo -e "\tRemoving data from chips/events with too many high counts in one event and creating cleaned LCIO data"
 # sleep 2s
-# cp SteeringFiles/DrawPixelSpecFromLCIO.xml .
-# sed -i "s%../LCIOFile%$RUNLCIOFILE%g" DrawPixelSpecFromLCIO.xml
-# sed -i "s%../StatusMap%`pwd`/StatusMap96.slcio%g" DrawPixelSpecFromLCIO.xml
-# sed -i "s%../PerCentHighCountsPerPixel%$SpecHighCountOccCutVal%g" DrawPixelSpecFromLCIO.xml
-# sed -i "s%../allowedHighCountsPerChip%$AllowedHighCountsPerChipCutVal%g" DrawPixelSpecFromLCIO.xml
-# Marlin DrawPixelSpecFromLCIO.xml
-# 
-# mv PixelSpecLog $RunName/${Run%.slcio}PixelSpecLog
-# mv HighCountEvents $RunName/${Run%.slcio}HighCountEvents
-# 
-# echo -e "\tCreating new StatusMap including HighTOA count pixels"
-# sleep 2s
-# 
-# linesToSkip=12
-# {
-#   for ((i=$linesToSkip;i--;))
-#   do
-#     read
-#   done
-#   read line
-#   HighCountPixel=$(echo $line | cut -d':' -f2)
-#   echo -e $file
-# } <MaskedLog
-# 
-# sed -i "s%$pixel%$pixel$HighCountPixel%g" StatusMap.xml
-# Marlin StatusMap.xml
-# 
-echo -e "\tRemoving data from chips/events with too many high counts in one event and creating cleaned LCIO data"
-sleep 2s
 
 cp SteeringFiles/CreateCleanedData.xml .
 sed -i "s%../LCIOFile%$RUNLCIOFILE%g" CreateCleanedData.xml
@@ -90,12 +91,12 @@ sed -i "s%../HighCountEvents%$RunName/${Run%.slcio}HighCountEvents%g" CreateClea
 Marlin CreateCleanedData.xml
 
 mkdir $RunName
-mv StatusMap96.slcio $RunName/${Run%.slcio}StatusMap.slcio
-mv aida_file.root $RunName/${Run%.slcio}Occuppancy.root
-mv aida2_file.root $RunName/${Run%.slcio}PixelSpec.root
-mv aida3_file.root $RunName/${Run%.slcio}CleanedThrownPixelSpec.root
-mv TimePixCleanedThrownData.slcio $RunName/${Run%.slcio}TimePixCleanedThrownData.slcio
-mv MaskedLog ${Run%.slcio}_MaskedLog
+mv StatusMap96.slcio $RunName/StatusMap.slcio
+mv aida_file.root $RunName/Occuppancy.root
+mv aida2_file.root $RunName/PixelSpec.root
+mv aida3_file.root $RunName/CleanedThrownPixelSpec.root
+mv TimePixCleanedThrownData.slcio $RunName/TimePixCleanedThrownData.slcio
+mv MaskedLog $RunName/MaskedLog
 
 echo -e "\tCleaning up"
 rm PixelSpecLog

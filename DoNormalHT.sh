@@ -8,8 +8,8 @@ Shutter=14.038 #13.8(shutter)+0.238(trigger delay)=14.038 #15.188 for run 90!
 
 Run=${RUNFOLDER%%/}
 echo "$Run"
-RUNLCIOFILE=$Run/${RUNFOLDER%%/}TimePixCleanedThrownData.slcio
-RUNMAP=$Run/${RUNFOLDER%%/}StatusMap.slcio
+RUNLCIOFILE=$Run/TimePixCleanedThrownData.slcio
+RUNMAP=$Run/StatusMap.slcio
 echo "$RUNLCIOFILE"
 
 if [ ! $# == 3 ]; then

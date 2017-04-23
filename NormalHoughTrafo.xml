@@ -23,7 +23,7 @@
  </execute>
 
  <global>
-    <parameter name="LCIOInputFiles"> TimePixRawData96/TimePixRawData96TimePixCleanedThrownData.slcio </parameter>
+    <parameter name="LCIOInputFiles"> Run97/TimePixCleanedThrownData.slcio </parameter>
     <parameter name="GearXMLFile" value="GearLALideal.xml"/>
     <parameter name="MaxRecordNumber" value="20"/>
     <parameter name="SkipNEvents" value="0"/>
