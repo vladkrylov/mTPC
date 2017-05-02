@@ -22,7 +22,7 @@ function varargout = AlgoTest(varargin)
 
 % Edit the above text to modify the response to help AlgoTest
 
-% Last Modified by GUIDE v2.5 26-Apr-2017 01:47:04
+% Last Modified by GUIDE v2.5 30-Apr-2017 07:05:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -63,7 +63,7 @@ if strcmp(get(hObject,'Visible'),'off')
     plot(rand(5));
 end
 
-set(hObject, 'toolbar', 'figure')
+set(hObject, 'toolbar', 'figure');
 
 setappdata(handles.figure1, 'pixel_size', 0.055);
 
@@ -86,8 +86,14 @@ set(hObject,'Position',[0 34 1368 676]);
 
 % set_icon(handles.NewEventPushButton, 'img/select_new_track.png');
 set_icon(handles.NewEventPushButton, 'img/Properties_32x32.png');
-set_icon(handles.SelectNewTrackButton, 'img/Add_32x32.png');
-set_icon(handles.RemoveTrackButton, 'img/Delete_32x32.png');
+set_icon(handles.AddNewTrackButton, 'img/newtrack_32x32.png');
+
+set_icon(handles.EditTrackButton, 'img/edittrack_32x32.png');
+set_icon(handles.StopEditTrackButton, 'img/savetrack_32x32.png');
+set_icon(handles.RemoveTrackButton, 'img/delhits_32x32.png');
+set_icon(handles.AddHitsToTrackButton, 'img/Add_24x24.png');
+set_icon(handles.RemoveHitsFromTrackButton, 'img/Remove_24x24.png');
+
 set_icon(handles.HoughTransformButton, 'img/Forward_32x32.png');
 set_icon(handles.SelectHTracksButton, 'img/Presentation_32x32.png');
 
@@ -129,32 +135,6 @@ end
 
 delete(handles.figure1)
 
-
-% --- Executes on selection change in popupmenu1.
-function popupmenu1_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = get(hObject,'String') returns popupmenu1 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu1
-
-
-% --- Executes during object creation, after setting all properties.
-function popupmenu1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-     set(hObject,'BackgroundColor','white');
-end
-
-set(hObject, 'String', {'plot(rand(5))', 'plot(sin(1:0.01:25))', 'bar(1:.5:10)', 'plot(membrane)', 'surf(peaks)'});
-
-
 % --- Executes on button press in NewEventPushButton.
 function NewEventPushButton_Callback(hObject, eventdata, handles)
 % hObject    handle to NewEventPushButton (see GCBO)
@@ -164,21 +144,30 @@ pixel_size = getappdata(handles.figure1, 'pixel_size');
 
 data_path = '../Event0.txt';
 data = load(data_path);
+event_id = 0;
 
-setappdata(handles.figure1, 'current_event_id', 0);
+setappdata(handles.figure1, 'current_event_id', event_id);
 setappdata(handles.figure1, 'x', floor(data(:,1) / pixel_size));
 setappdata(handles.figure1, 'y', floor(data(:,2) / pixel_size));
 
 axes(handles.axes1)
 x = getappdata(handles.figure1, 'x');
 y = getappdata(handles.figure1, 'y');
+
+setappdata(handles.figure1, 'events', struct('id', event_id,...
+                                             'xhits', x,...
+                                             'yhits', y,...
+                                             'zcharge', [],...
+                                             'selected_tracks', [],...
+                                             'reconstructed_rtacks', []));
+
 plot(x, y, 'k.');
 xlabel('x, pixels')
 ylabel('y, pixels')
 
-% --- Executes on button press in SelectNewTrackButton.
-function SelectNewTrackButton_Callback(hObject, eventdata, handles)
-% hObject    handle to SelectNewTrackButton (see GCBO)
+% --- Executes on button press in EditTrackButton.
+function EditTrackButton_Callback(hObject, eventdata, handles)
+% hObject    handle to EditTrackButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 current_event_id = getappdata(handles.figure1, 'current_event_id');
@@ -186,15 +175,117 @@ if isempty(current_event_id)
     errordlg('No hits data loaded','Data not available');
     return;
 end
-    
-selected_tracks = getappdata(handles.figure1, 'selected_tracks');
-if isempty(selected_tracks)
-    selected_tracks = {};
+setappdata(handles.figure1, 'edit_track', true);
+set(handles.AddHitsToTrackButton, 'Enable', 'on');
+set(handles.RemoveHitsFromTrackButton, 'Enable', 'on');
+
+% --- Executes on button press in StopEditTrackButton.
+function StopEditTrackButton_Callback(hObject, eventdata, handles)
+% hObject    handle to StopEditTrackButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+edit_track = getappdata(handles.figure1, 'edit_track');
+if isempty(edit_track) || edit_track == false
+    return;
 end
 
-setappdata(handles.figure1, 'selected_tracks', selected_tracks)
+setappdata(handles.figure1, 'edit_track', false);
+
+set(handles.AddHitsToTrackButton, 'Enable', 'off');
+set(handles.RemoveHitsFromTrackButton, 'Enable', 'off');
+
+% save current track in the corresponding event structure
+events = getappdata(handles.figure1, 'events');
+current_track = getappdata(handles.figure1, 'current_track');
+if isempty(current_track)
+    return;
+end
+
+for iev = 1:length(events)
+    if current_track.event_id == events(iev).id
+        events(iev).selected_tracks = [events(iev).selected_tracks current_track];
+        setappdata(handles.figure1, 'events', events);
+%         rmappdata(handles.figure1, 'current_track');
+        break;
+    end
+end
 
 
+% --- Executes on button press in AddHitsToTrackButton.
+function AddHitsToTrackButton_Callback(hObject, eventdata, handles)
+% hObject    handle to AddHitsToTrackButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+events = getappdata(handles.figure1, 'events');
+current_event_id = getappdata(handles.figure1, 'current_event_id');
+current_track = getappdata(handles.figure1, 'current_track');
+
+for i=1:length(events)
+    if current_event_id == events(i).id
+        current_event = events(i);
+    end
+end
+
+% ignore already selected track handles
+ignore_list = current_track.plot_handle;
+for i=1:length(current_event.selected_tracks)
+    ignore_list = [ignore_list current_event.selected_tracks(i).plot_handle];
+end
+
+axes(handles.axes1);
+[tind,~,~] = selectdata('selectionmode','rect', 'ignore', ignore_list);
+current_track.inds = union(current_track.inds, tind);
+
+axes(handles.axes1);
+if ~isempty(current_track.plot_handle)
+    
+%     set(current_track.plot_handle, 'Visible', 'off');
+end
+
+hold on
+current_track.plot_handle = plot(current_event.xhits(current_track.inds),...
+                                 current_event.yhits(current_track.inds),...
+                                 'o',...
+                                 'MarkerEdgeColor', current_track.color);
+hold off
+setappdata(handles.figure1, 'current_track', current_track);
+
+
+% --- Executes on button press in RemoveHitsFromTrackButton.
+function RemoveHitsFromTrackButton_Callback(hObject, eventdata, handles)
+% hObject    handle to RemoveHitsFromTrackButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% --- Executes on button press in AddNewTrackButton.
+function AddNewTrackButton_Callback(hObject, eventdata, handles)
+% hObject    handle to AddNewTrackButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+current_event_id = getappdata(handles.figure1, 'current_event_id');
+if isempty(current_event_id)
+    errordlg('No hits data loaded','Data not available');
+    return;
+end
+
+% % extract event data
+% events = getappdata(handles.figure1, 'events');
+% for i=1:length(events)
+%     if events(i).id == current_event_id
+%         current_event = events(i);
+%     end
+% end
+% 
+% % extract selected tracks data
+% current_event.selected_tracks = [current_event.selected_tracks];
+event_id = getappdata(handles.figure1, 'current_event_id');
+track_id = 0;
+current_track = struct('track_id', track_id,...
+                       'event_id', event_id,...
+                       'color', nice_color(track_id),...
+                       'inds', [],...
+                       'plot_handle', []);
+setappdata(handles.figure1, 'current_track', current_track);
 
 
 % --- Executes on button press in RemoveTrackButton.
@@ -243,3 +334,6 @@ function SelectHTracksButton_Callback(hObject, eventdata, handles)
 % hObject    handle to SelectHTracksButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+
