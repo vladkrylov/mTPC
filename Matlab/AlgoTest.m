@@ -179,6 +179,13 @@ setappdata(handles.figure1, 'edit_track', true);
 set(handles.AddHitsToTrackButton, 'Enable', 'on');
 set(handles.RemoveHitsFromTrackButton, 'Enable', 'on');
 
+set(handles.NewEventPushButton, 'Enable', 'off');
+set(handles.HoughTransformButton, 'Enable', 'off');
+set(handles.EditTrackButton, 'Enable', 'off');
+set(handles.AddNewTrackButton, 'Enable', 'off');
+set(handles.RemoveTrackButton, 'Enable', 'off');
+
+
 % --- Executes on button press in StopEditTrackButton.
 function StopEditTrackButton_Callback(hObject, eventdata, handles)
 % hObject    handle to StopEditTrackButton (see GCBO)
@@ -193,6 +200,12 @@ setappdata(handles.figure1, 'edit_track', false);
 
 set(handles.AddHitsToTrackButton, 'Enable', 'off');
 set(handles.RemoveHitsFromTrackButton, 'Enable', 'off');
+
+set(handles.NewEventPushButton, 'Enable', 'on');
+set(handles.HoughTransformButton, 'Enable', 'on');
+set(handles.EditTrackButton, 'Enable', 'on');
+set(handles.AddNewTrackButton, 'Enable', 'on');
+set(handles.RemoveTrackButton, 'Enable', 'on');
 
 % save current track in the corresponding event structure
 events = getappdata(handles.figure1, 'events');
@@ -236,9 +249,11 @@ axes(handles.axes1);
 [tind,~,~] = selectdata('selectionmode','rect', 'ignore', ignore_list);
 current_track.inds = union(current_track.inds, tind);
 
+% display currently selected hits
 axes(handles.axes1);
 if ~isempty(current_track.plot_handle)
-    
+    delete(current_track.plot_handle);
+    current_track.plot_handle = [];
 %     set(current_track.plot_handle, 'Visible', 'off');
 end
 
@@ -256,6 +271,41 @@ function RemoveHitsFromTrackButton_Callback(hObject, eventdata, handles)
 % hObject    handle to RemoveHitsFromTrackButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+events = getappdata(handles.figure1, 'events');
+current_event_id = getappdata(handles.figure1, 'current_event_id');
+current_track = getappdata(handles.figure1, 'current_track');
+
+for i=1:length(events)
+    if current_event_id == events(i).id
+        current_event = events(i);
+    end
+end
+
+% ignore already selected track handles
+ignore_list = current_track.plot_handle;
+for i=1:length(current_event.selected_tracks)
+    ignore_list = [ignore_list current_event.selected_tracks(i).plot_handle];
+end
+
+axes(handles.axes1);
+[tind,~,~] = selectdata('selectionmode','rect', 'ignore', ignore_list);
+current_track.inds = setdiff(current_track.inds, tind);
+
+% display currently selected hits
+axes(handles.axes1);
+if ~isempty(current_track.plot_handle)
+    delete(current_track.plot_handle);
+    current_track.plot_handle = [];
+end
+
+hold on
+current_track.plot_handle = plot(current_event.xhits(current_track.inds),...
+                                 current_event.yhits(current_track.inds),...
+                                 'o',...
+                                 'MarkerEdgeColor', current_track.color);
+hold off
+setappdata(handles.figure1, 'current_track', current_track);
+
 
 % --- Executes on button press in AddNewTrackButton.
 function AddNewTrackButton_Callback(hObject, eventdata, handles)
@@ -268,18 +318,28 @@ if isempty(current_event_id)
     return;
 end
 
-% % extract event data
-% events = getappdata(handles.figure1, 'events');
-% for i=1:length(events)
-%     if events(i).id == current_event_id
-%         current_event = events(i);
-%     end
-% end
-% 
-% % extract selected tracks data
-% current_event.selected_tracks = [current_event.selected_tracks];
 event_id = getappdata(handles.figure1, 'current_event_id');
-track_id = 0;
+% get current event
+events = getappdata(handles.figure1, 'events');
+for i=1:length(events)
+    if current_event_id == events(i).id
+        current_event = events(i);
+    end
+end
+
+% get list of selected track ids
+if isempty(current_event.selected_tracks)
+    track_id = 0;
+else
+    existing_track_ids = zeros(1, length(current_event.selected_tracks));
+    for i=1:length(existing_track_ids)
+        existing_track_ids(i) = current_event.selected_tracks(i).track_id;
+    end
+    existing_track_ids = sort(existing_track_ids);
+
+    track_id = existing_track_ids(end)+1;
+end
+
 current_track = struct('track_id', track_id,...
                        'event_id', event_id,...
                        'color', nice_color(track_id),...
