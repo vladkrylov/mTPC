@@ -8,6 +8,10 @@ sed*
 
 *.log
 *.pdf
+*.tif
+*.png
+*.mat
 
-_MaskedLog
+*MaskedLog*
 log.txt
+TimePixData.txt
