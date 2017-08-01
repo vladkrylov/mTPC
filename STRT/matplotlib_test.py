@@ -1,77 +1,129 @@
-"""
-=========================
-Simple animation examples
-=========================
-
-This example contains two animations. The first is a random walk plot. The
-second is an image animation.
-"""
+from __future__ import unicode_literals
+import sys
+import os
+import random
 import matplotlib
-# matplotlib.use('Agg')
-matplotlib.use('gtk3agg')
-from matplotlib         import pylab as p
-from matplotlib.text    import Text
+# Make sure that we are using QT5
+matplotlib.use('Qt5Agg')
+from PyQt5 import QtGui, QtCore, QtWidgets
 
-class DragHandler(object):
-    """ A simple class to handle Drag n Drop.
+from numpy import arange, sin, pi
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
-    This is a simple example, which works for Text objects only
-    """
-    def __init__(self, figure=None) :
-        """ Create a new drag handler and connect it to the figure's event system.
-        If the figure handler is not given, the current figure is used instead
-        """
+progname = os.path.basename(sys.argv[0])
+progversion = "0.1"
 
-        if figure is None : figure = p.gcf()
-        # simple attibute to store the dragged text object
-        self.dragged = None
 
-        # Connect events and callbacks
-        figure.canvas.mpl_connect("pick_event", self.on_pick_event)
-        figure.canvas.mpl_connect("button_release_event", self.on_release_event)
-        figure.canvas.mpl_connect("motion_notify_event", self.on_motion_notify_event)
+class MyMplCanvas(FigureCanvas):
+    """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
 
-    def on_pick_event(self, event):
-        " Store which text object was picked and were the pick event occurs."
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+        # We want the axes cleared every time plot() is called
+        self.axes.hold(False)
 
-        if isinstance(event.artist, Text):
-            self.dragged = event.artist
-            self.pick_pos = (event.mouseevent.xdata, event.mouseevent.ydata)
-        return True
+        self.compute_initial_figure()
 
-    def on_release_event(self, event):
-        " Update text position and redraw"
+        #
+        FigureCanvas.__init__(self, fig)
+        self.setParent(parent)
 
-        if self.dragged is not None :
-            old_pos = self.dragged.get_position()
-            new_pos = (old_pos[0] + event.xdata - self.pick_pos[0],
-                       old_pos[1] + event.ydata - self.pick_pos[1])
-            self.dragged.set_position(new_pos)
-            self.dragged = None
-            p.draw()
-        return True
-    
-    def on_motion_notify_event(self, event):
-        print(event.x, event.y)
-    
+        FigureCanvas.setSizePolicy(self,
+                                   QtWidgets.QSizePolicy.Expanding,
+                                   QtWidgets.QSizePolicy.Expanding)
+        FigureCanvas.updateGeometry(self)
 
-# Usage example
-from numpy import *
+    def compute_initial_figure(self):
+        pass
 
-# Create arbitrary points and labels
-x, y = random.normal(5, 2, size=(2, 9))
-labels = [ "Point %d" % i for i in range(x.size)]
 
-# trace a scatter plot
-p.scatter(x, y)
-p.grid()
+class MyStaticMplCanvas(MyMplCanvas):
+    """Simple canvas with a sine plot."""
 
-# add labels and set their picker attribute to True
-for a,b,l in zip(x,y, labels):
-    p.text(a, b, l, picker=True)
+    def compute_initial_figure(self):
+        t = arange(0.0, 3.0, 0.01)
+        s = sin(2*pi*t)
+        self.axes.plot(t, s)
 
-# Create the event hendler 
-dragh = DragHandler()
 
-p.show()
-       
+class MyDynamicMplCanvas(MyMplCanvas):
+    """A canvas that updates itself every second with a new plot."""
+
+    def __init__(self, *args, **kwargs):
+        MyMplCanvas.__init__(self, *args, **kwargs)
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.update_figure)
+        timer.start(1000)
+
+    def compute_initial_figure(self):
+        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
+
+    def update_figure(self):
+        # Build a list of 4 random integers between 0 and 10 (both inclusive)
+        l = [random.randint(0, 10) for i in range(4)]
+
+        self.axes.plot([0, 1, 2, 3], l, 'r')
+        self.draw()
+
+
+class ApplicationWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        QtWidgets.QMainWindow.__init__(self)
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setWindowTitle("application main window")
+
+        self.file_menu = QtWidgets.QMenu('&File', self)
+        self.file_menu.addAction('&Quit', self.fileQuit,
+                                 QtCore.Qt.CTRL + QtCore.Qt.Key_Q)
+        self.menuBar().addMenu(self.file_menu)
+
+        self.help_menu = QtWidgets.QMenu('&Help', self)
+        self.menuBar().addSeparator()
+        self.menuBar().addMenu(self.help_menu)
+
+        self.help_menu.addAction('&About', self.about)
+
+        self.main_widget = QtWidgets.QWidget(self)
+
+        l = QtWidgets.QVBoxLayout(self.main_widget)
+        sc = MyStaticMplCanvas(self.main_widget, width=5, height=4, dpi=100)
+        dc = MyDynamicMplCanvas(self.main_widget, width=5, height=4, dpi=100)
+        l.addWidget(sc)
+        l.addWidget(dc)
+
+        self.main_widget.setFocus()
+        self.setCentralWidget(self.main_widget)
+
+        self.statusBar().showMessage("All hail matplotlib!", 2000)
+
+    def fileQuit(self):
+        self.close()
+
+    def closeEvent(self, ce):
+        self.fileQuit()
+
+    def about(self):
+        QtGui.QMessageBox.about(self, "About",
+                                """embedding_in_qt5.py example
+Copyright 2005 Florent Rougon, 2006 Darren Dale, 2015 Jens H Nielsen
+
+This program is a simple example of a Qt5 application embedding matplotlib
+canvases.
+
+It may be used and modified with no restriction; raw copies as well as
+modified versions may be distributed without limitation.
+
+This is modified from the embedding in qt4 example to show the difference
+between qt4 and qt5"""
+                                )
+
+
+qApp = QtWidgets.QApplication(sys.argv)
+
+aw = ApplicationWindow()
+aw.setWindowTitle("%s" % progname)
+aw.show()
+sys.exit(qApp.exec_())
+#qApp.exec_()
