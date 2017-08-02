@@ -1,6 +1,9 @@
 import matplotlib
 matplotlib.use('Qt5Agg')
 
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
+
 from PyQt5 import QtWidgets
 from numpy import arange, sin, pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -12,9 +15,14 @@ class MyMplCanvas(FigureCanvas):
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
+        
+#         fig, ax = plt.subplots()
+        
         self.axes = fig.add_subplot(111)
         # We want the axes cleared every time plot() is called
         self.axes.hold(False)
+        
+        a, b = self.axes.margins()
 
         self.compute_initial_figure()
 

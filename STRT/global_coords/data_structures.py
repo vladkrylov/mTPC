@@ -1,10 +1,23 @@
 class Event():
-    def __init__(self, ev_id):
-        self.id = ev_id
+    def __init__(self, data_file_path):
+        self.path = data_file_path
+        self.id = self.set_id()
         self.hits = []
+        
+    def __repr__(self):
+        return "Event %d with %d hits" % (self.id, len(self.hits))
+    
+    def __eq__(self, other):
+        return self.path == other.path
+    
+    def __neq__(self, other):
+        return not self.__eq__(other)
         
     def add_hit(self, hit):
         self.hits.append(hit)
+        
+    def set_id(self):
+        self.id = 0
     
 
 class Hit():

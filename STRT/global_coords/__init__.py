@@ -1,1 +1,2 @@
-import data_structures
+from data_structures import *
+from loader import *
