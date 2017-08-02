@@ -17,7 +17,7 @@ class Event():
         self.hits.append(hit)
         
     def set_id(self):
-        self.id = 0
+        return 0
     
 
 class Hit():

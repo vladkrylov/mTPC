@@ -4,8 +4,11 @@ class Model():
     def __init__(self):
         self.events = []
         
-    def add_event(self):
-        pass
+    def add_event(self, ev):
+        if ev not in self.events:
+            self.events.append(ev)
+            return True
+        return False
     
     def remove_event(self):
         pass
