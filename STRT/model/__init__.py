@@ -13,9 +13,14 @@ class Model():
     def remove_event(self):
         pass
     
-    def add_hits(self, event, hit_indices):
+    def add_track(self, event_id):
         pass
     
-    def remove_hits(self, event, hit_indices):
+    def remove_track(self, event_id, track_id):
         pass
-        
+    
+    def add_hits(self, event_id, track_id, hit_indices):
+        pass
+    
+    def remove_hits(self, event_id, track_id, hit_indices):
+        pass

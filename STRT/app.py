@@ -1,3 +1,5 @@
+import unittest
+
 from PyQt5 import QtWidgets
 from view import Ui_MainWindow
 
@@ -13,5 +15,5 @@ if __name__ == "__main__":
 #     sys.exit(app.exec_())
 
     # Tests
-    add_events()
-
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface)
+    unittest.TextTestRunner(verbosity=2).run(suite)
