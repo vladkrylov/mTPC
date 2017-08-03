@@ -24,19 +24,23 @@ class Model():
         return True
     
     def remove_track(self, event_id, track_id):
-        event = self.get_event(event_id)
-        if not event:
-            return None
-        
-        track = filter_by_id(event.tracks, track_id)
-        if not track:
-            return None
-        
+        event, track = self.get_event_and_track(event_id, track_id)
+        if not track or not event:
+            return False
         event.tracks.remove(track)
         return True
         
     def add_hits(self, event_id, track_id, hit_indices):
-        pass
+        event, track = self.get_event_and_track(event_id, track_id)
+        if not track or not event:
+            return False
+        track_index = event.tracks.index(track)
+        
+        # TODO hit_indices out-of-range validation is required here 
+        track.hit_indices = set(track.hits).union(hit_indices)
+        
+        event.tracks[track_index] = track
+        return True
     
     def remove_hits(self, event_id, track_id, hit_indices):
         pass
@@ -50,5 +54,11 @@ class Model():
             return 0
         return max(existing_ids) + 1 
         
+    def get_event_and_track(self, event_id, track_id):
+        event = self.get_event(event_id)
+        track = None
+        if event:
+            track = filter_by_id(event.tracks, track_id)
+        return event, track
         
         

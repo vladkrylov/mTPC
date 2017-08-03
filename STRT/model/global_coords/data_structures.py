@@ -1,4 +1,3 @@
-from sets import Set
 from model.common import filter_by_id
 
 
@@ -42,8 +41,16 @@ class Hit():
         
 class Track():
     def __init__(self, track_id=0, track_type="selected"):
-        self.hit_indices = Set()
+        self.hit_indices = []
         self.id = track_id
         self.type = track_type
         
+    def __repr__(self):
+        return "Track %d with %d hits" % (self.id, len(self.hit_indices))
+    
+    def __eq__(self, other):
+        return self.id == other.id
+    
+    def __neq__(self, other):
+        return not self.__eq__(other)
     
