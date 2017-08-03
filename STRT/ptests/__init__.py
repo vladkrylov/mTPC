@@ -1,3 +1,4 @@
-from controller_model_interface import *
+from controller_model_interface import TestControllerModelInterface
+from model_tests import TestModelAPI
 
 

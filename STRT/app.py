@@ -3,7 +3,7 @@ import unittest
 from PyQt5 import QtWidgets
 from view import Ui_MainWindow
 
-from ptests import TestControllerModelInterface
+from ptests import *
 
 if __name__ == "__main__":
 #     import sys
@@ -15,7 +15,10 @@ if __name__ == "__main__":
 #     sys.exit(app.exec_())
 
     # Tests
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    suites = []
+#     suite = unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface)
+    suites.append(unittest.TestLoader().loadTestsFromTestCase(TestModelAPI))
+    for suite in suites:
+        unittest.TextTestRunner(verbosity=2).run(suite)
 
 

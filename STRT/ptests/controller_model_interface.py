@@ -2,14 +2,8 @@ from unittest import TestCase
 from random import randint
 from controller import Controller
 from model import Model, Event
+from model_tests import generate_event
 
-def generate_event(max_possible_id, ev_id=None):
-    if ev_id is None:
-        ev_id = randint(0, max_possible_id)
-        
-    ev = Event("/some/dummy/path%d" % ev_id)
-    ev.id = ev_id
-    return ev
 
 class TestControllerModelInterface(TestCase):
     

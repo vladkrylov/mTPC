@@ -39,13 +39,26 @@ class Model():
         
         track_index = event.tracks.index(track)
         
-        track.hit_indices = set(track.hits).union(hit_indices)
+        track.hit_indices = list(set(track.hits).union(set(hit_indices)))
+        # hits sorting here is lost if it was
         
         event.tracks[track_index] = track
         return True
     
     def remove_hits(self, event_id, track_id, hit_indices):
-        pass
+        event, track = self.get_event_and_track(event_id, track_id)
+        if not track or not event:
+            return False
+        if not event.hit_indices_are_valid(hit_indices):
+            return False
+        
+        track_index = event.tracks.index(track)
+        
+        track.hit_indices = list(set(track.hits) - set(hit_indices))
+        # hits sorting here is lost if it was
+        
+        event.tracks[track_index] = track
+        return True
     
     def get_event(self, event_id):
         return filter_by_id(self.events, event_id)
