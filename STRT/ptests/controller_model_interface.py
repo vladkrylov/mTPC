@@ -40,8 +40,10 @@ class TestControllerModelInterface(TestCase):
         c.on_add_track(ev_id)
         c.on_add_track(ev_id)
         
-        c.on_remove_track(ev_id, 0)
+        c.on_remove_track(ev_id, 2)
         
-        self.assertEqual(len(m.events[0].tracks), 3)
+        added_track_ids = [tr.id for tr in m.events[0].tracks]
+        expected_track_ids = [0, 1, 3]
+        self.assertEqual(added_track_ids, expected_track_ids)
         
         

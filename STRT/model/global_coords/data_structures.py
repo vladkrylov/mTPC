@@ -1,3 +1,7 @@
+from sets import Set
+from model.common import filter_by_id
+
+
 class Event():
     def __init__(self, data_file_path):
         self.path = data_file_path
@@ -22,7 +26,10 @@ class Event():
         
     def add_track(self, new_track):
         self.tracks.append(new_track)
-    
+        
+    def get_track(self, track_id):
+        return filter_by_id(self.tracks, track_id)
+
 
 class Hit():
     def __init__(self, x, y):
@@ -35,7 +42,7 @@ class Hit():
         
 class Track():
     def __init__(self, track_id=0, track_type="selected"):
-        self.hit_indices = []
+        self.hit_indices = Set()
         self.id = track_id
         self.type = track_type
         

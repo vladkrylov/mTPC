@@ -1,4 +1,5 @@
 from global_coords.data_structures import *
+from common import filter_by_id
 
 class Model():
     def __init__(self):
@@ -14,18 +15,20 @@ class Model():
         pass
     
     def add_track(self, event_id):
-        event = self.filter_by_id(self.events, event_id)
+        event = self.get_event(event_id)
         if not event:
             return None
-        event.add_track(Track(track_type="selected"))
+        track_id = self.generate_track_id(event)
+        event.add_track(Track(track_id=track_id, 
+                              track_type="selected"))
         return True
     
     def remove_track(self, event_id, track_id):
-        event = self.filter_by_id(self.events, event_id)
+        event = self.get_event(event_id)
         if not event:
             return None
         
-        track = self.filter_by_id(event.tracks, track_id)
+        track = filter_by_id(event.tracks, track_id)
         if not track:
             return None
         
@@ -37,10 +40,15 @@ class Model():
     
     def remove_hits(self, event_id, track_id, hit_indices):
         pass
-
-    def filter_by_id(self, sequence, item_id):
-        res = filter(lambda item: item.id == item_id, sequence)
-        if len(res) != 0:
-            return res[0]
-        return None
+    
+    def get_event(self, event_id):
+        return filter_by_id(self.events, event_id)
+        
+    def generate_track_id(self, event):
+        existing_ids = [tr.id for tr in event.tracks]
+        if len(existing_ids) == 0:
+            return 0
+        return max(existing_ids) + 1 
+        
+        
         
