@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Tests
     suites = []
-#     suite = unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface)
+    suites.append(unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface))
     suites.append(unittest.TestLoader().loadTestsFromTestCase(TestModelAPI))
     for suite in suites:
         unittest.TextTestRunner(verbosity=2).run(suite)

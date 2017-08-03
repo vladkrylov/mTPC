@@ -5,8 +5,8 @@ class Controller():
         if self.view:
             self.view.add_listener(self)
         
-    def on_event_loaded(self, event_id):
-        return self.model.add_event(event_id)
+    def on_event_loaded(self, event):
+        return self.model.add_event(event)
     
     def on_add_track(self, event_id):
         return self.model.add_track(event_id)

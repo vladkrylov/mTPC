@@ -60,3 +60,9 @@ class Track():
     def __neq__(self, other):
         return not self.__eq__(other)
     
+    def add_hits_indices(self, hit_indices):
+        self.hit_indices = list(set(self.hit_indices).union(set(hit_indices)))
+        
+    def remove_hits_indices(self, hit_indices):
+        self.hit_indices = list(set(self.hit_indices) - set(hit_indices))
+        

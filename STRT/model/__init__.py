@@ -39,7 +39,7 @@ class Model():
         
         track_index = event.tracks.index(track)
         
-        track.hit_indices = list(set(track.hits).union(set(hit_indices)))
+        track.add_hit_indices(hit_indices)
         # hits sorting here is lost if it was
         
         event.tracks[track_index] = track
@@ -54,7 +54,7 @@ class Model():
         
         track_index = event.tracks.index(track)
         
-        track.hit_indices = list(set(track.hits) - set(hit_indices))
+        track.remove_hit_indices(hit_indices)
         # hits sorting here is lost if it was
         
         event.tracks[track_index] = track
