@@ -33,4 +33,5 @@ class TestControllerModelInterface(TestCase):
         should_be = [4, 8, 2, 3, 6, 7, 0, 10, 5]
         self.assertEqual(should_be, loaded_events)
 
-
+    def test_add_track(self):
+        
