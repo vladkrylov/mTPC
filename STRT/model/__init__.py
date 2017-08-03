@@ -18,6 +18,7 @@ class Model():
         if not event:
             return None
         event.add_track(Track(track_type="selected"))
+        return True
     
     def remove_track(self, event_id, track_id):
         event = self.filter_by_id(self.events, event_id)

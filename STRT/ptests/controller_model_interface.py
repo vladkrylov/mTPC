@@ -27,5 +27,21 @@ class TestControllerModelInterface(TestCase):
         should_be = [4, 8, 2, 3, 6, 7, 0, 10, 5]
         self.assertEqual(should_be, loaded_events)
 
-    def test_add_track(self):
-        pass
+    def test_add_remove_track(self):
+        m = Model()
+        c = Controller(m, None)
+        
+        ev_id = 17
+        ev = generate_event(None, ev_id)
+        c.on_event_loaded(ev)
+        
+        c.on_add_track(ev_id)
+        c.on_add_track(ev_id)
+        c.on_add_track(ev_id)
+        c.on_add_track(ev_id)
+        
+        c.on_remove_track(ev_id, 0)
+        
+        self.assertEqual(len(m.events[0].tracks), 3)
+        
+        

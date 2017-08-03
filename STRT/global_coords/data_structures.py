@@ -34,8 +34,9 @@ class Hit():
         
         
 class Track():
-    def __init__(self, track_type="selected"):
+    def __init__(self, track_id=0, track_type="selected"):
         self.hit_indices = []
+        self.id = track_id
         self.type = track_type
         
     
