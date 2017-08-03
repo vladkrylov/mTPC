@@ -34,9 +34,11 @@ class Model():
         event, track = self.get_event_and_track(event_id, track_id)
         if not track or not event:
             return False
+        if not event.hit_indices_are_valid(hit_indices):
+            return False
+        
         track_index = event.tracks.index(track)
         
-        # TODO hit_indices out-of-range validation is required here 
         track.hit_indices = set(track.hits).union(hit_indices)
         
         event.tracks[track_index] = track

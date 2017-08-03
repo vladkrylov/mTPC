@@ -28,8 +28,14 @@ class Event():
         
     def get_track(self, track_id):
         return filter_by_id(self.tracks, track_id)
-
-
+    
+    def hit_indices_are_valid(self, hit_indices):
+        out_of_range = filter(lambda i: i >= len(self.hits), hit_indices)
+        if len(out_of_range) == 0:
+            return True
+        return False
+            
+            
 class Hit():
     def __init__(self, x, y):
         self.x = x
