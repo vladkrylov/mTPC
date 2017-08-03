@@ -1,9 +1,17 @@
+from model.global_coords.loader import load_event
+
 class Controller():
     def __init__(self, my_model, my_view):
         self.model = my_model
         self.view = my_view
         if self.view:
             self.view.add_listener(self)
+        
+    def on_load_event(self, event_file_path):
+        ev = load_event(event_file_path)
+        self.on_event_loaded(ev)
+        if self.view:
+            self.view.update_with_event(ev)
         
     def on_event_loaded(self, event):
         return self.model.add_event(event)
