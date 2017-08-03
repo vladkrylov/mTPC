@@ -19,19 +19,13 @@ class TestControllerModelInterface(TestCase):
         
         event_ids = [4, 4, 8, 2, 4, 2, 3, 6, 7, 0, 10, 4, 0, 4, 4, 5, 2, 8, 10, 3]
         
-        print("----- test_add_events() -----")
         for ev_id in event_ids:
             ev = generate_event(None, ev_id)
-            added = c.on_event_loaded(ev)
-            
-            if added:
-                print("%s was added" % str(ev))
-            else:
-                print("%s was not added" % str(ev))
+            c.on_event_loaded(ev)
         
         loaded_events = [ev.id for ev in m.events]
         should_be = [4, 8, 2, 3, 6, 7, 0, 10, 5]
         self.assertEqual(should_be, loaded_events)
 
     def test_add_track(self):
-        
+        pass

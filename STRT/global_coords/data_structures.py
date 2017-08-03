@@ -3,6 +3,7 @@ class Event():
         self.path = data_file_path
         self.id = self.set_id()
         self.hits = []
+        self.tracks = []
         
     def __repr__(self):
         return "Event %d with %d hits" % (self.id, len(self.hits))
@@ -13,11 +14,14 @@ class Event():
     def __neq__(self, other):
         return not self.__eq__(other)
         
+    def set_id(self):
+        return 0
+    
     def add_hit(self, hit):
         self.hits.append(hit)
         
-    def set_id(self):
-        return 0
+    def add_track(self, new_track):
+        self.tracks.append(new_track)
     
 
 class Hit():
@@ -30,6 +34,8 @@ class Hit():
         
         
 class Track():
-    def __init__(self):
-        pass
+    def __init__(self, track_type="selected"):
+        self.hit_indices = []
+        self.type = track_type
+        
     
