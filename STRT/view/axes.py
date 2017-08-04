@@ -25,7 +25,7 @@ class MyMplCanvas(FigureCanvas):
         
         a, b = self.axes.margins()
 
-        self.compute_initial_figure()
+#         self.compute_initial_figure()
 
         #
         FigureCanvas.__init__(self, fig)
@@ -47,6 +47,15 @@ class PlotCanvas(MyMplCanvas):
     """Simple canvas with a sine plot."""
     def __init__(self, *args, **kwargs):
         MyMplCanvas.__init__(self, *args, **kwargs)
+        # customize axes view
+        self.axes.xaxis.set_visible(False)
+        self.axes.yaxis.set_visible(False)
+        self.axes.get_figure().tight_layout()
+        self.axes.get_figure().subplots_adjust(left=0.00,
+                                               right=1.00,
+                                               top=1.00,
+                                               bottom=0.00)
+        self.axes.get_figure().canvas.draw()
 
     def compute_initial_figure(self):
         t = arange(0.0, 3.0, 0.01)
@@ -59,4 +68,15 @@ class PlotCanvas(MyMplCanvas):
         self.axes.plot(t, s)
         self.draw()
         
+    def plot(self, x, y, *args):
+        self.axes.plot(x, y, 'k.')
+        # adjust the ranges
+        self.axes.set_xlim([min(x), max(x)])
+        self.axes.set_ylim([min(y), max(y)])
+        self.draw()
+        
+class MatplotlibToolbar(NavigationToolbar):
+    pass
+
+
         

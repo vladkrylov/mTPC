@@ -14,12 +14,20 @@ def subs_icons_path(pyform_file):
 
 def add_matplotlib_widget_import(pyform_file):
     str_to_find = "from PyQt5 import QtCore, QtGui, QtWidgets"
-    str_substit = "%s\nfrom axes import PlotCanvas" % str_to_find
+    str_substit = "%s\nfrom axes import PlotCanvas, MatplotlibToolbar" % str_to_find
     substitute(pyform_file, str_to_find, str_substit)
 
 
 def add_matplotlib_widget(pyform_file):
     substitute(pyform_file, "self.plotWidget = QtWidgets.QWidget(self.centralwidget)", "self.plotWidget = PlotCanvas(self.centralwidget)")
+
+
+def add_matplotlib_widget_and_toolbar(pyform_file):
+    substitute(pyform_file, "self.matplotlibToolbar = QtWidgets.QWidget(self.centralwidget)",
+               """self.plotWidget = PlotCanvas(self.centralwidget)
+        self.matplotlibToolbar = MatplotlibToolbar(self.plotWidget, self.centralwidget)
+        """)
+    substitute(pyform_file, "self.plotWidget = QtWidgets.QWidget(self.centralwidget)", "")
 
 
 if __name__ == "__main__":
@@ -29,7 +37,7 @@ if __name__ == "__main__":
     call(qt2py_command.split())
 
     add_matplotlib_widget_import(pyform_file)
-    add_matplotlib_widget(pyform_file)
     subs_icons_path(pyform_file)
+    add_matplotlib_widget_and_toolbar(pyform_file)
 
 

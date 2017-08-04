@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from axes import PlotCanvas
+from axes import PlotCanvas, MatplotlibToolbar
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -17,6 +17,24 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.plotWidget = PlotCanvas(self.centralwidget)
+        self.matplotlibToolbar = MatplotlibToolbar(self.plotWidget, self.centralwidget)
+        
+        self.matplotlibToolbar.setObjectName("matplotlibToolbar")
+        self.verticalLayout.addWidget(self.matplotlibToolbar)
+        
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.plotWidget.sizePolicy().hasHeightForWidth())
+        self.plotWidget.setSizePolicy(sizePolicy)
+        self.plotWidget.setObjectName("plotWidget")
+        self.verticalLayout.addWidget(self.plotWidget)
+        self.horizontalLayout.addLayout(self.verticalLayout)
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -25,15 +43,8 @@ class Ui_MainWindow(object):
         self.groupBox.setSizePolicy(sizePolicy)
         self.groupBox.setMaximumSize(QtCore.QSize(110, 16777215))
         self.groupBox.setObjectName("groupBox")
-        self.gridLayout.addWidget(self.groupBox, 0, 1, 1, 1)
-        self.plotWidget = PlotCanvas(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.plotWidget.sizePolicy().hasHeightForWidth())
-        self.plotWidget.setSizePolicy(sizePolicy)
-        self.plotWidget.setObjectName("plotWidget")
-        self.gridLayout.addWidget(self.plotWidget, 0, 0, 1, 1)
+        self.horizontalLayout.addWidget(self.groupBox)
+        self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 30))

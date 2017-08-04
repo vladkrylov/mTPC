@@ -23,8 +23,7 @@ class QtGui(Ui_MainWindow):
         points = [(h.x, h.y) for h in event.hits]
         x = map(lambda point: point[0], points)
         y = map(lambda point: point[1], points)
-        self.plotWidget.axes.plot(x, y, 'k.')
-        self.plotWidget.draw()
+        self.plotWidget.plot(x, y)
     
     def prev_event(self):
         pass
