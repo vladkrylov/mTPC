@@ -18,14 +18,13 @@ class QtGui(Ui_MainWindow):
     def load_new_event(self):
         test_file_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/indata/Run25/Event0.txt"  # TODO: add Qt file selection dialog here 
         self.controller.on_load_event(test_file_path)
-        print "Event was loaded"
 
     def update_with_event(self, event):
         points = [(h.x, h.y) for h in event.hits]
         x = map(lambda point: point[0], points)
         y = map(lambda point: point[1], points)
-#         self.plotWidget.axes.plot(x, y)
-        self.plotWidget.test_plot(17)
+        self.plotWidget.axes.plot(x, y, 'k.')
+        self.plotWidget.draw()
     
     def prev_event(self):
         pass

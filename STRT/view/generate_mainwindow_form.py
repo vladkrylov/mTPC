@@ -1,5 +1,3 @@
-import os
-
 from subprocess import call
 
 def substitute(file_path, str_what, str_by):
@@ -16,7 +14,7 @@ def subs_icons_path(pyform_file):
 
 def add_matplotlib_widget_import(pyform_file):
     str_to_find = "from PyQt5 import QtCore, QtGui, QtWidgets"
-    str_substit = "%s\nfrom axes import MyStaticMplCanvas" % str_to_find
+    str_substit = "%s\nfrom axes import PlotCanvas" % str_to_find
     substitute(pyform_file, str_to_find, str_substit)
 
 

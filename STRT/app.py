@@ -11,7 +11,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     m = Model()
     c = Controller(m, ui)
-     
+    
     MainWindow.show()
     sys.exit(app.exec_())
 

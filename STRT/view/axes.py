@@ -7,6 +7,7 @@ plt.style.use('fivethirtyeight')
 from PyQt5 import QtWidgets
 from numpy import arange, sin, pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
 # def set_main_plot_widget(qt_ui):
