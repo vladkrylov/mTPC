@@ -24,7 +24,7 @@ class MyMplCanvas(FigureCanvas):
         
         a, b = self.axes.margins()
 
-        self.compute_initial_figure()
+        self.test_plot(2)
 
         #
         FigureCanvas.__init__(self, fig)
@@ -37,9 +37,12 @@ class MyMplCanvas(FigureCanvas):
 
     def compute_initial_figure(self):
         pass
+    
+    def test_plot(self):
+        pass
 
 
-class MyStaticMplCanvas(MyMplCanvas):
+class PlotCanvas(MyMplCanvas):
     """Simple canvas with a sine plot."""
 
     def compute_initial_figure(self):
@@ -47,5 +50,9 @@ class MyStaticMplCanvas(MyMplCanvas):
         s = sin(2*pi*t)
         self.axes.plot(t, s)
         
+    def test_plot(self, k):
+        t = arange(0.0, 3.0, 0.01)
+        s = sin(k*pi*t)
+        self.axes.plot(t, s)
         
         

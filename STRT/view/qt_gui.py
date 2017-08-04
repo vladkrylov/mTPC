@@ -21,7 +21,11 @@ class QtGui(Ui_MainWindow):
         print "Event was loaded"
 
     def update_with_event(self, event):
-        pass
+        points = [(h.x, h.y) for h in event.hits]
+        x = map(lambda point: point[0], points)
+        y = map(lambda point: point[1], points)
+#         self.plotWidget.axes.plot(x, y)
+        self.plotWidget.test_plot(4)
     
     def prev_event(self):
         pass

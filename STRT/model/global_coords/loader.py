@@ -6,8 +6,8 @@ def load_event(file_path):
         for line in infile:
             x, y = (float(n) for n in line.split())
             ev.add_hit(Hit(x, y))
-
     return ev
+
 
 def display_event(event):
     for h in event.hits:

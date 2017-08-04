@@ -21,7 +21,7 @@ def add_matplotlib_widget_import(pyform_file):
 
 
 def add_matplotlib_widget(pyform_file):
-    substitute(pyform_file, "self.widget = QtWidgets.QWidget(self.centralwidget)", "self.widget = MyStaticMplCanvas(self.centralwidget)")
+    substitute(pyform_file, "self.plotWidget = QtWidgets.QWidget(self.centralwidget)", "self.plotWidget = PlotCanvas(self.centralwidget)")
 
 
 if __name__ == "__main__":

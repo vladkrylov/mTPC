@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from axes import MyStaticMplCanvas
+from axes import PlotCanvas
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,14 +26,14 @@ class Ui_MainWindow(object):
         self.groupBox.setMaximumSize(QtCore.QSize(110, 16777215))
         self.groupBox.setObjectName("groupBox")
         self.gridLayout.addWidget(self.groupBox, 0, 1, 1, 1)
-        self.widget = MyStaticMplCanvas(self.centralwidget)
+        self.plotWidget = MyStaticMplCanvas(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
-        self.widget.setSizePolicy(sizePolicy)
-        self.widget.setObjectName("widget")
-        self.gridLayout.addWidget(self.widget, 0, 0, 1, 1)
+        sizePolicy.setHeightForWidth(self.plotWidget.sizePolicy().hasHeightForWidth())
+        self.plotWidget.setSizePolicy(sizePolicy)
+        self.plotWidget.setObjectName("plotWidget")
+        self.gridLayout.addWidget(self.plotWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 30))
