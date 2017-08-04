@@ -25,7 +25,7 @@ class QtGui(Ui_MainWindow):
         x = map(lambda point: point[0], points)
         y = map(lambda point: point[1], points)
 #         self.plotWidget.axes.plot(x, y)
-        self.plotWidget.test_plot(4)
+        self.plotWidget.test_plot(17)
     
     def prev_event(self):
         pass

@@ -1,15 +1,19 @@
-import sys
-from PyQt4 import QtGui
+import matplotlib
+matplotlib.use('Qt5Agg')
 
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
+import sys
+from PyQt5 import QtGui, QtWidgets
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
 
 import random
 
-class Window(QtGui.QDialog):
+class PlotCanvas(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        super(Window, self).__init__(parent)
+        super(PlotCanvas, self).__init__(parent)
 
         # a figure instance to plot on
         self.figure = plt.figure()
@@ -23,11 +27,11 @@ class Window(QtGui.QDialog):
         self.toolbar = NavigationToolbar(self.canvas, self)
 
         # Just some button connected to `plot` method
-        self.button = QtGui.QPushButton('Plot')
+        self.button = QtWidgets.QPushButton('Plot')
         self.button.clicked.connect(self.plot)
 
         # set the layout
-        layout = QtGui.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.toolbar)
         layout.addWidget(self.canvas)
         layout.addWidget(self.button)
@@ -46,3 +50,5 @@ class Window(QtGui.QDialog):
 
         # plot data
         ax.plot(data, '*-')
+        self.draw()
+        print("random plot should appear now")

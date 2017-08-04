@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.groupBox.setMaximumSize(QtCore.QSize(110, 16777215))
         self.groupBox.setObjectName("groupBox")
         self.gridLayout.addWidget(self.groupBox, 0, 1, 1, 1)
-        self.plotWidget = MyStaticMplCanvas(self.centralwidget)
+        self.plotWidget = PlotCanvas(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

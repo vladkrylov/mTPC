@@ -35,7 +35,7 @@
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="QWidget" name="plotWidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
