@@ -1,24 +1,28 @@
-import unittest
-
 from PyQt5 import QtWidgets
-from view import Ui_MainWindow
-
-from ptests import *
+from view.qt_gui import QtGui
+from controller import Controller
+from model import Model
 
 if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = QtGui()
+    ui.setupUi(MainWindow)
+    m = Model()
+    c = Controller(m, ui)
+    
+    MainWindow.show()
+    sys.exit(app.exec_())
 
-    # Tests
-    suites = []
-    suites.append(unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface))
-    suites.append(unittest.TestLoader().loadTestsFromTestCase(TestModelAPI))
-    for suite in suites:
-        unittest.TextTestRunner(verbosity=2).run(suite)
+#     # Tests
+#     import unittest
+#     from ptests import *
+#     suites = []
+#     suites.append(unittest.TestLoader().loadTestsFromTestCase(TestControllerModelInterface))
+#     suites.append(unittest.TestLoader().loadTestsFromTestCase(TestModelAPI))
+#     for suite in suites:
+#         unittest.TextTestRunner(verbosity=2).run(suite)
+
 
 

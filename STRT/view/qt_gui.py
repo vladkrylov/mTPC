@@ -1,18 +1,28 @@
+from PyQt5 import QtCore
 from mainwindow import Ui_MainWindow
-from global_coords import load_event
 
 class QtGui(Ui_MainWindow):
     def __init__(self):
         super(QtGui, self).__init__()
         
+    def setupUi(self, MainWindow):
+        Ui_MainWindow.setupUi(self, MainWindow)
+        self.connect_signals_slots()
+        
+    def connect_signals_slots(self):
+        self.action_load_event.triggered.connect(self.load_new_event)
+    
     def add_listener(self, controller):
         self.controller = controller
         
     def load_new_event(self):
         test_file_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/indata/Run25/Event0.txt"  # TODO: add Qt file selection dialog here 
-        ev = load_event(test_file_path)
-        self.controller.on_event_loaded(ev)
+        self.controller.on_load_event(test_file_path)
+        print "Event was loaded"
 
+    def update_with_event(self, event):
+        pass
+    
     def prev_event(self):
         pass
     

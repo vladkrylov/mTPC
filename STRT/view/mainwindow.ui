@@ -15,16 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QWidget" name="widget" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="1">
      <widget class="QGroupBox" name="groupBox">
       <property name="sizePolicy">
@@ -41,6 +31,16 @@
       </property>
       <property name="title">
        <string>Selected tracks</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QWidget" name="widget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </item>
@@ -65,7 +65,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="action_load_event"/>
    <addaction name="separator"/>
@@ -80,7 +80,7 @@
   <action name="action_load_event">
    <property name="icon">
     <iconset>
-     <normaloff>appointment-new.png</normaloff>appointment-new.png</iconset>
+     <normaloff>img/appointment-new.png</normaloff>img/appointment-new.png</iconset>
    </property>
    <property name="text">
     <string>Load Event</string>
@@ -92,7 +92,7 @@
   <action name="action_select_new_track">
    <property name="icon">
     <iconset>
-     <normaloff>insert-link.png</normaloff>insert-link.png</iconset>
+     <normaloff>img/insert-link.png</normaloff>img/insert-link.png</iconset>
    </property>
    <property name="text">
     <string>Select new track</string>
@@ -104,7 +104,7 @@
   <action name="action_delete_track">
    <property name="icon">
     <iconset>
-     <normaloff>im-kick-user.png</normaloff>im-kick-user.png</iconset>
+     <normaloff>img/im-kick-user.png</normaloff>img/im-kick-user.png</iconset>
    </property>
    <property name="text">
     <string>Delete track</string>
@@ -116,7 +116,7 @@
   <action name="action_add_hits_to_track">
    <property name="icon">
     <iconset>
-     <normaloff>contact-new.png</normaloff>contact-new.png</iconset>
+     <normaloff>img/contact-new.png</normaloff>img/contact-new.png</iconset>
    </property>
    <property name="text">
     <string>Add hits to track</string>
@@ -128,7 +128,7 @@
   <action name="action_remove_hits">
    <property name="icon">
     <iconset>
-     <normaloff>list-remove.png</normaloff>list-remove.png</iconset>
+     <normaloff>img/list-remove.png</normaloff>img/list-remove.png</iconset>
    </property>
    <property name="text">
     <string>Remove hits</string>
@@ -140,7 +140,7 @@
   <action name="action_fit_track">
    <property name="icon">
     <iconset>
-     <normaloff>graph-2-icon.png</normaloff>graph-2-icon.png</iconset>
+     <normaloff>img/graph-2-icon.png</normaloff>img/graph-2-icon.png</iconset>
    </property>
    <property name="text">
     <string>Fit track</string>
