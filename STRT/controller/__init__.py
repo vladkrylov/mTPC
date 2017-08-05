@@ -9,11 +9,18 @@ class Controller():
         if self.view:
             self.view.add_listener(self)
         
-    def on_load_event(self, event_file_path):
-        ev = self.load_event(event_file_path)
-        self.model.add_event(ev)
+    def on_load_events(self, event_file_paths):
+        if len(event_file_paths) == 0:
+            return
+        first_loaded_event = None
+        for i in range(len(event_file_paths)):
+            event_file_path = event_file_paths[i]
+            ev = self.load_event(event_file_path)
+            self.model.add_event(ev)
+            if i == 0:
+                first_loaded_event = ev
         if self.view:
-            self.view.update_with_event(ev)
+            self.view.update_with_event(first_loaded_event)
     
     def load_event(self, file_path):
         with open(file_path) as infile:
@@ -59,5 +66,4 @@ class Controller():
     def selection2hits(self, selection_data):
         hits = [0]
         return hits
-
 
