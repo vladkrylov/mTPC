@@ -33,6 +33,7 @@ class QtGui(Ui_MainWindow):
         y = map(lambda point: point[1], points)
         self.plotWidget.plot(x, y)
         self.handle_events_navigation(is_first, is_last)
+        self.update_status_bar(event)
     
     def handle_events_navigation(self, is_first, is_last):
         if is_first and is_last:
@@ -47,6 +48,9 @@ class QtGui(Ui_MainWindow):
         else:
             self.action_next_event.setEnabled(True)
             self.action_previous_event.setEnabled(True)
+    
+    def update_status_bar(self, event):
+        self.statusbar.showMessage(str(event))
     
     def prev_event(self):
         self.controller.on_show_previous_event(self.current_event)
