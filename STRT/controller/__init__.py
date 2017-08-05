@@ -20,7 +20,7 @@ class Controller():
             if i == 0:
                 first_loaded_event = ev
         if self.view:
-            self.view.update_with_event(first_loaded_event)
+            self.view.update_with_event(first_loaded_event, is_first=True, is_last=False)
     
     def load_event(self, file_path):
         with open(file_path) as infile:
@@ -43,11 +43,23 @@ class Controller():
                     return 0
         return None
     
-    def on_show_next_event(self):
-        pass
+    def on_show_next_event(self, current_event):
+        i = self.model.events.index(current_event)
+        is_last = i == len(self.model.events) - 1
+        if is_last:
+            return
+        next_event = self.model.get_event(i+1)
+        is_last = (i+1) == len(self.model.events) - 1
+        self.view.update_with_event(next_event, is_first=False, is_last=is_last)
     
-    def on_previous_next_event(self):
-        pass
+    def on_show_previous_event(self, current_event):
+        i = self.model.events.index(current_event)
+        is_first = i == 0
+        if is_first:
+            return
+        prev_event = self.model.get_event(i-1)
+        is_first = (i-1) == 0
+        self.view.update_with_event(prev_event, is_first=is_first, is_last=False)
     
     def on_add_track(self, event_id):
         return self.model.add_track(event_id)

@@ -4,6 +4,7 @@ from mainwindow import Ui_MainWindow
 class QtGui(Ui_MainWindow):
     def __init__(self):
         super(QtGui, self).__init__()
+        self.current_event = None
         
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
@@ -11,6 +12,8 @@ class QtGui(Ui_MainWindow):
         
     def connect_signals_slots(self):
         self.action_load_event.triggered.connect(self.load_new_event)
+        self.action_previous_event.triggered.connect(self.prev_event)
+        self.action_next_event.triggered.connect(self.next_event)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -24,16 +27,35 @@ class QtGui(Ui_MainWindow):
 #                 self.controller.on_load_event(fn)
     
     def update_with_event(self, event, is_first=False, is_last=False):
+        self.current_event = event
         points = [(h.x, h.y) for h in event.hits]
         x = map(lambda point: point[0], points)
         y = map(lambda point: point[1], points)
         self.plotWidget.plot(x, y)
+        if is_first:
+            self.first_event_loaded()
+        elif is_last:
+            self.last_event_loaded()
+        else:
+            self.middle_event_loaded()
     
-    def on_prev_event(self):
-        pass
+    def first_event_loaded(self):
+        self.action_previous_event.setEnabled(False)
+        self.action_next_event.setEnabled(True)
+        
+    def last_event_loaded(self):
+        self.action_previous_event.setEnabled(True)
+        self.action_next_event.setEnabled(False)
+        
+    def middle_event_loaded(self):
+        self.action_next_event.setEnabled(True)
+        self.action_previous_event.setEnabled(True)
+        
+    def prev_event(self):
+        self.controller.on_show_previous_event(self.current_event)
     
-    def on_next_event(self):
-        pass
+    def next_event(self):
+        self.controller.on_show_next_event(self.current_event)
     
     def add_new_track(self):
         pass
