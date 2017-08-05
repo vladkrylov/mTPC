@@ -8,7 +8,7 @@ class Controller():
         self.view = my_view
         if self.view:
             self.view.add_listener(self)
-        
+    
     def on_load_events(self, event_file_paths):
         if len(event_file_paths) == 0:
             return
@@ -19,7 +19,10 @@ class Controller():
             if loaded and first_loaded_event is None:
                 first_loaded_event = ev
         if self.view and first_loaded_event:
-            self.view.update_with_event(first_loaded_event, is_first=True, is_last=False)
+            i = self.model.events.index(first_loaded_event)
+            is_first = i == 0
+            is_last = i == len(self.model.events) - 1
+            self.view.update_with_event(first_loaded_event, is_first=is_first, is_last=is_last)
     
     def load_event(self, file_path):
         with open(file_path) as infile:
@@ -47,7 +50,7 @@ class Controller():
         is_last = i == len(self.model.events) - 1
         if is_last:
             return
-        next_event = self.model.get_event(i+1)
+        next_event = self.model.events[i+1]
         is_last = (i+1) == len(self.model.events) - 1
         self.view.update_with_event(next_event, is_first=False, is_last=is_last)
     
@@ -56,7 +59,7 @@ class Controller():
         is_first = i == 0
         if is_first:
             return
-        prev_event = self.model.get_event(i-1)
+        prev_event = self.model.events[i-1]
         is_first = (i-1) == 0
         self.view.update_with_event(prev_event, is_first=is_first, is_last=False)
     

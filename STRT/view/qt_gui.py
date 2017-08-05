@@ -32,25 +32,22 @@ class QtGui(Ui_MainWindow):
         x = map(lambda point: point[0], points)
         y = map(lambda point: point[1], points)
         self.plotWidget.plot(x, y)
-        if is_first:
-            self.first_event_loaded()
-        elif is_last:
-            self.last_event_loaded()
-        else:
-            self.middle_event_loaded()
+        self.handle_events_navigation(is_first, is_last)
     
-    def first_event_loaded(self):
-        self.action_previous_event.setEnabled(False)
-        self.action_next_event.setEnabled(True)
-        
-    def last_event_loaded(self):
-        self.action_previous_event.setEnabled(True)
-        self.action_next_event.setEnabled(False)
-        
-    def middle_event_loaded(self):
-        self.action_next_event.setEnabled(True)
-        self.action_previous_event.setEnabled(True)
-        
+    def handle_events_navigation(self, is_first, is_last):
+        if is_first and is_last:
+            self.action_previous_event.setEnabled(False)
+            self.action_next_event.setEnabled(False)
+        elif is_first:
+            self.action_previous_event.setEnabled(False)
+            self.action_next_event.setEnabled(True)
+        elif is_last:
+            self.action_previous_event.setEnabled(True)
+            self.action_next_event.setEnabled(False)
+        else:
+            self.action_next_event.setEnabled(True)
+            self.action_previous_event.setEnabled(True)
+    
     def prev_event(self):
         self.controller.on_show_previous_event(self.current_event)
     
