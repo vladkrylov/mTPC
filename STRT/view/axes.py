@@ -50,12 +50,12 @@ class PlotCanvas(MyMplCanvas):
         # customize axes view
         self.axes.xaxis.set_visible(False)
         self.axes.yaxis.set_visible(False)
-        self.axes.get_figure().tight_layout()
-        self.axes.get_figure().subplots_adjust(left=0.00,
-                                               right=1.00,
-                                               top=1.00,
-                                               bottom=0.00)
-        self.axes.get_figure().canvas.draw()
+        self.figure.tight_layout()
+        self.figure.subplots_adjust(left=0.00,
+                                    right=1.00,
+                                    top=1.00,
+                                    bottom=0.00)
+        self.figure.canvas.draw()
 
     def compute_initial_figure(self):
         t = arange(0.0, 3.0, 0.01)
@@ -76,7 +76,7 @@ class PlotCanvas(MyMplCanvas):
         self.draw()
         
     def select_points(self):
-        
+        pass
         
 class MatplotlibToolbar(NavigationToolbar):
     pass
