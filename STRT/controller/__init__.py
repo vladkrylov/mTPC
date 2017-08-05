@@ -34,7 +34,7 @@ class Controller():
     def get_new_event_id(self, filename, ev_prefix, ev_suffix):
         if filename.startswith(ev_prefix) and filename.endswith(ev_suffix):
             try:
-                return int(filename(len(ev_prefix), -len(ev_suffix)))
+                return int(filename[len(ev_prefix): -len(ev_suffix)])
             except:
                 if len(self.model.events) > 0:
                     return self.model.events[-1].id + 1
