@@ -12,8 +12,11 @@ class QtGui(Ui_MainWindow):
         
     def connect_signals_slots(self):
         self.action_load_event.triggered.connect(self.load_new_event)
+        
         self.action_previous_event.triggered.connect(self.prev_event)
         self.action_next_event.triggered.connect(self.next_event)
+        
+        self.action_add_hits_to_track.triggered.connect(self.select_hits)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -65,7 +68,8 @@ class QtGui(Ui_MainWindow):
         pass
         
     def select_hits(self):
-        pass
+        points = [(h.x, h.y) for h in self.current_event.hits]
+        self.plotWidget.select_points(points)
     
     def remove_hits(self):
         pass
