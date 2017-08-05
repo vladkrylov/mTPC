@@ -13,13 +13,12 @@ class Controller():
         if len(event_file_paths) == 0:
             return
         first_loaded_event = None
-        for i in range(len(event_file_paths)):
-            event_file_path = event_file_paths[i]
+        for event_file_path in event_file_paths:
             ev = self.load_event(event_file_path)
-            self.model.add_event(ev)
-            if i == 0:
+            loaded = self.model.add_event(ev)
+            if loaded and first_loaded_event is None:
                 first_loaded_event = ev
-        if self.view:
+        if self.view and first_loaded_event:
             self.view.update_with_event(first_loaded_event, is_first=True, is_last=False)
     
     def load_event(self, file_path):

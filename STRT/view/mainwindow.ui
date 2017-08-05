@@ -166,6 +166,9 @@
    </property>
   </action>
   <action name="action_next_event">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>img/next_event.png</normaloff>img/next_event.png</iconset>
@@ -178,6 +181,9 @@
    </property>
   </action>
   <action name="action_previous_event">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>img/previous_event.png</normaloff>img/previous_event.png</iconset>
