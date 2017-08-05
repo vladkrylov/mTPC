@@ -75,6 +75,9 @@ class PlotCanvas(MyMplCanvas):
         self.axes.set_ylim([min(y), max(y)])
         self.draw()
         
+    def select_points(self):
+        
+        
 class MatplotlibToolbar(NavigationToolbar):
     pass
 
