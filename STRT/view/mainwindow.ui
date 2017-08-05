@@ -79,9 +79,11 @@
     <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="action_load_event"/>
+   <addaction name="action_previous_event"/>
+   <addaction name="action_next_event"/>
    <addaction name="separator"/>
    <addaction name="action_delete_track"/>
    <addaction name="action_select_new_track"/>
@@ -161,6 +163,30 @@
    </property>
    <property name="toolTip">
     <string>Fit track</string>
+   </property>
+  </action>
+  <action name="action_next_event">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/next_event.png</normaloff>img/next_event.png</iconset>
+   </property>
+   <property name="text">
+    <string>Next Event</string>
+   </property>
+   <property name="toolTip">
+    <string>Next Event</string>
+   </property>
+  </action>
+  <action name="action_previous_event">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/previous_event.png</normaloff>img/previous_event.png</iconset>
+   </property>
+   <property name="text">
+    <string>Previous Event</string>
+   </property>
+   <property name="toolTip">
+    <string>Show previous event</string>
    </property>
   </action>
  </widget>

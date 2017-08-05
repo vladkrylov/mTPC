@@ -14,6 +14,9 @@ class Model():
     def remove_event(self):
         pass
     
+    def id_for_new_event(self):
+        pass
+    
     def add_track(self, event_id):
         event = self.get_event(event_id)
         if not event:

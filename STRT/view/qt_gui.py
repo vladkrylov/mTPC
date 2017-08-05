@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtWidgets
 from mainwindow import Ui_MainWindow
 
 class QtGui(Ui_MainWindow):
@@ -16,9 +16,12 @@ class QtGui(Ui_MainWindow):
         self.controller = controller
         
     def load_new_event(self):
-        test_file_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/indata/Run25/Event0.txt"  # TODO: add Qt file selection dialog here 
-        self.controller.on_load_event(test_file_path)
-
+        test_file_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/indata/Run25"
+        filenames = QtWidgets.QFileDialog.getOpenFileNames(self.centralwidget, "QFileDialog.getOpenFileNames()", test_file_path, "All Files (*)")
+        if filenames:
+            for fn in filenames[0]:
+                self.controller.on_load_event(fn)
+ 
     def update_with_event(self, event):
         points = [(h.x, h.y) for h in event.hits]
         x = map(lambda point: point[0], points)

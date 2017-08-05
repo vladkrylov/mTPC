@@ -2,9 +2,9 @@ from model.common import filter_by_id
 
 
 class Event():
-    def __init__(self, data_file_path):
+    def __init__(self, ev_id, data_file_path):
         self.path = data_file_path
-        self.id = self.set_id()
+        self.id = ev_id
         self.hits = []
         self.tracks = []
         
@@ -17,9 +17,6 @@ class Event():
     def __neq__(self, other):
         return not self.__eq__(other)
         
-    def set_id(self):
-        return 0
-    
     def add_hit(self, hit):
         self.hits.append(hit)
         
