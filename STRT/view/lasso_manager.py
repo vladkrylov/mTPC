@@ -7,6 +7,8 @@ from numpy import nonzero
 class LassoManager(object):
     def __init__(self, canvas):
         self.canvas = canvas
+        self.dummy_already_pressed = False  # single click bugfix
+                                            # see the commit ... for details
         
     def set_points(self, ax, data):
         self.xys = data
@@ -22,22 +24,24 @@ class LassoManager(object):
         del self.lasso
         self.canvas.mpl_disconnect(self.cid)
         self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
+        self.dummy_already_pressed = False
 
     def onpress(self, event):
-        print("LassoManager.onpress called")
         if self.canvas.widgetlock.locked():
-            print("Canvas is locked somehow")
-            return
+            if self.dummy_already_pressed:
+                self.canvas.widgetlock.release(self.lasso)
+                del self.lasso
+            else:
+                print("Canvas is locked somehow")
+                return
         if event.inaxes is None:
-            print("Event is not in axes somehow")
             return
         self.lasso = Lasso(event.inaxes,
                            (event.xdata, event.ydata),
                            self.callback)
-        print("Lasso created")
         # acquire a lock on the widget drawing
         self.canvas.widgetlock(self.lasso)
-        print("Seems everything is ok here")
+        self.dummy_already_pressed = True
         
         
         
