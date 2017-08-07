@@ -1,6 +1,5 @@
 from model.common import filter_by_id
 
-
 class Event():
     def __init__(self, ev_id, data_file_path):
         self.path = data_file_path
@@ -43,10 +42,11 @@ class Hit():
         
         
 class Track():
-    def __init__(self, track_id=0, track_type="selected"):
+    def __init__(self, track_id, track_type="selected", color='b'):
         self.hit_indices = []
         self.id = track_id
         self.type = track_type
+        self.color = color
         
     def __repr__(self):
         return "Track %d with %d hits" % (self.id, len(self.hit_indices))

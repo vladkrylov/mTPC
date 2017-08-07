@@ -45,6 +45,14 @@ class Controller():
                     return 0
         return None
     
+    def get_new_track_id(self, event_id):
+        # TODO add missing ids pick
+        event = self.model.get_event(event_id)
+        existing_ids = [tr.id for tr in event.tracks]
+        if len(existing_ids) == 0:
+            return 0
+        return max(existing_ids) + 1 
+    
     def on_show_next_event(self, current_event):
         i = self.model.events.index(current_event)
         is_last = i == len(self.model.events) - 1

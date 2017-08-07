@@ -1,5 +1,4 @@
-from global_coords.data_structures import *
-from common import filter_by_id
+from model.global_coords.data_structures import *
 
 class Model():
     def __init__(self):
@@ -12,9 +11,6 @@ class Model():
         return True
     
     def remove_event(self):
-        pass
-    
-    def id_for_new_event(self):
         pass
     
     def add_track(self, event_id):

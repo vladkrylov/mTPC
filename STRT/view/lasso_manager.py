@@ -8,7 +8,7 @@ class LassoManager(object):
     def __init__(self, canvas):
         self.canvas = canvas
         self.dummy_already_pressed = False  # single click bugfix
-                                            # see the commit ... for details
+                                            # see the commit 1eab67 for details
         
     def set_points(self, ax, data):
         self.xys = data

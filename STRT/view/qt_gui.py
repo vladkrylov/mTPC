@@ -37,6 +37,10 @@ class QtGui(Ui_MainWindow):
         self.plotWidget.plot(x, y)
         self.handle_events_navigation(is_first, is_last)
         self.update_status_bar(event)
+        self.update_track_list(event)
+        
+    def update_track_list(self, event):
+        
     
     def handle_events_navigation(self, is_first, is_last):
         if is_first and is_last:
