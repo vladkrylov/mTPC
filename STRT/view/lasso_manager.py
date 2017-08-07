@@ -26,11 +26,11 @@ class LassoManager(object):
     def onpress(self, event):
         print("LassoManager.onpress called")
         if self.canvas.widgetlock.locked():
-            return
             print("Canvas is locked somehow")
-        if event.inaxes is None:
             return
+        if event.inaxes is None:
             print("Event is not in axes somehow")
+            return
         self.lasso = Lasso(event.inaxes,
                            (event.xdata, event.ydata),
                            self.callback)
