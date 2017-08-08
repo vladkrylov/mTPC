@@ -12,6 +12,7 @@ class QtGui(Ui_MainWindow):
         
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
+        self.tracksLayout = self.verticalLayout_2
         self.connect_signals_slots()
         
     def connect_signals_slots(self):
@@ -45,28 +46,17 @@ class QtGui(Ui_MainWindow):
         
     def update_track_list(self, event):
         self.clear_track_list()
-        test_track = Track(track_id=17)
-        TrackRepresentation(test_track, self.tracksGroupBox, self.tracksLayout)
-        self.add_tracks_spacer()
+        for track in event.tracks:
+            TrackRepresentation(track, self.tracksGroupBox, self.tracksLayout)
         
     def clear_track_list(self):
-        while self.tracksLayout.count():
-            x = self.tracksLayout.itemAt(0)
-            if isinstance(x, QtWidgets.QLayout):
-                n_widgets = x.count()
-                while x.count():
-                    item = x.itemAt(0)
-                    item.widget().hide()
-                    x.itemAt(0).widget().deleteLater()
-                    x.removeItem(item)
-                del(x)
-            elif isinstance(x, QtWidgets.QSpacerItem):
-                x.hide()
-                x.deleteLater()
-    
-    def add_tracks_spacer(self):
-        spacerItem = QtWidgets.QSpacerItem(20, 458, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.tracksLayout.addItem(spacerItem)
+        n = 0
+        while self.tracksLayout.count() > n:
+            x = self.tracksLayout.itemAt(n)
+            if x.widget():
+                x.widget().setParent(None)
+            else:
+                n += 1
     
     def handle_events_navigation(self, is_first, is_last):
         if is_first and is_last:
