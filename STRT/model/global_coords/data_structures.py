@@ -1,3 +1,4 @@
+from random import uniform
 from model.common import filter_by_id
 from model.color_set import get_color
 
@@ -47,6 +48,7 @@ class Track():
         self.hit_indices = []
         self.id = track_id
         self.type = track_type
+        self.line = None
         if color:
             self.color = color
         else:
@@ -70,3 +72,14 @@ class Track():
     def remove_hits_indices(self, hit_indices):
         self.hit_indices = list(set(self.hit_indices) - set(hit_indices))
         
+    def set_random_line(self, xlims, ylims):
+        x_min, x_max = xlims
+        y_min, y_max = ylims
+        x = [x_min, x_max]
+        y = [uniform(y_min, y_max)] * 2
+        self.line = (x, y)
+        
+    def has_line(self):
+        return self.line is not None and len(self.line) == 2
+    
+    

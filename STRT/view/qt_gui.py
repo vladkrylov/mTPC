@@ -46,7 +46,8 @@ class QtGui(Ui_MainWindow):
     def update_track_list(self, event):
         self.clear_track_list()
         for track in event.tracks:
-            TrackRepresentation(track, self.scrollAreaWidgetContents, self.tracksLayout)
+            t = TrackRepresentation(track, self.scrollAreaWidgetContents, self.tracksLayout)
+            t.show_line(self.plotWidget)
         
     def clear_track_list(self):
         n = 0

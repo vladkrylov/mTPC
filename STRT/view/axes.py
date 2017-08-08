@@ -10,6 +10,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 from lasso_manager import LassoManager
+from random import uniform
 
 # def set_main_plot_widget(qt_ui):
 class MyMplCanvas(FigureCanvas):
@@ -80,8 +81,13 @@ class PlotCanvas(MyMplCanvas):
         
     def select_points(self, points):
         self.lasso.set_points(self.axes, points)
-#         self.draw()
-#         plt.show()
+
+    def add_line(self, track):
+        x, y = track.line
+        self.axes.hold(True)
+        self.axes.plot(x, y, color=track.color)
+        self.axes.hold(False)
+        self.draw()
         
 class MatplotlibToolbar(NavigationToolbar):
     pass
