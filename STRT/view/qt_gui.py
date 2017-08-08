@@ -32,9 +32,6 @@ class QtGui(Ui_MainWindow):
         test_file_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/indata/Run25"
         filenames = QtWidgets.QFileDialog.getOpenFileNames(self.centralwidget, "QFileDialog.getOpenFileNames()", test_file_path, "All Files (*)")
         self.controller.on_load_events(filenames[0])
-#         if filenames:
-#             for fn in filenames[0]:
-#                 self.controller.on_load_event(fn)
     
     def update_with_event(self, event, is_first=False, is_last=False):
         self.current_event = event

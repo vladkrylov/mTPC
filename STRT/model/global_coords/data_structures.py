@@ -1,4 +1,5 @@
 from model.common import filter_by_id
+from model.color_set import get_color
 
 class Event():
     def __init__(self, ev_id, data_file_path):
@@ -42,11 +43,17 @@ class Hit():
         
         
 class Track():
-    def __init__(self, track_id, track_type="selected", color='b'):
+    def __init__(self, track_id, track_type="selected", color=None):
         self.hit_indices = []
         self.id = track_id
         self.type = track_type
-        self.color = color
+        if color:
+            self.color = color
+        else:
+            try:
+                self.color = get_color(self.id)
+            except:
+                self.color = '#00ff00'
         
     def __repr__(self):
         return "Track %d with %d hits" % (self.id, len(self.hit_indices))

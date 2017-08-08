@@ -17,6 +17,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.layout.addWidget(self.check_box)
         
         self.colorLabel = QtWidgets.QLabel(self)
+        self.colorLabel.setStyleSheet("QLabel {color : %s;}" % track.color)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
