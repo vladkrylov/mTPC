@@ -21,6 +21,8 @@ class QtGui(Ui_MainWindow):
         self.action_previous_event.triggered.connect(self.prev_event)
         self.action_next_event.triggered.connect(self.next_event)
         
+        self.action_select_new_track.triggered.connect(self.add_new_track)
+        
         self.action_add_hits_to_track.triggered.connect(self.select_hits)
     
     def add_listener(self, controller):
@@ -82,10 +84,10 @@ class QtGui(Ui_MainWindow):
         self.controller.on_show_next_event(self.current_event)
     
     def add_new_track(self):
-        pass
+        self.controller.on_add_track(self.current_event.id)
     
     def remove_track(self):
-        pass
+        self.controller.on_remove_track(0)
         
     def select_hits(self):
         points = [(h.x, h.y) for h in self.current_event.hits]

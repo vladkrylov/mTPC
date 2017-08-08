@@ -26,5 +26,4 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.layout.addWidget(self.colorLabel)
         
         parent_group_box_layout.insertWidget(parent_group_box_layout.count() - 1, self)
-
         

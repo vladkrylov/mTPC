@@ -72,7 +72,11 @@ class Controller():
         self.view.update_with_event(prev_event, is_first=is_first, is_last=False)
     
     def on_add_track(self, event_id):
-        return self.model.add_track(event_id)
+        self.model.add_track(event_id)
+        if self.view:
+            event = self.model.get_event(event_id)
+            is_first, is_last = self.get_event_first_last(event)
+            self.view.update_with_event(event, is_first, is_last)
     
     def on_remove_track(self, event_id, track_id):
         return self.model.remove_track(event_id, track_id)
@@ -89,3 +93,11 @@ class Controller():
         hits = [0]
         return hits
 
+    def get_event_first_last(self, event):
+        i = self.model.events.index(event)
+        is_first = i == 0
+        is_last = i == len(self.model.events) - 1
+        return is_first, is_last
+    
+    
+    
