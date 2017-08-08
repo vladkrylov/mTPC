@@ -78,22 +78,33 @@ class QtGui(Ui_MainWindow):
         self.statusBar.showMessage(str(event))
     
     def prev_event(self):
+        if self.current_event is None:
+            return
         self.controller.on_show_previous_event(self.current_event)
     
     def next_event(self):
+        if self.current_event is None:
+            return
         self.controller.on_show_next_event(self.current_event)
     
     def add_new_track(self):
+        if self.current_event is None:
+            return
         self.controller.on_add_track(self.current_event.id)
     
     def remove_track(self):
+        if self.current_event is None:
+            return
         self.controller.on_remove_track(0)
         
     def select_hits(self):
+        if self.current_event is None:
+            return
         points = [(h.x, h.y) for h in self.current_event.hits]
         self.plotWidget.select_points(points)
     
     def remove_hits(self):
-        pass
+        if self.current_event is None:
+            return
     
 

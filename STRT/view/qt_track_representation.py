@@ -13,6 +13,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.check_box = QtWidgets.QCheckBox(self)
         self.check_box.setObjectName("track%dCheckBox" % track.id)
         self.check_box.setText("Track %d" % track.id)
+        self.check_box.setChecked(True)
         self.layout.addWidget(self.check_box)
         
         self.colorLabel = QtWidgets.QLabel(self)
