@@ -1,5 +1,9 @@
 from PyQt5 import QtCore, QtWidgets
 from mainwindow import Ui_MainWindow
+from view.qt_track_representation import TrackRepresentation
+
+# this line needs to be removed immidiately!
+from model import Track
 
 class QtGui(Ui_MainWindow):
     def __init__(self):
@@ -40,7 +44,29 @@ class QtGui(Ui_MainWindow):
         self.update_track_list(event)
         
     def update_track_list(self, event):
+        self.clear_track_list()
+        test_track = Track(track_id=17)
+        TrackRepresentation(test_track, self.tracksGroupBox, self.tracksLayout)
+        self.add_tracks_spacer()
         
+    def clear_track_list(self):
+        while self.tracksLayout.count():
+            x = self.tracksLayout.itemAt(0)
+            if isinstance(x, QtWidgets.QLayout):
+                n_widgets = x.count()
+                while x.count():
+                    item = x.itemAt(0)
+                    item.widget().hide()
+                    x.itemAt(0).widget().deleteLater()
+                    x.removeItem(item)
+                del(x)
+            elif isinstance(x, QtWidgets.QSpacerItem):
+                x.hide()
+                x.deleteLater()
+    
+    def add_tracks_spacer(self):
+        spacerItem = QtWidgets.QSpacerItem(20, 458, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.tracksLayout.addItem(spacerItem)
     
     def handle_events_navigation(self, is_first, is_last):
         if is_first and is_last:
@@ -57,7 +83,7 @@ class QtGui(Ui_MainWindow):
             self.action_previous_event.setEnabled(True)
     
     def update_status_bar(self, event):
-        self.statusbar.showMessage(str(event))
+        self.statusBar.showMessage(str(event))
     
     def prev_event(self):
         self.controller.on_show_previous_event(self.current_event)

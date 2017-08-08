@@ -7,6 +7,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
+    
     ui = QtGui()
     ui.setupUi(MainWindow)
     m = Model()
