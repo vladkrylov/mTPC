@@ -5,6 +5,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         super(TrackRepresentation, self).__init__(parent_widget)
         
         self.setMinimumSize(QtCore.QSize(0, 0))
+        self.setMaximumSize(QtCore.QSize(16777215, 30))
         self.setObjectName("track%dWidget" % track.id)
         self.layout = QtWidgets.QHBoxLayout(self)
         self.layout.setObjectName("track%dLayout" % track.id)

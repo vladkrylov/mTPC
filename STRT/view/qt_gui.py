@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtWidgets
 from mainwindow import Ui_MainWindow
 from view.qt_track_representation import TrackRepresentation
 
-# this line needs to be removed immidiately!
+# this line needs to be removed immediately!
 from model import Track
 
 class QtGui(Ui_MainWindow):
@@ -12,7 +12,7 @@ class QtGui(Ui_MainWindow):
         
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
-        self.tracksLayout = self.verticalLayout_2
+        self.tracksLayout = self.verticalLayout_6
         self.connect_signals_slots()
         
     def connect_signals_slots(self):
@@ -49,7 +49,7 @@ class QtGui(Ui_MainWindow):
     def update_track_list(self, event):
         self.clear_track_list()
         for track in event.tracks:
-            TrackRepresentation(track, self.tracksGroupBox, self.tracksLayout)
+            TrackRepresentation(track, self.scrollAreaWidgetContents, self.tracksLayout)
         
     def clear_track_list(self):
         n = 0
