@@ -39,6 +39,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.check_box.stateChanged.connect(self.checked)
     
     def show_line(self):
+        self.track.displayed = True
         track_changed = False
         if not self.track.has_line():
             self.track.set_random_line(self.canvas.axes.get_xlim(), self.canvas.axes.get_ylim())
@@ -52,6 +53,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         return track_changed
     
     def hide_line(self):
+        self.track.displayed = False
         if self.line:
             self.line.set_visible(False)
             self.canvas.draw()

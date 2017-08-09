@@ -47,7 +47,12 @@ class QtGui(Ui_MainWindow):
         self.clear_track_list()
         for track in event.tracks:
             t = TrackRepresentation(track, self.scrollAreaWidgetContents, self.tracksLayout, self.plotWidget)
-            t.show_line()
+            if t.track.displayed:
+                t.show_line()
+                t.check_box.setChecked(True)  # TODO check if slot is called here
+            else:
+                t.hide_line()
+                t.check_box.setChecked(False)
         
     def clear_track_list(self):
         n = 0

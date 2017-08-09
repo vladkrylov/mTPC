@@ -49,6 +49,7 @@ class Track():
         self.id = track_id
         self.type = track_type
         self.line = None
+        self.displayed = True
         if color:
             self.color = color
         else:
