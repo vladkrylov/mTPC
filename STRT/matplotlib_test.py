@@ -1,82 +1,49 @@
 import matplotlib
 matplotlib.use('Qt5Agg')
-
-from matplotlib.widgets import Lasso
-from matplotlib.colors import colorConverter
-from matplotlib.collections import RegularPolyCollection
-from matplotlib import path
-
+"""
+Enable picking on the legend to toggle the original line on and off
+"""
+import numpy as np
 import matplotlib.pyplot as plt
-from numpy import nonzero
-from numpy.random import rand
 
-class Datum(object):
-    colorin = colorConverter.to_rgba('red')
-    colorout = colorConverter.to_rgba('blue')
+t = np.arange(0.0, 0.2, 0.1)
+y1 = 2*np.sin(2*np.pi*t)
+y2 = 4*np.sin(2*np.pi*2*t)
 
-    def __init__(self, x, y, include=False):
-        self.x = x
-        self.y = y
-        if include:
-            self.color = self.colorin
-        else:
-            self.color = self.colorout
-
-
-class LassoManager(object):
-    def __init__(self, ax, data):
-        self.axes = ax
-        self.canvas = ax.figure.canvas
-        self.data = data
-
-        self.Nxy = len(data)
-
-        facecolors = [d.color for d in data]
-        self.xys = [(d.x, d.y) for d in data]
-        self.ind = []
-        fig = ax.figure
-        self.collection = RegularPolyCollection(
-            fig.dpi, 6, sizes=(100,),
-            facecolors=facecolors,
-            offsets=self.xys,
-            transOffset=ax.transData)
-
-        ax.add_collection(self.collection)
-
-        self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
-
-    def callback(self, verts):
-        facecolors = self.collection.get_facecolors()
-        p = path.Path(verts)
-        ind = p.contains_points(self.xys)
-        self.ind = nonzero([p.contains_point(xy) for xy in self.xys])[0]
-        for i in range(len(self.xys)):
-            if ind[i]:
-                facecolors[i] = colorConverter.to_rgba('red')
-#                print ind
-            else:
-                facecolors[i] = colorConverter.to_rgba('blue')
-
-        self.canvas.draw_idle()
-        self.canvas.widgetlock.release(self.lasso)
-        del self.lasso
-
-    def onpress(self, event):
-        if self.canvas.widgetlock.locked():
-            return
-        if event.inaxes is None:
-            return
-        self.lasso = Lasso(event.inaxes,
-                           (event.xdata, event.ydata),
-                           self.callback)
-        # acquire a lock on the widget drawing
-        self.canvas.widgetlock(self.lasso)
-
-data = rand(5, 5)
 fig, ax = plt.subplots()
-# No, no need for collection
-ax.imshow(data, aspect='auto', origin='lower',picker=True)
-data = [Datum(*xy) for xy in rand(10, 2)]
-lman = LassoManager(ax, data)
+ax.set_title('Click on legend line to toggle line on/off')
+line1, = ax.plot(t, y1, lw=2, color='red', label='1 HZ')
+line2, = ax.plot(t, y2, lw=2, color='blue', label='2 HZ')
+leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+leg.get_frame().set_alpha(0.4)
+
+
+# we will set up a dict mapping legend line to orig line, and enable
+# picking on the legend line
+lines = [line1, line2]
+lined = dict()
+for legline, origline in zip(leg.get_lines(), lines):
+    legline.set_picker(5)  # 5 pts tolerance
+    lined[legline] = origline
+
+
+def onpick(event):
+    # on the pick event, find the orig line corresponding to the
+    # legend proxy line, and toggle the visibility
+    legline = event.artist
+    origline = lined[legline]
+    vis = not origline.get_visible()
+    origline.set_visible(vis)
+    # Change the alpha on the line in the legend so we can see what lines
+    # have been toggled
+    if vis:
+        legline.set_alpha(1.0)
+    else:
+        legline.set_alpha(0.2)
+    fig.canvas.draw()
+
+fig.canvas.mpl_connect('pick_event', onpick)
+
 plt.show()
+
 

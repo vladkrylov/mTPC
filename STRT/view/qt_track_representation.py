@@ -1,9 +1,11 @@
 from PyQt5 import QtCore, QtWidgets
 
 class TrackRepresentation(QtWidgets.QWidget):
-    def __init__(self, track, parent_widget, parent_group_box_layout):
+    def __init__(self, track, parent_widget, parent_group_box_layout, canvas):
         super(TrackRepresentation, self).__init__(parent_widget)
         self.track = track
+        self.canvas = canvas
+        self.line = None
         
         self.setMinimumSize(QtCore.QSize(0, 0))
         self.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -31,17 +33,36 @@ class TrackRepresentation(QtWidgets.QWidget):
         
         parent_group_box_layout.insertWidget(parent_group_box_layout.count() - 1, self)
         
+        self.connect_signals_slots()
         
-    def show_line(self, canvas):
+    def connect_signals_slots(self):
+        self.check_box.stateChanged.connect(self.checked)
+    
+    def show_line(self):
         track_changed = False
         if not self.track.has_line():
-            self.track.set_random_line(canvas.axes.get_xlim(), canvas.axes.get_ylim())
+            self.track.set_random_line(self.canvas.axes.get_xlim(), self.canvas.axes.get_ylim())
             track_changed = True
-        canvas.add_line(self.track)
+            self.line = self.canvas.add_line(self.track)
+        elif self.line is None:
+            self.line = self.canvas.add_line(self.track)
+        self.line.set_visible(True)
+        self.canvas.draw()
+        self.make_line_sensible()
         return track_changed
-        
-    def hide_line(self, mpl_axes):
-        pass
     
+    def hide_line(self):
+        if self.line:
+            self.line.set_visible(False)
+            self.canvas.draw()
+    
+    def checked(self, new_state):
+        if new_state == QtCore.Qt.Checked:
+            self.show_line()
+        else:
+            self.hide_line()
+            
+    def make_line_sensible(self):
+        pass
     
     

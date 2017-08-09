@@ -7,15 +7,14 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    
+
     ui = QtGui()
     ui.setupUi(MainWindow)
     m = Model()
     c = Controller(m, ui)
-    
+
     MainWindow.show()
     sys.exit(app.exec_())
-
 
 #     # Tests
 #     import unittest
@@ -25,4 +24,3 @@ if __name__ == "__main__":
 #     suites.append(unittest.TestLoader().loadTestsFromTestCase(TestModelAPI))
 #     for suite in suites:
 #         unittest.TextTestRunner(verbosity=2).run(suite)
-

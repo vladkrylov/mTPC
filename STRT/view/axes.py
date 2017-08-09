@@ -85,9 +85,11 @@ class PlotCanvas(MyMplCanvas):
     def add_line(self, track):
         x, y = track.line
         self.axes.hold(True)
-        self.axes.plot(x, y, color=track.color)
+        line, = self.axes.plot(x, y, color=track.color)
+        line.set_visible(True)
         self.axes.hold(False)
         self.draw()
+        return line
         
 class MatplotlibToolbar(NavigationToolbar):
     pass
