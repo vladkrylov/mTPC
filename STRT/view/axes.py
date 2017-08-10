@@ -49,7 +49,7 @@ class PlotCanvas(MyMplCanvas):
     """Simple canvas with a sine plot."""
     def __init__(self, *args, **kwargs):
         MyMplCanvas.__init__(self, *args, **kwargs)
-#         self.lasso = LassoManager(self.figure.canvas)
+        self.lasso = LassoManager(self.figure.canvas)
         
         # customize axes view
         self.axes.xaxis.set_visible(False)
@@ -60,7 +60,6 @@ class PlotCanvas(MyMplCanvas):
                                     top=1.00,
                                     bottom=0.00)
         self.figure.canvas.draw()
-        self.figure.canvas.mpl_connect('pick_event', self.onpick)
 
     def compute_initial_figure(self):
         t = arange(0.0, 3.0, 0.01)
@@ -91,12 +90,8 @@ class PlotCanvas(MyMplCanvas):
         self.axes.hold(False)
         self.draw()
         return line
+
     
-    def onpick(self, click_event):
-        line = click_event.artist
-        mouse_button = click_event.button
-        return
-        
 class MatplotlibToolbar(NavigationToolbar):
     pass
 
