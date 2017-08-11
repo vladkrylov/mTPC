@@ -75,6 +75,7 @@ class TrackRepresentation(QtWidgets.QWidget):
             self.hide_line()
             
     def onpick(self, click_event):
+        print("=== From track %d: %s was picked ===" % (self.track.id, click_event.artist))
         print "event.artist = %s" % str(click_event.artist)
         print "self.line = %s" % str(self.line)
         print "self.endpoints = "
@@ -96,26 +97,21 @@ class TrackRepresentation(QtWidgets.QWidget):
     
     def show_draggable_endpoints(self):
         if self.endpoints is None:
+            x, y = self.track.line
+            self.canvas.axes.hold(True)
+            self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
+            self.canvas.axes.hold(False)
             self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
-            
-        # clear existing endpoint if any
-        self.hide_draggable_endpoints()
-        # create points plot
-        x, y = self.track.line
-        self.canvas.axes.hold(True)
-        self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
-        self.canvas.axes.hold(False)
-            
         for p in self.endpoints:
             p.set_visible(True)
         self.canvas.draw()
-    
+        
     def hide_draggable_endpoints(self):
         if self.endpoints is not None:
             for p in self.endpoints:
                 p.set_visible(False)
             self.canvas.draw()
-    
+        
     def on_point_pick(self, mouse_event):
         if mouse_event.artist not in self.endpoints:
             return
@@ -128,6 +124,14 @@ class TrackRepresentation(QtWidgets.QWidget):
         if self.cid_point_move is None:
             self.cid_point_move = self.canvas.mpl_connect('motion_notify_event', self.on_point_drag)
         
+    def on_point_drag(self, mouse_event):
+        if self.im_moving is None:
+            return
+        print("=== dragging ===")
+        x, y = mouse_event.xdata, mouse_event.ydata
+        self.im_moving.set_position(x, y)
+        self.canvas.draw()
+        
     def on_point_release(self, mouse_event):
         self.im_moving = None
         # TODO as well, fix None flags
@@ -136,32 +140,92 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.canvas.mpl_disconnect(self.cid_point_release)
         self.cid_point_release = None
         
-    def on_point_drag(self, mouse_event):
-        print("=== drag ===")
-        print("self.im_moving = %s") % self.im_moving
-        for p in self.endpoints:
-            print("    %s") % str(p)
-        print("=================\n")
-        if self.im_moving not in self.endpoints:
-            return
-        
-        new_track_xs = self.track.line[0]
-        new_track_ys = self.track.line[1]
-        x, y = mouse_event.xdata, mouse_event.ydata
-        
-        i = self.endpoints.index(self.im_moving)
-        new_track_xs[i] = x
-        new_track_ys[i] = y
-    
-        self.track.set_line(new_track_xs, new_track_ys)
-        self.update_endpoints()
-        
-    def update_endpoints(self):
-        x, y = self.track.line
-        self.canvas.axes.hold(True)
-        self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
-        self.canvas.axes.hold(False)
-        
+#         print("self.im_moving = %s") % self.im_moving
+#         for p in self.endpoints:
+#             print("    %s") % str(p)
+#         print("=================\n")
+#         if self.im_moving not in self.endpoints:
+#             return
+#         
+#         new_track_xs = self.track.line[0]
+#         new_track_ys = self.track.line[1]
+#         x, y = mouse_event.xdata, mouse_event.ydata
+#         
+#         i = self.endpoints.index(self.im_moving)
+#         new_track_xs[i] = x
+#         new_track_ys[i] = y
+#     
+#         self.track.set_line(new_track_xs, new_track_ys)
+#         self.update_endpoints()
+
+#     def show_draggable_endpoints(self):
+#         if self.endpoints is None:
+#             self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
+#             
+#         # clear existing endpoint if any
+#         self.hide_draggable_endpoints()
+#         # create points plot
+#         x, y = self.track.line
+#         self.canvas.axes.hold(True)
+#         self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
+#         self.canvas.axes.hold(False)
+#             
+#         for p in self.endpoints:
+#             p.set_visible(True)
+#         self.canvas.draw()
+#     
+#     def hide_draggable_endpoints(self):
+#         if self.endpoints is not None:
+#             for p in self.endpoints:
+#                 p.set_visible(False)
+#             self.canvas.draw()
+#     
+#     def on_point_pick(self, mouse_event):
+#         if mouse_event.artist not in self.endpoints:
+#             return
+#         self.im_moving = mouse_event.artist
+#         # multiple calls here, don't know why
+#         # set None flags to avoid many connection on point pick
+#         # TODO fix this!
+#         if self.cid_point_release is None:
+#             self.cid_point_release = self.canvas.mpl_connect('button_release_event', self.on_point_release)
+#         if self.cid_point_move is None:
+#             self.cid_point_move = self.canvas.mpl_connect('motion_notify_event', self.on_point_drag)
+#         
+#     def on_point_release(self, mouse_event):
+#         self.im_moving = None
+#         # TODO as well, fix None flags
+#         self.canvas.mpl_disconnect(self.cid_point_move)
+#         self.cid_point_move = None
+#         self.canvas.mpl_disconnect(self.cid_point_release)
+#         self.cid_point_release = None
+#         
+#     def on_point_drag(self, mouse_event):
+#         print("=== dragging ===")
+#         print("self.im_moving = %s") % self.im_moving
+#         for p in self.endpoints:
+#             print("    %s") % str(p)
+#         print("=================\n")
+#         if self.im_moving not in self.endpoints:
+#             return
+#         
+#         new_track_xs = self.track.line[0]
+#         new_track_ys = self.track.line[1]
+#         x, y = mouse_event.xdata, mouse_event.ydata
+#         
+#         i = self.endpoints.index(self.im_moving)
+#         new_track_xs[i] = x
+#         new_track_ys[i] = y
+#     
+#         self.track.set_line(new_track_xs, new_track_ys)
+#         self.update_endpoints()
+#         
+#     def update_endpoints(self):
+#         x, y = self.track.line
+#         self.canvas.axes.hold(True)
+#         self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
+#         self.canvas.axes.hold(False)
+#         
         
     
     
