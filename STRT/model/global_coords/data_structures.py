@@ -94,8 +94,11 @@ class Track():
             pass 
         x = [x_min, x_max]
         y = [uniform(y_min, y_max)] * 2
-        self.line = (x, y)
-        
+        self.set_line(x, y)
+    
+    def set_line(self, xs, ys):
+        self.line = (xs, ys)
+    
     def has_line(self):
         return self.line is not None and len(self.line) == 2
     
