@@ -132,6 +132,7 @@ class TrackRepresentation(QtWidgets.QWidget):
             self.cid_point_release = self.canvas.mpl_connect('button_release_event', self.on_point_release)
         if self.cid_point_move is None:
             self.cid_point_move = self.canvas.mpl_connect('motion_notify_event', self.on_point_drag)
+        self.show_draggable_endpoints()
         
     def on_point_drag(self, mouse_event):
         if self.im_moving is None:
@@ -140,6 +141,13 @@ class TrackRepresentation(QtWidgets.QWidget):
         print("Moving object is %s" % str(self.im_moving))
         x, y = mouse_event.xdata, mouse_event.ydata
         self.im_moving.set_data(x, y)
+        self.show_draggable_endpoints()
+        self.update_line_with_endpoints()
+        
+    def update_line_with_endpoints(self):
+        xs = [p.get_data()[0] for p in self.endpoints]
+        ys = [p.get_data()[1] for p in self.endpoints]
+        self.line.set_data(xs, ys)
         self.canvas.draw()
         
     def on_point_release(self, mouse_event):
@@ -149,6 +157,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.cid_point_move = None
         self.canvas.mpl_disconnect(self.cid_point_release)
         self.cid_point_release = None
+        self.show_draggable_endpoints()
         
 #         print("self.im_moving = %s") % self.im_moving
 #         for p in self.endpoints:
