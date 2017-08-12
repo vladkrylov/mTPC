@@ -76,10 +76,29 @@ class Track():
     def set_random_line(self, xlims, ylims):
         x_min, x_max = xlims
         y_min, y_max = ylims
+        
+        if x_min > 0 and x_max > 0:
+            length = x_max - x_min
+            x_min += 0.1 * length
+            x_max -= 0.1 * length
+        elif x_min < 0 and x_max > 0:
+            length = x_max - x_min
+            x_min += 0.1 * length
+            x_max -= 0.1 * length
+        elif x_min < 0 and x_max < 0:
+            length = x_min - x_max
+            x_min -= 0.1 * length
+            x_max += 0.1 * length
+        else:
+            # means x_min > x_max, nonsense
+            pass 
         x = [x_min, x_max]
         y = [uniform(y_min, y_max)] * 2
-        self.line = (x, y)
-        
+        self.set_line(x, y)
+    
+    def set_line(self, xs, ys):
+        self.line = (xs, ys)
+    
     def has_line(self):
         return self.line is not None and len(self.line) == 2
     

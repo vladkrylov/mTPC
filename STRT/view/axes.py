@@ -90,7 +90,8 @@ class PlotCanvas(MyMplCanvas):
         self.axes.hold(False)
         self.draw()
         return line
-        
+
+    
 class MatplotlibToolbar(NavigationToolbar):
     pass
 
