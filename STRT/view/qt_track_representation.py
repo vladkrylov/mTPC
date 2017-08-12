@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
+from matplotlib.patches import Circle
 
 # global constants
 MPL_LEFT_BUTTON = 1
@@ -14,6 +15,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.cid_point_pick = None
         self.cid_point_move = None
         self.cid_point_release = None
+        self.counter = 0
         
         self.setMinimumSize(QtCore.QSize(0, 0))
         self.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -97,11 +99,18 @@ class TrackRepresentation(QtWidgets.QWidget):
     
     def show_draggable_endpoints(self):
         if self.endpoints is None:
+#             self.endpoints = [Circle((x[i], y[i]), radius=1, picker=5, color='black') for i in range(len(x))]
+#             for p in self.endpoints:
+#                 self.canvas.axes.add_artist(p)
+            self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
+#         else:
+#             del(self.endpoints[0])
+#             del(self.endpoints[0])
+#                 
             x, y = self.track.line
             self.canvas.axes.hold(True)
             self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
             self.canvas.axes.hold(False)
-            self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
         for p in self.endpoints:
             p.set_visible(True)
         self.canvas.draw()
@@ -128,8 +137,9 @@ class TrackRepresentation(QtWidgets.QWidget):
         if self.im_moving is None:
             return
         print("=== dragging ===")
+        print("Moving object is %s" % str(self.im_moving))
         x, y = mouse_event.xdata, mouse_event.ydata
-        self.im_moving.set_position(x, y)
+        self.im_moving.set_data(x, y)
         self.canvas.draw()
         
     def on_point_release(self, mouse_event):
