@@ -11,6 +11,8 @@ sed*
 *.tif
 *.png
 *.mat
+*.pyc
+*.autosave
 
 *MaskedLog*
 log.txt

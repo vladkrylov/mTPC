@@ -1,20 +1,25 @@
 import matplotlib
-# Make sure that we are using QT5
-# matplotlib.use('Qt5Agg')
-matplotlib.use('GTKAgg')
-
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import numpy as np
 
-x = np.linspace(0, 5, 11)
-y = x ** 2
+x = np.arange(0, 2*np.pi, 0.1)
+y = np.sin(x)
 
-print(plt.style.available)
-# [u'dark_background', u'bmh', u'grayscale', u'ggplot', u'fivethirtyeight']
-plt.style.use('presentation')
-plt.figure(facecolor="white")
-plt.plot(x, y, 'r') # 'r' is the color red
-plt.xlabel('X Axis Title Here')
-plt.ylabel('Y Axis Title Here')
-plt.title('String Title Here')
+fig, axes = plt.subplots(nrows=6)
+
+styles = ['r-', 'g-', 'y-', 'm-', 'k-', 'c-']
+def plot(ax, style):
+    return ax.plot(x, y, style, animated=True)[0]
+lines = [plot(ax, style) for ax, style in zip(axes, styles)]
+
+def animate(i):
+    for j, line in enumerate(lines, start=1):
+        line.set_ydata(np.sin(j*x + i/10.0))
+    return lines
+
+# We'd normally specify a reasonable "interval" here...
+ani = animation.FuncAnimation(fig, animate, xrange(1, 200), 
+                              interval=0, blit=True)
 plt.show()

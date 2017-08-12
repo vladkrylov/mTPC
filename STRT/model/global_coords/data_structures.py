@@ -1,5 +1,6 @@
+from random import uniform
 from model.common import filter_by_id
-
+from model.color_set import get_color
 
 class Event():
     def __init__(self, ev_id, data_file_path):
@@ -43,10 +44,19 @@ class Hit():
         
         
 class Track():
-    def __init__(self, track_id=0, track_type="selected"):
+    def __init__(self, track_id, track_type="selected", color=None):
         self.hit_indices = []
         self.id = track_id
         self.type = track_type
+        self.line = None
+        self.displayed = True
+        if color:
+            self.color = color
+        else:
+            try:
+                self.color = get_color(self.id)
+            except:
+                self.color = '#00ff00'
         
     def __repr__(self):
         return "Track %d with %d hits" % (self.id, len(self.hit_indices))
@@ -63,3 +73,33 @@ class Track():
     def remove_hits_indices(self, hit_indices):
         self.hit_indices = list(set(self.hit_indices) - set(hit_indices))
         
+    def set_random_line(self, xlims, ylims):
+        x_min, x_max = xlims
+        y_min, y_max = ylims
+        
+        if x_min > 0 and x_max > 0:
+            length = x_max - x_min
+            x_min += 0.1 * length
+            x_max -= 0.1 * length
+        elif x_min < 0 and x_max > 0:
+            length = x_max - x_min
+            x_min += 0.1 * length
+            x_max -= 0.1 * length
+        elif x_min < 0 and x_max < 0:
+            length = x_min - x_max
+            x_min -= 0.1 * length
+            x_max += 0.1 * length
+        else:
+            # means x_min > x_max, nonsense
+            pass 
+        x = [x_min, x_max]
+        y = [uniform(y_min, y_max)] * 2
+        self.set_line(x, y)
+    
+    def set_line(self, xs, ys):
+        self.line = (xs, ys)
+    
+    def has_line(self):
+        return self.line is not None and len(self.line) == 2
+    
+    
