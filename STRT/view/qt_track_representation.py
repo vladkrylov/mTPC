@@ -143,6 +143,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.im_moving.set_data(x, y)
         self.show_draggable_endpoints()
         self.update_line_with_endpoints()
+        self.update_track()
         
     def update_line_with_endpoints(self):
         xs = [p.get_data()[0] for p in self.endpoints]
@@ -159,92 +160,8 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.cid_point_release = None
         self.show_draggable_endpoints()
         
-#         print("self.im_moving = %s") % self.im_moving
-#         for p in self.endpoints:
-#             print("    %s") % str(p)
-#         print("=================\n")
-#         if self.im_moving not in self.endpoints:
-#             return
-#         
-#         new_track_xs = self.track.line[0]
-#         new_track_ys = self.track.line[1]
-#         x, y = mouse_event.xdata, mouse_event.ydata
-#         
-#         i = self.endpoints.index(self.im_moving)
-#         new_track_xs[i] = x
-#         new_track_ys[i] = y
-#     
-#         self.track.set_line(new_track_xs, new_track_ys)
-#         self.update_endpoints()
-
-#     def show_draggable_endpoints(self):
-#         if self.endpoints is None:
-#             self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
-#             
-#         # clear existing endpoint if any
-#         self.hide_draggable_endpoints()
-#         # create points plot
-#         x, y = self.track.line
-#         self.canvas.axes.hold(True)
-#         self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
-#         self.canvas.axes.hold(False)
-#             
-#         for p in self.endpoints:
-#             p.set_visible(True)
-#         self.canvas.draw()
-#     
-#     def hide_draggable_endpoints(self):
-#         if self.endpoints is not None:
-#             for p in self.endpoints:
-#                 p.set_visible(False)
-#             self.canvas.draw()
-#     
-#     def on_point_pick(self, mouse_event):
-#         if mouse_event.artist not in self.endpoints:
-#             return
-#         self.im_moving = mouse_event.artist
-#         # multiple calls here, don't know why
-#         # set None flags to avoid many connection on point pick
-#         # TODO fix this!
-#         if self.cid_point_release is None:
-#             self.cid_point_release = self.canvas.mpl_connect('button_release_event', self.on_point_release)
-#         if self.cid_point_move is None:
-#             self.cid_point_move = self.canvas.mpl_connect('motion_notify_event', self.on_point_drag)
-#         
-#     def on_point_release(self, mouse_event):
-#         self.im_moving = None
-#         # TODO as well, fix None flags
-#         self.canvas.mpl_disconnect(self.cid_point_move)
-#         self.cid_point_move = None
-#         self.canvas.mpl_disconnect(self.cid_point_release)
-#         self.cid_point_release = None
-#         
-#     def on_point_drag(self, mouse_event):
-#         print("=== dragging ===")
-#         print("self.im_moving = %s") % self.im_moving
-#         for p in self.endpoints:
-#             print("    %s") % str(p)
-#         print("=================\n")
-#         if self.im_moving not in self.endpoints:
-#             return
-#         
-#         new_track_xs = self.track.line[0]
-#         new_track_ys = self.track.line[1]
-#         x, y = mouse_event.xdata, mouse_event.ydata
-#         
-#         i = self.endpoints.index(self.im_moving)
-#         new_track_xs[i] = x
-#         new_track_ys[i] = y
-#     
-#         self.track.set_line(new_track_xs, new_track_ys)
-#         self.update_endpoints()
-#         
-#     def update_endpoints(self):
-#         x, y = self.track.line
-#         self.canvas.axes.hold(True)
-#         self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
-#         self.canvas.axes.hold(False)
-#         
+    def update_track(self):
+        xs = [p.get_data()[0] for p in self.endpoints]
+        ys = [p.get_data()[1] for p in self.endpoints]
+        self.track.set_line(xs, ys)
         
-    
-    
