@@ -12,10 +12,11 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.canvas = canvas
         self.line = None
         self.endpoints = None
-        self.selected = None
         self.cid_point_pick = None
         self.cid_point_move = None
         self.cid_point_release = None
+        self.is_selected = None
+#         closeApp = pyqtSignal()
         
         self.setMinimumSize(QtCore.QSize(0, 0))
         self.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -85,7 +86,8 @@ class TrackRepresentation(QtWidgets.QWidget):
             for p in self.endpoints:
                 print("    %s") % str(p)
         print("=================\n")
-        if click_event.artist != self.line:
+        my_enpoints_were_selected = self.endpoints is not None and click_event.artist in self.endpoints
+        if click_event.artist != self.line and not my_enpoints_were_selected:
             self.deselect()
             return
         self.select()
@@ -98,11 +100,11 @@ class TrackRepresentation(QtWidgets.QWidget):
         return
     
     def select(self):
-        self.selected = True
+        self.is_selected = True
         self.show_draggable_endpoints()
         
     def deselect(self):
-        self.selected = True
+        self.is_selected = False
         self.hide_draggable_endpoints()
         
     def show_draggable_endpoints(self):
@@ -124,6 +126,8 @@ class TrackRepresentation(QtWidgets.QWidget):
             self.canvas.draw()
         
     def on_point_pick(self, mouse_event):
+        if not self.is_selected:
+            return
         if mouse_event.artist not in self.endpoints:
             return
         self.im_moving = mouse_event.artist
