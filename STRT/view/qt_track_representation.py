@@ -12,10 +12,10 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.canvas = canvas
         self.line = None
         self.endpoints = None
+        self.selected = None
         self.cid_point_pick = None
         self.cid_point_move = None
         self.cid_point_release = None
-        self.counter = 0
         
         self.setMinimumSize(QtCore.QSize(0, 0))
         self.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -67,7 +67,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.track.displayed = False
         if self.line:
             self.line.set_visible(False)
-            self.hide_draggable_endpoints()
+            self.deselect()
             self.canvas.draw()
     
     def checked(self, new_state):
@@ -86,9 +86,9 @@ class TrackRepresentation(QtWidgets.QWidget):
                 print("    %s") % str(p)
         print("=================\n")
         if click_event.artist != self.line:
-            self.hide_draggable_endpoints()
+            self.deselect()
             return
-        self.show_draggable_endpoints()
+        self.select()
         
         mouse_button = click_event.mouseevent.button
         if mouse_button == MPL_LEFT_BUTTON:
@@ -97,15 +97,17 @@ class TrackRepresentation(QtWidgets.QWidget):
             pass
         return
     
+    def select(self):
+        self.selected = True
+        self.show_draggable_endpoints()
+        
+    def deselect(self):
+        self.selected = True
+        self.hide_draggable_endpoints()
+        
     def show_draggable_endpoints(self):
         if self.endpoints is None:
-#             self.endpoints = [Circle((x[i], y[i]), radius=1, picker=5, color='black') for i in range(len(x))]
-#             for p in self.endpoints:
-#                 self.canvas.axes.add_artist(p)
             self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
-#         else:
-#             del(self.endpoints[0])
-#             del(self.endpoints[0])
 #                 
             x, y = self.track.line
             self.canvas.axes.hold(True)
@@ -132,7 +134,7 @@ class TrackRepresentation(QtWidgets.QWidget):
             self.cid_point_release = self.canvas.mpl_connect('button_release_event', self.on_point_release)
         if self.cid_point_move is None:
             self.cid_point_move = self.canvas.mpl_connect('motion_notify_event', self.on_point_drag)
-        self.show_draggable_endpoints()
+        self.select()
         
     def on_point_drag(self, mouse_event):
         if self.im_moving is None:
@@ -158,7 +160,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.cid_point_move = None
         self.canvas.mpl_disconnect(self.cid_point_release)
         self.cid_point_release = None
-        self.show_draggable_endpoints()
+        self.select()
         
     def update_track(self):
         xs = [p.get_data()[0] for p in self.endpoints]

@@ -9,6 +9,7 @@ class QtGui(Ui_MainWindow):
     def __init__(self):
         super(QtGui, self).__init__()
         self.current_event = None
+        self.tracks = []
         
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
@@ -47,6 +48,7 @@ class QtGui(Ui_MainWindow):
         self.clear_track_list()
         for track in event.tracks:
             t = TrackRepresentation(track, self.scrollAreaWidgetContents, self.tracksLayout, self.plotWidget)
+            self.tracks.append(t)
             if t.track.displayed:
                 t.show_line()
                 t.check_box.setChecked(True)  # TODO check if slot is called here
@@ -56,6 +58,10 @@ class QtGui(Ui_MainWindow):
         
     def clear_track_list(self):
         n = 0
+        while len(self.tracks) != 0:
+#             self.tracks.pop()
+            del(self.tracks[0])
+            
         while self.tracksLayout.count() > n:
             x = self.tracksLayout.itemAt(n)
             if x.widget():
