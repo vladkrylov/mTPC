@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from mainwindow import Ui_MainWindow
 from view.qt_track_representation import TrackRepresentation
+from lasso_manager import LassoManager
 
 # this line needs to be removed immediately!
 from model import Track
@@ -12,10 +13,13 @@ class QtGui(Ui_MainWindow):
         self.tracks = []
         self.hits_selection_is_on = None
         
+        
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
         self.tracksLayout = self.verticalLayout_6
         self.connect_signals_slots()
+        self.lasso = LassoManager(self.plotWidget.figure.canvas)
+        self.lasso.add_listener(self)
         
     def connect_signals_slots(self):
         # matplotlib events
@@ -25,7 +29,7 @@ class QtGui(Ui_MainWindow):
         self.action_previous_event.triggered.connect(self.prev_event)
         self.action_next_event.triggered.connect(self.next_event)
         self.action_select_new_track.triggered.connect(self.add_new_track)
-        self.action_add_hits_to_track.toggled.connect(self.select_hits)
+        self.action_add_hits_to_track.triggered.connect(self.select_hits)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -48,6 +52,10 @@ class QtGui(Ui_MainWindow):
     def update_track_list(self, event):
         self.clear_track_list()
         for track in event.tracks:
+            x = map(lambda ihit: event.hits[ihit].x, track.hit_indices)
+            y = map(lambda ihit: event.hits[ihit].y, track.hit_indices)
+            self.plotWidget.add_track_hits(x, y, track.color)
+            
             t = TrackRepresentation(track, self.scrollAreaWidgetContents, self.tracksLayout, self.plotWidget)
             self.tracks.append(t)
             if t.track.displayed:
@@ -128,8 +136,16 @@ class QtGui(Ui_MainWindow):
                 # t neither was selected before nor picked now, do nothing with it
                 pass
                     
-    def select_hits(self, checked):
-        if checked == True:
+    def add_hits(self, checked):
+        self.select_hits(checked)
+    
+    def remove_hits(self):
+        if self.current_event is None:
+            return
+        
+    def select_hits(self):
+        action_checked = self.action_add_hits_to_track.isChecked()
+        if action_checked == True:
             if self.current_event is None:
                 return
             t = self.get_selected_track()
@@ -137,13 +153,9 @@ class QtGui(Ui_MainWindow):
                 return
             self.hits_selection_is_on = True
             points = [(h.x, h.y) for h in self.current_event.hits]
-            self.plotWidget.select_points(points)
+            self.lasso.set_points(self.plotWidget.axes, points)
         else:
-            self.plotWidget.finish_selection()
-    
-    def remove_hits(self):
-        if self.current_event is None:
-            return
+            self.lasso.stop_selection()
     
     def get_selected_track(self):
         tracks = [t for t in self.tracks if t.is_selected]
@@ -151,3 +163,17 @@ class QtGui(Ui_MainWindow):
             return tracks[0]
         return None
     
+    def on_hits_selected(self, indices):
+        if self.current_event is None:
+            return
+        t = self.get_selected_track()
+        if not t:
+            return
+        event_id = self.current_event.id
+        track_id = t.track.id
+        if self.action_add_hits_to_track.isChecked():
+            self.controller.on_add_hits(event_id, track_id, indices)
+        elif self.action_remove_hits.isChecked():
+            self.controller.on_remove_hits(event_id, track_id, indices)
+        
+        

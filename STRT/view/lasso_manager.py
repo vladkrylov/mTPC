@@ -11,7 +11,10 @@ class LassoManager(object):
                                             # see the commit 1eab67 for details
         self.cid = None
         
-    def set_points(self, ax, data):
+    def add_listener(self, listener):
+        self.listener = listener
+        
+    def set_points(self, ax, data):  # FIXME unused parameter 'ax' ? 
         self.xys = data
         self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
 
@@ -23,9 +26,12 @@ class LassoManager(object):
         self.canvas.draw_idle()
         self.canvas.widgetlock.release(self.lasso)
         del self.lasso
+        # wtf??? #
         self.canvas.mpl_disconnect(self.cid)
         self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
+        # ------ #
         self.dummy_already_pressed = False
+        self.listener.on_hits_selected(self.ind)
 
     def onpress(self, event):
         if self.canvas.widgetlock.locked():

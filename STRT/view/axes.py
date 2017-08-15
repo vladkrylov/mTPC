@@ -9,7 +9,7 @@ from numpy import arange, sin, pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from lasso_manager import LassoManager
+
 from random import uniform
 
 # def set_main_plot_widget(qt_ui):
@@ -49,7 +49,6 @@ class PlotCanvas(MyMplCanvas):
     """Simple canvas with a sine plot."""
     def __init__(self, *args, **kwargs):
         MyMplCanvas.__init__(self, *args, **kwargs)
-        self.lasso = LassoManager(self.figure.canvas)
         
         # customize axes view
         self.axes.xaxis.set_visible(False)
@@ -79,12 +78,6 @@ class PlotCanvas(MyMplCanvas):
         self.axes.set_ylim([min(y), max(y)])
         self.draw()
         
-    def select_points(self, points):
-        self.lasso.set_points(self.axes, points)
-        
-    def finish_selection(self):
-        self.lasso.stop_selection()
-
     def add_line(self, track):
         x, y = track.line
         self.axes.hold(True)
@@ -93,7 +86,14 @@ class PlotCanvas(MyMplCanvas):
         self.axes.hold(False)
         self.draw()
         return line
-
+    
+    def add_track_hits(self, x, y, color):
+        self.axes.hold(True)
+        line, = self.axes.plot(x, y, color=color)
+        line.set_visible(True)
+        self.axes.hold(False)
+        self.draw()
+        return line
     
 class MatplotlibToolbar(NavigationToolbar):
     pass
