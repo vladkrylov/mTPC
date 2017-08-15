@@ -115,6 +115,7 @@ class QtGui(Ui_MainWindow):
         
         for t in self.tracks:
             if t.line == mouse_event.artist and not t.is_selected:
+                # t was not selected before, but now it is picked
                 t.select()
             elif t.line == mouse_event.artist and t.is_selected:
                 # t was selected before and now it is picked again, do nothing with it
@@ -129,6 +130,9 @@ class QtGui(Ui_MainWindow):
     def select_hits(self):
         if self.current_event is None:
             return
+        t = self.get_selected_track()
+        if not t:
+            return
         points = [(h.x, h.y) for h in self.current_event.hits]
         self.plotWidget.select_points(points)
     
@@ -136,4 +140,9 @@ class QtGui(Ui_MainWindow):
         if self.current_event is None:
             return
     
-
+    def get_selected_track(self):
+        tracks = [t for t in self.tracks if t.is_selected]
+        if len(tracks) != 0:
+            return tracks[0]
+        return None
+    

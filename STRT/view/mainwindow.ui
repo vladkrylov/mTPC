@@ -20,11 +20,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QWidget" name="matplotlibToolbar" native="true">
-          <zorder>pushButton</zorder>
-          <zorder>pushButton_2</zorder>
-          <zorder>scrollArea</zorder>
-         </widget>
+         <widget class="QWidget" name="matplotlibToolbar" native="true"/>
         </item>
         <item>
          <widget class="QWidget" name="plotWidget" native="true">
@@ -34,7 +30,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <zorder></zorder>
          </widget>
         </item>
        </layout>
@@ -239,7 +234,7 @@
   </action>
   <action name="action_add_hits_to_track">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset>
@@ -254,7 +249,7 @@
   </action>
   <action name="action_remove_hits">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset>

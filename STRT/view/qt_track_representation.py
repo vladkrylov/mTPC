@@ -1,5 +1,4 @@
 from PyQt5 import QtCore, QtWidgets
-from matplotlib.patches import Circle
 
 # global constants
 MPL_LEFT_BUTTON = 1
@@ -16,7 +15,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.cid_point_move = None
         self.cid_point_release = None
         self.is_selected = None
-#         closeApp = pyqtSignal()
+#         self.im_selected = QtCore.pyqtSignal()
         
         self.setMinimumSize(QtCore.QSize(0, 0))
         self.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -87,10 +86,6 @@ class TrackRepresentation(QtWidgets.QWidget):
             for p in self.endpoints:
                 print("    %s") % str(p)
         print("=================\n")
-#         my_enpoints_were_selected = self.endpoints is not None and click_event.artist in self.endpoints
-#         if click_event.artist != self.line and not my_enpoints_were_selected:
-#             self.deselect()
-#             return
         self.select()
         
         mouse_button = click_event.mouseevent.button
