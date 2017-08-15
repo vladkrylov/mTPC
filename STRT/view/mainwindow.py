@@ -113,6 +113,7 @@ class Ui_MainWindow(object):
         self.action_delete_track.setIcon(icon2)
         self.action_delete_track.setObjectName("action_delete_track")
         self.action_add_hits_to_track = QtWidgets.QAction(MainWindow)
+        self.action_add_hits_to_track.setCheckable(True)
         self.action_add_hits_to_track.setEnabled(True)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("view/img/contact-new.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

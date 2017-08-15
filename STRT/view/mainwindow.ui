@@ -233,6 +233,9 @@
    </property>
   </action>
   <action name="action_add_hits_to_track">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="enabled">
     <bool>true</bool>
    </property>

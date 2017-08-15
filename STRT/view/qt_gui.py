@@ -10,6 +10,7 @@ class QtGui(Ui_MainWindow):
         super(QtGui, self).__init__()
         self.current_event = None
         self.tracks = []
+        self.hits_selection_is_on = None
         
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
@@ -24,7 +25,7 @@ class QtGui(Ui_MainWindow):
         self.action_previous_event.triggered.connect(self.prev_event)
         self.action_next_event.triggered.connect(self.next_event)
         self.action_select_new_track.triggered.connect(self.add_new_track)
-        self.action_add_hits_to_track.triggered.connect(self.select_hits)
+        self.action_add_hits_to_track.toggled.connect(self.select_hits)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -127,14 +128,16 @@ class QtGui(Ui_MainWindow):
                 # t neither was selected before nor picked now, do nothing with it
                 pass
                     
-    def select_hits(self):
-        if self.current_event is None:
-            return
-        t = self.get_selected_track()
-        if not t:
-            return
-        points = [(h.x, h.y) for h in self.current_event.hits]
-        self.plotWidget.select_points(points)
+    def select_hits(self, checked):
+        if checked == True:
+            if self.current_event is None:
+                return
+            t = self.get_selected_track()
+            if not t:
+                return
+            self.hits_selection_is_on = True
+            points = [(h.x, h.y) for h in self.current_event.hits]
+            self.plotWidget.select_points(points)
     
     def remove_hits(self):
         if self.current_event is None:
