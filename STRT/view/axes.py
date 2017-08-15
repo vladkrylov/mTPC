@@ -81,6 +81,9 @@ class PlotCanvas(MyMplCanvas):
         
     def select_points(self, points):
         self.lasso.set_points(self.axes, points)
+        
+    def finish_selection(self):
+        self.lasso.stop_selection()
 
     def add_line(self, track):
         x, y = track.line

@@ -138,6 +138,8 @@ class QtGui(Ui_MainWindow):
             self.hits_selection_is_on = True
             points = [(h.x, h.y) for h in self.current_event.hits]
             self.plotWidget.select_points(points)
+        else:
+            self.plotWidget.finish_selection()
     
     def remove_hits(self):
         if self.current_event is None:

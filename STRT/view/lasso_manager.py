@@ -9,6 +9,7 @@ class LassoManager(object):
         self.canvas = canvas
         self.dummy_already_pressed = False  # single click bugfix
                                             # see the commit 1eab67 for details
+        self.cid = None
         
     def set_points(self, ax, data):
         self.xys = data
@@ -43,5 +44,7 @@ class LassoManager(object):
         self.canvas.widgetlock(self.lasso)
         self.dummy_already_pressed = True
         
-        
+    def stop_selection(self):
+        if self.cid:
+            self.canvas.mpl_disconnect(self.cid)
         
