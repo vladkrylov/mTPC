@@ -47,7 +47,7 @@ class TrackRepresentation(QtWidgets.QWidget):
         self.connect_signals_slots()
         
     def connect_signals_slots(self):
-        self.canvas.mpl_connect('pick_event', self.onpick)
+#         self.canvas.mpl_connect('pick_event', self.onpick)
         self.check_box.stateChanged.connect(self.checked)
     
     def show_line(self):
@@ -76,8 +76,9 @@ class TrackRepresentation(QtWidgets.QWidget):
             self.show_line()
         else:
             self.hide_line()
-            
-    def onpick(self, click_event):
+    
+    # TODO: get rid of click_event in the arguments
+    def connect_dragndrop(self, click_event):
         print("=== From track %d: %s was picked ===" % (self.track.id, click_event.artist))
         print "event.artist = %s" % str(click_event.artist)
         print "self.line = %s" % str(self.line)
@@ -86,10 +87,10 @@ class TrackRepresentation(QtWidgets.QWidget):
             for p in self.endpoints:
                 print("    %s") % str(p)
         print("=================\n")
-        my_enpoints_were_selected = self.endpoints is not None and click_event.artist in self.endpoints
-        if click_event.artist != self.line and not my_enpoints_were_selected:
-            self.deselect()
-            return
+#         my_enpoints_were_selected = self.endpoints is not None and click_event.artist in self.endpoints
+#         if click_event.artist != self.line and not my_enpoints_were_selected:
+#             self.deselect()
+#             return
         self.select()
         
         mouse_button = click_event.mouseevent.button
@@ -106,11 +107,12 @@ class TrackRepresentation(QtWidgets.QWidget):
     def deselect(self):
         self.is_selected = False
         self.hide_draggable_endpoints()
+        self.cid_point_pick = self.disconnect_mpl_event(self.cid_point_pick)
         
     def show_draggable_endpoints(self):
-        if self.endpoints is None:
+        if not self.cid_point_pick:
             self.cid_point_pick = self.canvas.mpl_connect('pick_event', self.on_point_pick)
-#                 
+        if self.endpoints is None:
             x, y = self.track.line
             self.canvas.axes.hold(True)
             self.endpoints = [self.canvas.axes.plot(x[i], y[i], 'o', picker=5)[0] for i in range(len(x))]
@@ -126,6 +128,8 @@ class TrackRepresentation(QtWidgets.QWidget):
             self.canvas.draw()
         
     def on_point_pick(self, mouse_event):
+        print "=== TR Pick ==="
+        print mouse_event.artist
         if not self.is_selected:
             return
         if mouse_event.artist not in self.endpoints:
@@ -160,10 +164,8 @@ class TrackRepresentation(QtWidgets.QWidget):
     def on_point_release(self, mouse_event):
         self.im_moving = None
         # TODO as well, fix None flags
-        self.canvas.mpl_disconnect(self.cid_point_move)
-        self.cid_point_move = None
-        self.canvas.mpl_disconnect(self.cid_point_release)
-        self.cid_point_release = None
+        self.cid_point_move = self.disconnect_mpl_event(self.cid_point_move)
+        self.cid_point_release = self.disconnect_mpl_event(self.cid_point_release)
         self.select()
         
     def update_track(self):
@@ -171,3 +173,8 @@ class TrackRepresentation(QtWidgets.QWidget):
         ys = [p.get_data()[1] for p in self.endpoints]
         self.track.set_line(xs, ys)
         
+    def disconnect_mpl_event(self, mpl_event_id):
+        """Disconnect with the flag toggling to prevent connecting many times"""
+        self.canvas.mpl_disconnect(mpl_event_id)
+        mpl_event_id = None
+        return mpl_event_id
