@@ -17,13 +17,13 @@ class QtGui(Ui_MainWindow):
         self.connect_signals_slots()
         
     def connect_signals_slots(self):
+        # matplotlib events
+        self.plotWidget.mpl_connect('pick_event', self.on_pick)
+        # Qt toolbar actions
         self.action_load_event.triggered.connect(self.load_new_event)
-        
         self.action_previous_event.triggered.connect(self.prev_event)
         self.action_next_event.triggered.connect(self.next_event)
-        
         self.action_select_new_track.triggered.connect(self.add_new_track)
-        
         self.action_add_hits_to_track.triggered.connect(self.select_hits)
     
     def add_listener(self, controller):
@@ -106,6 +106,26 @@ class QtGui(Ui_MainWindow):
             return
         self.controller.on_remove_track(0)
         
+    def on_pick(self, mouse_event):
+        if len(self.tracks) == 0:
+            return
+        if mouse_event.artist not in [t.line for t in self.tracks]:
+            # some another artist is selected, not track
+            return
+        
+        for t in self.tracks:
+            if t.line == mouse_event.artist and not t.is_selected:
+                t.select()
+            elif t.line == mouse_event.artist and t.is_selected:
+                # t was selected before and now it is picked again, do nothing with it
+                pass
+            elif t.line != mouse_event.artist and t.is_selected:
+                # t was selected before, but now some another track is picked
+                t.deselect()
+            elif t.line != mouse_event.artist and not t.is_selected:
+                # t neither was selected before nor picked now, do nothing with it
+                pass
+                    
     def select_hits(self):
         if self.current_event is None:
             return
