@@ -39,7 +39,6 @@ class LassoManager(object):
         print(self.ind)
         self.canvas.draw_idle()
         self.canvas.widgetlock.release(self.lasso)
-        self.lasso.verts = None
         del self.lasso
 #         self.lasso.active = False
         # wtf??? #
@@ -69,4 +68,6 @@ class LassoManager(object):
     def stop_selection(self):
         if self.cid:
             self.canvas.mpl_disconnect(self.cid)
+#         if self.lasso and 
+#         self.canvas.widgetlock.release(self.lasso)
         

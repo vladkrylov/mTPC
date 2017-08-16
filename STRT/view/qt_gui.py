@@ -137,12 +137,15 @@ class QtGui(Ui_MainWindow):
                 # t neither was selected before nor picked now, do nothing with it
                 pass
                     
-    def add_hits(self, checked):
-        self.select_hits(checked)
+    def add_hits(self):
+        if self.action_remove_hits.isChecked():
+            self.action_remove_hits.setChecked(False)
+        self.select_hits()
     
     def remove_hits(self):
-        if self.current_event is None:
-            return
+        if self.action_add_hits_to_track.isChecked():
+            self.action_add_hits_to_track.setChecked(False)
+        self.select_hits()
         
     def select_hits(self):
         action_checked = self.action_add_hits_to_track.isChecked()
