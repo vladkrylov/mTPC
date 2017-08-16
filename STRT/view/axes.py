@@ -89,7 +89,7 @@ class PlotCanvas(MyMplCanvas):
     
     def add_track_hits(self, x, y, color):
         self.axes.hold(True)
-        line, = self.axes.plot(x, y, color=color)
+        line, = self.axes.plot(x, y, 'o', color=color)
         line.set_visible(True)
         self.axes.hold(False)
         self.draw()
