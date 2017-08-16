@@ -120,6 +120,7 @@ class Ui_MainWindow(object):
         self.action_add_hits_to_track.setIcon(icon3)
         self.action_add_hits_to_track.setObjectName("action_add_hits_to_track")
         self.action_remove_hits = QtWidgets.QAction(MainWindow)
+        self.action_remove_hits.setCheckable(True)
         self.action_remove_hits.setEnabled(True)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("view/img/list-remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
