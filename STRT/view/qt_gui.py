@@ -48,6 +48,7 @@ class QtGui(Ui_MainWindow):
         self.handle_events_navigation(is_first, is_last)
         self.update_status_bar(event)
         self.update_track_list(event)
+        print "Canvas successfully updated"
         
     def update_track_list(self, event):
         self.clear_track_list()

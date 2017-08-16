@@ -4,6 +4,21 @@ from matplotlib.collections import RegularPolyCollection
 from matplotlib.colors import colorConverter
 from numpy import nonzero
 
+class MyLasso(Lasso):
+    def onrelease(self, event):
+        """Overwrite the default onrelease method for the case when self.line
+was deleted before onrelease called"""
+        if self.ignore(event):
+            return
+        if self.verts is not None:
+            self.verts.append((event.xdata, event.ydata))
+            if len(self.verts) > 2:
+                self.callback(self.verts)
+            if self.line in self.ax.lines:
+                self.ax.lines.remove(self.line)
+        self.verts = None
+        self.disconnect_events()
+
 class LassoManager(object):
     def __init__(self, canvas):
         self.canvas = canvas
@@ -19,16 +34,17 @@ class LassoManager(object):
         self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
 
     def callback(self, verts):
-        print("Callback called")
         p = path.Path(verts)
         self.ind = nonzero([p.contains_point(xy) for xy in self.xys])[0]
         print(self.ind)
         self.canvas.draw_idle()
         self.canvas.widgetlock.release(self.lasso)
+        self.lasso.verts = None
         del self.lasso
+#         self.lasso.active = False
         # wtf??? #
-        self.canvas.mpl_disconnect(self.cid)
-        self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
+#         self.canvas.mpl_disconnect(self.cid)
+#         self.cid = self.canvas.mpl_connect('button_press_event', self.onpress)
         # ------ #
         self.dummy_already_pressed = False
         self.listener.on_hits_selected(self.ind)
@@ -43,7 +59,7 @@ class LassoManager(object):
                 return
         if event.inaxes is None:
             return
-        self.lasso = Lasso(event.inaxes,
+        self.lasso = MyLasso(event.inaxes,
                            (event.xdata, event.ydata),
                            self.callback)
         # acquire a lock on the widget drawing
