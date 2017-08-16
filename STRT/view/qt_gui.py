@@ -29,7 +29,8 @@ class QtGui(Ui_MainWindow):
         self.action_previous_event.triggered.connect(self.prev_event)
         self.action_next_event.triggered.connect(self.next_event)
         self.action_select_new_track.triggered.connect(self.add_new_track)
-        self.action_add_hits_to_track.triggered.connect(self.select_hits)
+        self.action_add_hits_to_track.triggered.connect(self.add_hits)
+        self.action_remove_hits.triggered.connect(self.remove_hits)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -138,28 +139,36 @@ class QtGui(Ui_MainWindow):
                 pass
                     
     def add_hits(self):
-        if self.action_remove_hits.isChecked():
-            self.action_remove_hits.setChecked(False)
-        self.select_hits()
-    
-    def remove_hits(self):
         if self.action_add_hits_to_track.isChecked():
-            self.action_add_hits_to_track.setChecked(False)
-        self.select_hits()
-        
-    def select_hits(self):
-        action_checked = self.action_add_hits_to_track.isChecked()
-        if action_checked == True:
-            if self.current_event is None:
-                return
-            t = self.get_selected_track()
-            if not t:
-                return
-            self.hits_selection_is_on = True
-            points = [(h.x, h.y) for h in self.current_event.hits]
-            self.lasso.set_points(self.plotWidget.axes, points)
+            if self.action_remove_hits.isChecked():
+                self.action_remove_hits.setChecked(False)
+            self.select_hits()
         else:
             self.lasso.stop_selection()
+    
+    def remove_hits(self):
+        if self.action_remove_hits.isChecked():
+            if self.action_add_hits_to_track.isChecked():
+                self.action_add_hits_to_track.setChecked(False)
+            self.select_hits()
+        else:
+            self.lasso.stop_selection()
+        
+    def select_hits(self):
+        print 0
+        if self.current_event is None:
+            print 1
+            return
+        t = self.get_selected_track()
+        if not t:
+            print 2
+            return
+        print 3
+        self.hits_selection_is_on = True
+        print 4
+        points = [(h.x, h.y) for h in self.current_event.hits]
+        print 5
+        self.lasso.set_points(self.plotWidget.axes, points)
     
     def get_selected_track(self):
         tracks = [t for t in self.tracks if t.is_selected]

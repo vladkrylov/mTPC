@@ -90,8 +90,12 @@ class Controller():
             self.view.update_with_event(event, is_first, is_last)
     
     def on_remove_hits(self, event_id, track_id, selection_data):
-        hit_indices = self.selection2hits(selection_data)
-        return self.model.remove_hits(event_id, track_id, hit_indices)
+        hit_indices = selection_data
+        self.model.remove_hits(event_id, track_id, hit_indices)
+        if self.view:
+            event = self.model.get_event(event_id)
+            is_first, is_last = self.get_event_first_last(event)
+            self.view.update_with_event(event, is_first, is_last)
 
     def get_event_first_last(self, event):
         i = self.model.events.index(event)
