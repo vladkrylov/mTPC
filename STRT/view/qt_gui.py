@@ -31,6 +31,8 @@ class QtGui(Ui_MainWindow):
         self.action_select_new_track.triggered.connect(self.add_new_track)
         self.action_add_hits_to_track.triggered.connect(self.add_hits)
         self.action_remove_hits.triggered.connect(self.remove_hits)
+        # Qt menu actions
+        self.action_save_session.triggered.connect(self.save_session)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -189,4 +191,8 @@ class QtGui(Ui_MainWindow):
         elif self.action_remove_hits.isChecked():
             self.controller.on_remove_hits(event_id, track_id, indices)
         
+    def save_session(self):
+        test_dir_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/outdata/Run25"
+        dirname = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Open Directory", test_dir_path, QtWidgets.QFileDialog.ShowDirsOnly ) 
+        self.controller.on_save_session(dirname)
         

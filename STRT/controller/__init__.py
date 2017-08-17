@@ -103,5 +103,7 @@ class Controller():
         is_last = i == len(self.model.events) - 1
         return is_first, is_last
     
+    def on_save_session(self, save_path):
+        self.model.save_all(save_path)
     
     

@@ -1,8 +1,10 @@
 from model.global_coords.data_structures import *
+from savers import YamlSaver as Saver
 
 class Model():
     def __init__(self):
         self.events = []
+        self.saver = None
         
     def add_event(self, ev):
         if ev in self.events:
@@ -18,7 +20,8 @@ class Model():
         if not event:
             return None
         track_id = self.generate_track_id(event)
-        event.add_track(Track(track_id=track_id, 
+        event.add_track(Track(event_id=event_id,
+                              track_id=track_id, 
                               track_type="selected"))
         return True
     
@@ -74,5 +77,10 @@ class Model():
         if event:
             track = filter_by_id(event.tracks, track_id)
         return event, track
+        
+    def save_all(self, directory):
+        s = Saver(directory)
+        s.save_all(self.events)
+        
         
         
