@@ -33,6 +33,7 @@ class QtGui(Ui_MainWindow):
         self.action_remove_hits.triggered.connect(self.remove_hits)
         # Qt menu actions
         self.action_save_session.triggered.connect(self.save_session)
+        self.action_load_session.triggered.connect(self.load_session)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -196,3 +197,9 @@ class QtGui(Ui_MainWindow):
         dirname = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Open Directory", test_dir_path, QtWidgets.QFileDialog.ShowDirsOnly ) 
         self.controller.on_save_session(dirname)
         
+    def load_session(self):
+        test_dir_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/outdata/Run25"
+        dirname = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Open Directory", test_dir_path, QtWidgets.QFileDialog.ShowDirsOnly) 
+        self.controller.on_load_session(dirname)
+        
+    

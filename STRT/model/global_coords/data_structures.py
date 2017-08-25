@@ -13,7 +13,8 @@ class Event():
         return "Event %d with %d hits" % (self.id, len(self.hits))
     
     def __eq__(self, other):
-        return self.path == other.path
+        return self.id == other.id
+#         return self.path == other.path
     
     def __neq__(self, other):
         return not self.__eq__(other)

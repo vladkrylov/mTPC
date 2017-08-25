@@ -1,3 +1,5 @@
+import os
+
 from model.global_coords.data_structures import *
 from savers import YamlSaver as Saver
 
@@ -81,6 +83,11 @@ class Model():
     def save_all(self, directory):
         s = Saver(directory)
         s.save_all(self.events)
+        
+    def load_all(self, directory):
+        s = Saver(directory)
+        self.events = s.load_all()
+        return self.events[0].id
         
         
         
