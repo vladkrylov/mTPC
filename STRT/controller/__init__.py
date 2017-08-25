@@ -103,5 +103,13 @@ class Controller():
         is_last = i == len(self.model.events) - 1
         return is_first, is_last
     
+    def on_save_session(self, save_path):
+        self.model.save_all(save_path)
     
+    def on_load_session(self, load_path):
+        first_loaded_event_id = self.model.load_all(load_path)
+        event = self.model.get_event(first_loaded_event_id)
+        is_first, is_last = self.get_event_first_last(event)
+        self.view.update_with_event(event, is_first=is_first, is_last=is_last)
     
+        
