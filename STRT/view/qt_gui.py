@@ -2,9 +2,7 @@ from PyQt5 import QtCore, QtWidgets
 from mainwindow import Ui_MainWindow
 from view.qt_track_representation import TrackRepresentation
 from lasso_manager import LassoManager
-
-# this line needs to be removed immediately!
-from model import Track
+from tracks_parameters import Ui_DockWidget as analysis_form
 
 class QtGui(Ui_MainWindow):
     def __init__(self):
@@ -13,13 +11,16 @@ class QtGui(Ui_MainWindow):
         self.tracks = []
         self.hits_selection_is_on = None
         
-        
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
         self.tracksLayout = self.verticalLayout_6
         self.connect_signals_slots()
         self.lasso = LassoManager(self.plotWidget.figure.canvas)
         self.lasso.add_listener(self)
+        # analysis form
+        self.analysis_widget = QtWidgets.QDockWidget(MainWindow)
+        self.analysis_form = analysis_form()
+        self.analysis_form.setupUi(self.analysis_widget)
         
     def connect_signals_slots(self):
         # matplotlib events
@@ -34,6 +35,8 @@ class QtGui(Ui_MainWindow):
         # Qt menu actions
         self.action_save_session.triggered.connect(self.save_session)
         self.action_load_session.triggered.connect(self.load_session)
+        self.action_Hough_transform.triggered.connect(self.Hough_transform)
+        self.action_explore_parameters.triggered.connect(self.explore_parameters)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -202,4 +205,9 @@ class QtGui(Ui_MainWindow):
         dirname = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Open Directory", test_dir_path, QtWidgets.QFileDialog.ShowDirsOnly) 
         self.controller.on_load_session(dirname)
         
+    def Hough_transform(self):
+        self.analysis_widget.show()
+    
+    def explore_parameters(self):
+        self.Hough_transform()
     

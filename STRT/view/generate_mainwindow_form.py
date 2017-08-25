@@ -30,7 +30,7 @@ def add_matplotlib_widget_and_toolbar(pyform_file):
     substitute(pyform_file, "self.plotWidget = QtWidgets.QWidget(self.centralwidget)", "")
 
 
-if __name__ == "__main__":
+def generate_mainwindow():
     qtform_file = "mainwindow.ui"
     pyform_file = "mainwindow.py"
     qt2py_command = "pyuic5 -x %s -o %s" % (qtform_file, pyform_file)
@@ -40,4 +40,16 @@ if __name__ == "__main__":
     subs_icons_path(pyform_file)
     add_matplotlib_widget_and_toolbar(pyform_file)
 
+
+def generate_analysis_form():
+    qtform_file = "tracks_parameters.ui"
+    pyform_file = "tracks_parameters.py"
+    qt2py_command = "pyuic5 -x %s -o %s" % (qtform_file, pyform_file)
+    call(qt2py_command.split())
+
+
+if __name__ == "__main__":
+    generate_mainwindow()
+    generate_analysis_form()
+    
 

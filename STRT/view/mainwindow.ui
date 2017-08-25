@@ -175,8 +175,21 @@
     </property>
     <addaction name="action_load_session"/>
     <addaction name="action_save_session"/>
+    <addaction name="separator"/>
+    <addaction name="action_load_training_set"/>
+   </widget>
+   <widget class="QMenu" name="menuAnalysis">
+    <property name="title">
+     <string>Ana&amp;lysis</string>
+    </property>
+    <addaction name="action_explore_parameters"/>
+    <addaction name="action_Hough_transform"/>
+    <addaction name="separator"/>
+    <addaction name="actionFit_selected_track"/>
+    <addaction name="actionFit_all_tracks"/>
    </widget>
    <addaction name="menuSession"/>
+   <addaction name="menuAnalysis"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -320,7 +333,7 @@
   </action>
   <action name="action_load_session">
    <property name="text">
-    <string>Load</string>
+    <string>&amp;Load</string>
    </property>
    <property name="toolTip">
     <string>Load a session</string>
@@ -328,10 +341,35 @@
   </action>
   <action name="action_save_session">
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
    </property>
    <property name="toolTip">
     <string>Save current session</string>
+   </property>
+  </action>
+  <action name="action_load_training_set">
+   <property name="text">
+    <string>L&amp;oad training set</string>
+   </property>
+  </action>
+  <action name="action_Hough_transform">
+   <property name="text">
+    <string>&amp;Hough transform</string>
+   </property>
+  </action>
+  <action name="actionFit_selected_track">
+   <property name="text">
+    <string>&amp;Fit selected track</string>
+   </property>
+  </action>
+  <action name="action_explore_parameters">
+   <property name="text">
+    <string>Explore parameters</string>
+   </property>
+  </action>
+  <action name="actionFit_all_tracks">
+   <property name="text">
+    <string>Fit all tracks</string>
    </property>
   </action>
  </widget>
