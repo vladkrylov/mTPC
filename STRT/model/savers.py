@@ -56,6 +56,7 @@ class YamlSaver():
         raw_tracks = data.split("---")
         tracks = [yaml.load(t) for t in raw_tracks if t.split()]
         for t in tracks:
+            t.displayed = True
             event_id = t.event_id
             filt_events = filter(lambda ev: ev.id == event_id, events)
             if len(filt_events) > 0:
@@ -77,7 +78,7 @@ class YamlSaver():
 #         props_list.append('path: "%s"' % event.path)
         props_list.append("xhits: %s" % x)
         props_list.append("yhits: %s" % y)
-        return '\n'.join(props_list)
+        return '\n'.join(props_list) + '\n'
 
     def dump_track(self, track):
         props_list = []
