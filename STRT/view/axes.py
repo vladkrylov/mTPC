@@ -94,6 +94,30 @@ class PlotCanvas(MyMplCanvas):
         self.axes.hold(False)
         self.draw()
         return line
+
+class TrackParametersCanvas(MyMplCanvas):
+    def __init__(self, *args, **kwargs):
+        MyMplCanvas.__init__(self, *args, **kwargs)
+        # customize axes view
+#         self.figure.tight_layout()
+#         self.figure.subplots_adjust(left=0.00,
+#                                     right=1.00,
+#                                     top=1.00,
+#                                     bottom=0.00)
+        self.compute_initial_figure()
+        self.figure.canvas.draw()
+        
+    def compute_initial_figure(self):
+        t = arange(0.0, 3.0, 0.01)
+        s = sin(2*pi*t)
+        self.axes.plot(t, s)
+        
+    def test_plot(self, k):
+        t = arange(0.0, 3.0, 0.01)
+        s = sin(k*pi*t)
+        self.axes.plot(t, s)
+        self.draw()
+    
     
 class MatplotlibToolbar(NavigationToolbar):
     pass

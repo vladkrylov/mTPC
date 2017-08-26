@@ -21,6 +21,7 @@ class QtGui(Ui_MainWindow):
         self.analysis_widget = QtWidgets.QDockWidget(MainWindow)
         self.analysis_form = analysis_form()
         self.analysis_form.setupUi(self.analysis_widget)
+        MainWindow.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.analysis_widget);
         
     def connect_signals_slots(self):
         # matplotlib events

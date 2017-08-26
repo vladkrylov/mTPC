@@ -10,6 +10,12 @@
     <height>651</height>
    </rect>
   </property>
+  <property name="floating">
+   <bool>false</bool>
+  </property>
+  <property name="allowedAreas">
+   <set>Qt::AllDockWidgetAreas</set>
+  </property>
   <property name="windowTitle">
    <string>A&amp;nalysis</string>
   </property>
@@ -46,12 +52,24 @@
         <property name="movable">
          <bool>false</bool>
         </property>
-        <widget class="QWidget" name="tabWidgetPage1" native="true">
+        <widget class="QWidget" name="parametersWidgetPage">
          <attribute name="title">
           <string>Track parameters</string>
          </attribute>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QWidget" name="parametersMatplotlibToolbar" native="true"/>
+            </item>
+            <item>
+             <widget class="QWidget" name="parametersPlotWidget" native="true"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
-        <widget class="QWidget" name="tab">
+        <widget class="QWidget" name="HoughWidgetPage">
          <attribute name="title">
           <string>Hough transform</string>
          </attribute>
@@ -79,11 +97,11 @@
          </size>
         </property>
         <property name="title">
-         <string>GroupBox</string>
+         <string>Track parameters</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="paramRadioButton1">
            <property name="text">
             <string>Para&amp;meter name</string>
            </property>
@@ -93,7 +111,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="paramRadioButton2">
            <property name="text">
             <string>Another parameter</string>
            </property>
@@ -111,6 +129,13 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="computeParametersButton">
+           <property name="text">
+            <string>Recalculate</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

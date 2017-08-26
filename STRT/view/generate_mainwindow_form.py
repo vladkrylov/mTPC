@@ -40,13 +40,29 @@ def generate_mainwindow():
     subs_icons_path(pyform_file)
     add_matplotlib_widget_and_toolbar(pyform_file)
 
+# FIXME add docstrings, fix dry
+def analysis_add_matplotlib_widget_import(pyform_file):
+    str_to_find = "from PyQt5 import QtCore, QtGui, QtWidgets"
+    str_substit = "%s\nfrom axes import TrackParametersCanvas, MatplotlibToolbar" % str_to_find
+    substitute(pyform_file, str_to_find, str_substit)
+
+
+def analysis_add_matplotlib_widget_and_toolbar(pyform_file):
+    substitute(pyform_file, "self.parametersMatplotlibToolbar = QtWidgets.QWidget(self.parametersWidgetPage)",
+               """self.parametersPlotWidget = TrackParametersCanvas(self.parametersWidgetPage)
+        self.parametersMatplotlibToolbar = MatplotlibToolbar(self.parametersPlotWidget, self.parametersWidgetPage)
+        """)
+    substitute(pyform_file, "self.parametersPlotWidget = QtWidgets.QWidget(self.parametersWidgetPage)", "")
+
 
 def generate_analysis_form():
     qtform_file = "tracks_parameters.ui"
     pyform_file = "tracks_parameters.py"
     qt2py_command = "pyuic5 -x %s -o %s" % (qtform_file, pyform_file)
     call(qt2py_command.split())
-
+    
+    analysis_add_matplotlib_widget_import(pyform_file)
+    analysis_add_matplotlib_widget_and_toolbar(pyform_file)
 
 if __name__ == "__main__":
     generate_mainwindow()
