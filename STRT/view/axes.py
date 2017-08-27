@@ -99,11 +99,11 @@ class TrackParametersCanvas(MyMplCanvas):
     def __init__(self, *args, **kwargs):
         MyMplCanvas.__init__(self, *args, **kwargs)
         # customize axes view
-#         self.figure.tight_layout()
-#         self.figure.subplots_adjust(left=0.00,
-#                                     right=1.00,
-#                                     top=1.00,
-#                                     bottom=0.00)
+        self.figure.tight_layout()
+#         self.figure.subplots_adjust(left=0.05,
+#                                     right=0.95,
+#                                     top=0.98,
+#                                     bottom=0.05)
         self.compute_initial_figure()
         self.figure.canvas.draw()
         

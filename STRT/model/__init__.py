@@ -2,6 +2,7 @@ import os
 
 from model.global_coords.data_structures import *
 from savers import YamlSaver as Saver
+from track_parameters import track_params_dict
 
 class Model():
     def __init__(self):
@@ -89,5 +90,7 @@ class Model():
         self.events = s.load_all()
         return self.events[0].id
         
+    def get_track_parameters(self):
+        return track_params_dict.keys()
         
         

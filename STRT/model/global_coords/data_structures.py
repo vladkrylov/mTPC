@@ -33,7 +33,7 @@ class Event():
         if len(out_of_range) == 0:
             return True
         return False
-            
+
             
 class Hit():
     def __init__(self, x, y):
@@ -59,6 +59,12 @@ class Track():
                 self.color = get_color(self.id)
             except:
                 self.color = '#00ff00'
+        self.parameters = {}
+        self.parameters["Length"] = None
+        self.parameters["Phi"] = None
+        self.parameters["D0"] = None
+        self.parameters["Nhits"] = None
+        self.parameters["Dmin"] = None
         
     def __repr__(self):
         return "Track %d with %d hits" % (self.id, len(self.hit_indices))

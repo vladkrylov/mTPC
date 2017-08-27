@@ -41,6 +41,23 @@ class QtGui(Ui_MainWindow):
     
     def add_listener(self, controller):
         self.controller = controller
+        # track parameters list initialization
+        self.track_parameters = sorted(self.controller.get_track_parameters())
+        self.trackParamsRadioButtons = []
+        for p in self.track_parameters:
+            self.trackParamsRadioButtons.append(QtWidgets.QRadioButton(self.analysis_form.parameterNames))
+            self.trackParamsRadioButtons[-1].setObjectName("%sRadioButton" % p)
+            self.trackParamsRadioButtons[-1].setText(p)
+            self.analysis_form.verticalLayout.addWidget(self.trackParamsRadioButtons[-1])
+        self.trackParamsRadioButtons[0].setChecked(True)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.analysis_form.verticalLayout.addItem(spacerItem)
+        self.computeParametersButton = QtWidgets.QPushButton(self.analysis_form.parameterNames)
+        self.computeParametersButton.setObjectName("computeParametersButton")
+        self.computeParametersButton.setText("Recalculate")
+        self.analysis_form.verticalLayout.addWidget(self.computeParametersButton)
+        # finish track parameters list initialization
+        self.add_binning_toolbar()
     
     def load_new_event(self):
         test_file_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/indata/Run25"
@@ -210,5 +227,54 @@ class QtGui(Ui_MainWindow):
         self.analysis_widget.show()
     
     def explore_parameters(self):
-        self.Hough_transform()
+        self.analysis_widget.show()
+        par_name = self.get_chosen_track_parameter()
+        self.controller.on_track_param_update(par_name)
+        
+    def get_chosen_track_parameter(self):
+        if not self.track_parameters:
+            return None
+        n_widgets = self.analysis_form.verticalLayout.count()
+        for i in range(n_widgets):
+            w = self.analysis_form.verticalLayout.itemAt(i)
+            if w.isChecked():
+                p = w.text()
+                if p in self.track_parameters:
+                    return p
+        return None
+    
+    def add_binning_toolbar(self):
+        # 1) spacer to separate matplotlib items from custom ones
+#         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+#         self.analysis_form.parametersMatplotlibToolbar.addWidget(spacerItem)
+        # 2) label
+        self.trackParamBinningLabel = QtWidgets.QLabel(self.analysis_form.parametersMatplotlibToolbar)
+        self.label.setObjectName("trackParamBinningLabel")
+        self.trackParamBinningLabel.setText("Binning")
+        self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningLabel)
+        # 3) LineEdit
+        self.trackParamBinningLine = QtWidgets.QLineEdit(self.analysis_form.parametersMatplotlibToolbar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.trackParamBinningLine.sizePolicy().hasHeightForWidth())
+        self.trackParamBinningLine.setSizePolicy(sizePolicy)
+        self.trackParamBinningLine.setMinimumSize(QtCore.QSize(60, 0))
+        self.trackParamBinningLine.setMaximumSize(QtCore.QSize(60, 16777215))
+        self.trackParamBinningLine.setObjectName("trackParamBinningLine")
+        self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningLine)
+        # 4) slider
+        self.trackParamBinningSlider = QtWidgets.QSlider(self.analysis_form.parametersMatplotlibToolbar)
+        self.trackParamBinningSlider.setMinimumSize(QtCore.QSize(100, 0))
+        self.trackParamBinningSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.trackParamBinningSlider.setObjectName("trackParamBinningSlider")
+        self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningSlider)
+        
+    def update_track_param_plot(self, distribution):
+        self.analysis_form.parametersPlotWidget.hist(distribution, 10, histtype='step', stacked=True, fill=False)
+        
+            
+        
+    
+    
     

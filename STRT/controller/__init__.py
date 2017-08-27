@@ -112,4 +112,5 @@ class Controller():
         is_first, is_last = self.get_event_first_last(event)
         self.view.update_with_event(event, is_first=is_first, is_last=is_last)
     
-        
+    def get_track_parameters(self):
+        return self.model.get_track_parameters()
