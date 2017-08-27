@@ -57,6 +57,7 @@ class YamlSaver():
         tracks = [yaml.load(t) for t in raw_tracks if t.split()]
         for t in tracks:
             t.displayed = True
+            t.parameters = {}
             event_id = t.event_id
             filt_events = filter(lambda ev: ev.id == event_id, events)
             if len(filt_events) > 0:
