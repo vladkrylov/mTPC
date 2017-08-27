@@ -7,7 +7,7 @@ def _calc_length(track):
 def _calc_phi(track):
     x, y = track.line
     if math.fabs(x[1] - x[0]) > 1e-9:
-        return math.atan((y[1]-x[y]) / ((x[1]-x[0])))
+        return math.atan((y[1]-y[0]) / ((x[1]-x[0])))
     else:
         return None
 
@@ -15,7 +15,7 @@ def _calc_D0(track):
     return None
 
 def _calc_nhits(track):
-    return len(track.hits)
+    return len(track.hit_indices)
 
 def _calc_hits_min_dist(track):
     return None
