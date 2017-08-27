@@ -114,3 +114,15 @@ class Controller():
     
     def get_track_parameters(self):
         return self.model.get_track_parameters()
+    
+    def on_recalculate_track_parameters(self):
+        self.model.calculate_track_parameters()
+        
+    def on_track_param_plot_update(self, parameter_name):
+        param_distribution = self.model.get_param_distribution(parameter_name)
+        self.view.update_track_param_plot(param_distribution)
+        
+        
+        
+    
+    

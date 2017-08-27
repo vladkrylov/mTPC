@@ -1,17 +1,24 @@
+import math
+
 def _calc_length(track):
-    pass
+    x, y = track.line
+    return math.sqrt((x[0]-x[1])**2 + (y[0]-y[1])**2)
 
 def _calc_phi(track):
-    pass
+    x, y = track.line
+    if math.fabs(x[1] - x[0]) > 1e-9:
+        return math.atan((y[1]-x[y]) / ((x[1]-x[0])))
+    else:
+        return None
 
 def _calc_D0(track):
-    pass
+    return None
 
 def _calc_nhits(track):
-    pass
+    return len(track.hits)
 
 def _calc_hits_min_dist(track):
-    pass
+    return None
 
 def calculate_track_parameters(tracks):
     for t in tracks:

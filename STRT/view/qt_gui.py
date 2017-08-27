@@ -56,6 +56,7 @@ class QtGui(Ui_MainWindow):
         self.computeParametersButton.setObjectName("computeParametersButton")
         self.computeParametersButton.setText("Recalculate")
         self.analysis_form.verticalLayout.addWidget(self.computeParametersButton)
+        self.computeParametersButton.clicked.connect(self.recalculate_track_parameters)
         # finish track parameters list initialization
         self.add_binning_toolbar()
     
@@ -231,6 +232,11 @@ class QtGui(Ui_MainWindow):
         par_name = self.get_chosen_track_parameter()
         self.controller.on_track_param_update(par_name)
         
+    def recalculate_track_parameters(self):
+        self.controller.on_recalculate_track_parameters()
+        chosen_param_name = self.get_chosen_track_parameter()
+        self.controller.on_update_track_param_plot(chosen_param_name)
+        
     def get_chosen_track_parameter(self):
         if not self.track_parameters:
             return None
@@ -273,7 +279,7 @@ class QtGui(Ui_MainWindow):
     def update_track_param_plot(self, distribution):
         self.analysis_form.parametersPlotWidget.hist(distribution, 10, histtype='step', stacked=True, fill=False)
         
-            
+    
         
     
     

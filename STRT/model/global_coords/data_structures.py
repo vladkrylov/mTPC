@@ -60,11 +60,11 @@ class Track():
             except:
                 self.color = '#00ff00'
         self.parameters = {}
-        self.parameters["Length"] = None
-        self.parameters["Phi"] = None
-        self.parameters["D0"] = None
-        self.parameters["Nhits"] = None
-        self.parameters["Dmin"] = None
+#         self.parameters["Length"] = None
+#         self.parameters["Phi"] = None
+#         self.parameters["D0"] = None
+#         self.parameters["Nhits"] = None
+#         self.parameters["Dmin"] = None
         
     def __repr__(self):
         return "Track %d with %d hits" % (self.id, len(self.hit_indices))

@@ -62,8 +62,6 @@ class YamlSaver():
             if len(filt_events) > 0:
                 event = filt_events[0]
                 event.add_track(t)
-        
-        # assign tracks to events
         return events
 
     def dump_event(self, event):
