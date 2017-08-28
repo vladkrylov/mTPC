@@ -230,29 +230,37 @@ class QtGui(Ui_MainWindow):
     def explore_parameters(self):
         self.analysis_widget.show()
         par_name = self.get_chosen_track_parameter()
-        self.controller.on_track_param_update(par_name)
+#         self.controller.on_track_param_update(par_name)
         
     def recalculate_track_parameters(self):
         self.controller.on_recalculate_track_parameters()
         chosen_param_name = self.get_chosen_track_parameter()
-        self.controller.on_update_track_param_plot(chosen_param_name)
+        self.controller.on_track_param_plot_update(chosen_param_name)
         
     def get_chosen_track_parameter(self):
         if not self.track_parameters:
             return None
         n_widgets = self.analysis_form.verticalLayout.count()
         for i in range(n_widgets):
-            w = self.analysis_form.verticalLayout.itemAt(i)
-            if w.isChecked():
+            w = self.analysis_form.verticalLayout.itemAt(i).widget()
+            if isinstance(w, QtWidgets.QRadioButton) and w.isChecked():
                 p = w.text()
+                p = str(p.replace("&", ""))
                 if p in self.track_parameters:
                     return p
         return None
     
     def add_binning_toolbar(self):
         # 1) spacer to separate matplotlib items from custom ones
-#         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-#         self.analysis_form.parametersMatplotlibToolbar.addWidget(spacerItem)
+        self.emptyWidget = QtWidgets.QWidget(self.analysis_form.parametersMatplotlibToolbar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.emptyWidget.sizePolicy().hasHeightForWidth())
+        self.emptyWidget.setSizePolicy(sizePolicy)
+        self.emptyWidget.setMinimumSize(QtCore.QSize(10, 0))
+        self.emptyWidget.setMaximumSize(QtCore.QSize(10, 16777215))
+        self.analysis_form.parametersMatplotlibToolbar.addWidget(self.emptyWidget)
         # 2) label
         self.trackParamBinningLabel = QtWidgets.QLabel(self.analysis_form.parametersMatplotlibToolbar)
         self.label.setObjectName("trackParamBinningLabel")
@@ -277,8 +285,11 @@ class QtGui(Ui_MainWindow):
         self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningSlider)
         
     def update_track_param_plot(self, distribution):
-        self.analysis_form.parametersPlotWidget.hist(distribution, 10, histtype='step', stacked=True, fill=False)
-        
+        axes = self.analysis_form.parametersPlotWidget.axes
+        counts, bins, _ = axes.hist(distribution, 10, linewidth=2, histtype='step', stacked=True, fill=False)
+        axes.set_ylim([min(counts)-0.1, max(counts)+0.1])
+#         print "n, bins = ", n, bins
+        self.analysis_form.parametersPlotWidget.draw()
     
         
     
