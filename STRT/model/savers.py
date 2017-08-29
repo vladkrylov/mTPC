@@ -2,6 +2,7 @@ import yaml
 import os
 
 from model import Event, Track, Hit
+from model.color_set import get_color
 from numpy.distutils.fcompiler import none
 
 class Saver():
@@ -58,6 +59,8 @@ class YamlSaver():
         for t in tracks:
             t.displayed = True
             t.parameters = {}
+            if not hasattr(t, "color"):
+                t.color = get_color(t.id)
             event_id = t.event_id
             filt_events = filter(lambda ev: ev.id == event_id, events)
             if len(filt_events) > 0:

@@ -72,6 +72,8 @@ class PlotCanvas(MyMplCanvas):
         self.draw()
         
     def plot(self, x, y, *args):
+        if len(x) == 0 or len(x) != len(y):
+            return
         self.axes.plot(x, y, 'k.')
         # adjust the ranges
         self.axes.set_xlim([min(x), max(x)])

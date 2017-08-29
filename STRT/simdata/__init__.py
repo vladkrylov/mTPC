@@ -55,5 +55,5 @@ class HeedTrackGenerator(TrackGenerator):
         
 if __name__ == "__main__":
     g = HeedTrackGenerator()
-    g.generate_events(2, 1.7)
+    g.generate_events(20, 1.7)
     

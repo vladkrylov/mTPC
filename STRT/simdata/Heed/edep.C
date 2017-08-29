@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <utility>
 
 #include <TCanvas.h>
 #include <TROOT.h>
@@ -29,7 +31,9 @@ int ParseArguments(int argc, char * argv[],
 				   int& nEvents,
 				   double& meanNTracksPerEvent);
 int Diffuse(double& x0, double& y0, double sigma, double initDirection);
-int WriteEventYAML(std::ofstream& outfile, int eventId, const std::vector<double>& xhits, const std::vector<double>& yhits);
+int WriteEventYAML(std::ofstream& outfile, int eventId, const std::vector<double>& xEventHits, const std::vector<double>& yEventHits);
+int WriteTrackYAML(std::ofstream& outfile, int trackId, int eventId, double xline[2], double yline[2], const std::vector<int>& hitIndices);
+bool HitsSortFunction(std::pair<double, double> h1, std::pair<double, double> h2) { return (h1.first < h2.first); }
 
 int main(int argc, char * argv[])
 {
@@ -43,9 +47,15 @@ int main(int argc, char * argv[])
 	return 0;
 
   // output data structures
-  std::vector<double> xhits;
-  std::vector<double> yhits;
+  std::vector<double> xEventHits;
+  std::vector<double> yEventHits;
+  std::vector<double> xTrackHits;
+  std::vector<double> yTrackHits;
+  std::vector<int> hit_indices;
+  double xline[2], yline[2];
+  ofstream tracksYAML;
   ofstream eventsYAML;
+  tracksYAML.open("tracks.yaml");
   eventsYAML.open("events.yaml");
 
   TApplication app("app", &argc, argv);
@@ -96,6 +106,8 @@ int main(int argc, char * argv[])
     if (i == 1) track->DisableDebugging();
     if (i % 1000 == 0) std::cout << i << "/" << nEvents << "\n";
 
+    xEventHits.clear();
+    yEventHits.clear();
     int nTracks = r.Poisson(meanNTracksPerEvent);
 
     for (int j = 0; j < nTracks; j++) {
@@ -108,6 +120,8 @@ int main(int argc, char * argv[])
 	  double dy0 = TMath::Sin(phi);
 	  double dz0 = 0.;
 	  track->NewTrack(x0, y0, z0, t0, dx0, dy0, dz0);
+	  xTrackHits.clear();
+	  yTrackHits.clear();
 
 	  // Cluster coordinates
 	  double xc = 0., yc = 0., zc = 0., tc = 0.;
@@ -125,13 +139,38 @@ int main(int argc, char * argv[])
 	  while (track->GetCluster(xc, yc, zc, tc, nc, ec, extra)) {
 	    esum += ec;
 	    nsum += nc;
-	    xhits.push_back(xc);
-	    yhits.push_back(yc);
+	    xTrackHits.push_back(xc);
+	    yTrackHits.push_back(yc);
 	  }
+	  // sorting
+	  std::vector< std::pair<double, double> > hits;
+	  for(int ih=0; ih<xTrackHits.size(); ih++) {
+		  hits.push_back(std::pair<double, double>(xTrackHits.at(ih), yTrackHits.at(ih)));
+	  }
+	  std::sort (hits.begin(), hits.end(), HitsSortFunction);
+	  for(int ih=0; ih<xTrackHits.size(); ih++) {
+		  xTrackHits[ih] = hits[ih].first;
+		  yTrackHits[ih] = hits[ih].second;
+	  }
+
+	  // Fill track info
+	  hit_indices.clear();
+	  int startInd = xEventHits.size();
+	  xEventHits.insert(xEventHits.end(), xTrackHits.begin(), xTrackHits.end());
+	  yEventHits.insert(yEventHits.end(), yTrackHits.begin(), yTrackHits.end());
+	  for(int ih=startInd; ih<xEventHits.size(); ih++) {
+		  hit_indices.push_back(ih);
+	  }
+	  xline[0] = xEventHits[hit_indices.at(0)];
+	  xline[1] = xEventHits[hit_indices.at(hit_indices.size()-1)];
+	  yline[0] = yEventHits[hit_indices.at(0)];
+	  yline[1] = yEventHits[hit_indices.at(hit_indices.size()-1)];
+	  WriteTrackYAML(tracksYAML, j, i, xline, yline, hit_indices);
+
 	  hElectrons->Fill(nsum);
 	  hEdep->Fill(esum * 1.e-3);
     }
-    WriteEventYAML(eventsYAML, i, xhits, yhits);
+    WriteEventYAML(eventsYAML, i, xEventHits, yEventHits);
   }
 
   eventsYAML.close();
@@ -175,29 +214,51 @@ int Diffuse(double& x0, double& y0, double sigma, double initDirection)
 	return 0;
 }
 
-int WriteEventYAML(std::ofstream& outfile, int eventId, const std::vector<double>& xhits, const std::vector<double>& yhits)
+int WriteEventYAML(std::ofstream& outfile, int eventId, const std::vector<double>& xEventHits, const std::vector<double>& yEventHits)
 {
 	outfile << "# New Event" << std::endl;
 	outfile << "id: " << eventId << std::endl;
-	if (xhits.size() == 0) {
+	if (xEventHits.size() == 0) {
 		outfile << "xhits: []" << std::endl;
 	} else {
-		outfile << "xhits: [" << xhits[0];
-		for(size_t i=1; i<xhits.size(); i++) {
-			outfile << ", " << xhits[i];
+		outfile << "xhits: [" << xEventHits[0];
+		for(size_t i=1; i<xEventHits.size(); i++) {
+			outfile << ", " << xEventHits[i];
 		}
 		outfile << "]"  << std::endl;
 	}
 
 
-	if (yhits.size() == 0) {
+	if (yEventHits.size() == 0) {
 		outfile << "yhits: []" << std::endl;
 	} else {
-		outfile << "yhits: [" << yhits[0];
-		for(size_t i=1; i<yhits.size(); i++) {
-			outfile << ", " << yhits[i];
+		outfile << "yhits: [" << yEventHits[0];
+		for(size_t i=1; i<yEventHits.size(); i++) {
+			outfile << ", " << yEventHits[i];
 		}
 		outfile << "]"  << std::endl;
+	}
+	return 0;
+}
+
+int WriteTrackYAML(std::ofstream& outfile, int trackId, int eventId, double xline[2], double yline[2], const std::vector<int>& hitIndices)
+{
+	outfile << "!!python/object:model.global_coords.data_structures.Track" << std::endl;
+	outfile << "id: " << trackId << std::endl;
+	outfile << "event_id: " << eventId << std::endl;
+	if (hitIndices.size() == 0) {
+		outfile << "hit_indices: []" << std::endl;
+	} else {
+		outfile << "hit_indices: [" << hitIndices[0];
+		for(size_t i=1; i<hitIndices.size(); i++) {
+			outfile << ", " << hitIndices[i];
+		}
+		outfile << "]"  << std::endl;
+
+		outfile << "line: !!python/tuple" << std::endl;
+		outfile << "- [" << xline[0] << ", " << xline[1] << "]" << std::endl;
+		outfile << "- [" << yline[0] << ", " << yline[1] << "]" << std::endl;
+		outfile << "---" << std::endl;
 	}
 
 	return 0;
