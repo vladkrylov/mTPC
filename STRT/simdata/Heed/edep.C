@@ -30,7 +30,7 @@ int ParseArguments(int argc, char * argv[],
 				   double& phiSigma,
 				   int& nEvents,
 				   double& meanNTracksPerEvent);
-int Diffuse(double& x0, double& y0, double sigma, double initDirection);
+int Diffuse(std::vector<double>& x0, std::vector<double>& y0, double sigma, double initDirection);
 int WriteEventYAML(std::ofstream& outfile, int eventId, const std::vector<double>& xEventHits, const std::vector<double>& yEventHits);
 int WriteTrackYAML(std::ofstream& outfile, int trackId, int eventId, double xline[2], double yline[2], const std::vector<int>& hitIndices);
 bool HitsSortFunction(std::pair<double, double> h1, std::pair<double, double> h2) { return (h1.first < h2.first); }
@@ -152,7 +152,8 @@ int main(int argc, char * argv[])
 		  xTrackHits[ih] = hits[ih].first;
 		  yTrackHits[ih] = hits[ih].second;
 	  }
-
+	  // Diffusion
+	  Diffuse(xTrackHits, yTrackHits, 0.09, phi);
 	  // Fill track info
 	  hit_indices.clear();
 	  int startInd = xEventHits.size();
@@ -209,8 +210,14 @@ T StringToNumber ( const std::string &Text )//Text not by const reference so tha
 	return ss >> result ? result : 0;
 }
 
-int Diffuse(double& x0, double& y0, double sigma, double initDirection)
+int Diffuse(std::vector<double>& x0, std::vector<double>& y0, double sigma, double initDirection)
 {
+	TRandom3 r;
+	for(size_t i=0; i<x0.size(); i++) {
+		double d = r.Gaus(0., sigma);
+		x0[i] -= d*TMath::Sin(initDirection);
+		y0[i] += d*TMath::Cos(initDirection);
+	}
 	return 0;
 }
 
@@ -260,7 +267,6 @@ int WriteTrackYAML(std::ofstream& outfile, int trackId, int eventId, double xlin
 		outfile << "- [" << yline[0] << ", " << yline[1] << "]" << std::endl;
 		outfile << "---" << std::endl;
 	}
-
 	return 0;
 }
 

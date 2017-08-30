@@ -123,6 +123,5 @@ class Controller():
         self.view.update_track_param_plot(param_distribution)
         
         
-        
     
     

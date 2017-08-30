@@ -50,6 +50,8 @@ class QtGui(Ui_MainWindow):
             self.trackParamsRadioButtons[-1].setText(p)
             self.analysis_form.verticalLayout.addWidget(self.trackParamsRadioButtons[-1])
         self.trackParamsRadioButtons[0].setChecked(True)
+        for rb in self.trackParamsRadioButtons:
+            rb.toggled.connect(self.track_param_changed)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.analysis_form.verticalLayout.addItem(spacerItem)
         self.computeParametersButton = QtWidgets.QPushButton(self.analysis_form.parameterNames)
@@ -234,8 +236,7 @@ class QtGui(Ui_MainWindow):
         
     def recalculate_track_parameters(self):
         self.controller.on_recalculate_track_parameters()
-        chosen_param_name = self.get_chosen_track_parameter()
-        self.controller.on_track_param_plot_update(chosen_param_name)
+        self.track_param_changed()
         
     def get_chosen_track_parameter(self):
         if not self.track_parameters:
@@ -285,13 +286,22 @@ class QtGui(Ui_MainWindow):
         self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningSlider)
         
     def update_track_param_plot(self, distribution):
+        # filter None values
+        distribution = filter(lambda x: x is not None, distribution)
         axes = self.analysis_form.parametersPlotWidget.axes
+        if len(distribution) == 0:
+            axes.clear()
+            self.analysis_form.parametersPlotWidget.draw()
+            return
         counts, bins, _ = axes.hist(distribution, 10, linewidth=2, histtype='step', stacked=True, fill=False)
-        axes.set_ylim([min(counts)-0.1, max(counts)+0.1])
+        dy = max(counts)*0.05
+        axes.set_ylim([-dy, max(counts)+dy])
 #         print "n, bins = ", n, bins
         self.analysis_form.parametersPlotWidget.draw()
     
-        
+    def track_param_changed(self):
+        chosen_param_name = self.get_chosen_track_parameter()
+        self.controller.on_track_param_plot_update(chosen_param_name)
     
     
     
