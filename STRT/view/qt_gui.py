@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtGui import QIntValidator
 from mainwindow import Ui_MainWindow
 from view.qt_track_representation import TrackRepresentation
 from lasso_manager import LassoManager
@@ -284,16 +285,60 @@ class QtGui(Ui_MainWindow):
         self.trackParamBinningSlider.setOrientation(QtCore.Qt.Horizontal)
         self.trackParamBinningSlider.setObjectName("trackParamBinningSlider")
         self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningSlider)
+        # 5) synchronize lineedit and slider
+        self.sync_nbins_lineedit_slider()
+        self.add_tooltip_to_track_param_slider()
         
-    def update_track_param_plot(self, distribution):
+    def add_tooltip_to_track_param_slider(self):
+        self.trackParamBinningSlider.valueChanged.connect(self.track_param_slider_val_changed)
+    
+    def track_param_slider_val_changed(self, value):
+        # taken from here https://stackoverflow.com/questions/31653647/how-to-make-a-tip-to-follow-the-handler-of-slider-with-pyqt
+        slider = self.trackParamBinningSlider
+        style = slider.style()
+        opt = QtWidgets.QStyleOptionSlider()
+        slider.initStyleOption(opt)
+        rect_handle = style.subControlRect(QtWidgets.QStyle.CC_Slider, opt, QtWidgets.QStyle.SC_SliderHandle, self.analysis_form.parametersMatplotlibToolbar)
+        tip_offset = QtCore.QPoint(0, -45)
+        pos_local = rect_handle.topLeft() + tip_offset
+        pos_global = slider.mapToGlobal(pos_local)
+        QtWidgets.QToolTip.showText(pos_global, str(value), slider)
+        
+    def sync_nbins_lineedit_slider(self):
+        self.trackParamBinningLine.returnPressed.connect(self.track_param_lineedit2slider)
+        self.trackParamBinningSlider.sliderReleased.connect(self.track_param_slider2lineedit)
+        
+    def track_param_lineedit2slider(self):
+        val = int(self.trackParamBinningLine.text())
+        self.trackParamBinningSlider.setValue(val)
+        
+    def track_param_slider2lineedit(self):
+        val = self.trackParamBinningSlider.value()
+        self.trackParamBinningLine.setText(str(val))
+        
+    def update_nbins_slider_lineedit_range(self, minval, maxval):
+        self.trackParamBinningLine.setValidator(QIntValidator(minval, maxval))
+        self.trackParamBinningSlider.setRange(minval, maxval)
+        
+    def set_nbins_track_param(self, n_bins):
+        self.n_bins_track_param = n_bins
+        self.trackParamBinningLine.setText(str(self.n_bins_track_param))
+        self.track_param_lineedit2slider()
+    
+    def update_track_param_plot(self, distribution, n_bins=10):
         # filter None values
-        distribution = filter(lambda x: x is not None, distribution)
+        self.track_param_dist = filter(lambda x: x is not None, distribution)
+        n_entries = len(self.track_param_dist)
+        self.update_nbins_slider_lineedit_range(1, 2*n_entries)
+        if not hasattr(self, "n_bins_track_param") or self.n_bins_track_param > n_entries:
+            self.set_nbins_track_param(n_bins)
+        # plot 
         axes = self.analysis_form.parametersPlotWidget.axes
-        if len(distribution) == 0:
+        if n_entries == 0:
             axes.clear()
             self.analysis_form.parametersPlotWidget.draw()
             return
-        counts, bins, _ = axes.hist(distribution, 10, linewidth=2, histtype='step', stacked=True, fill=False)
+        counts, bins, _ = axes.hist(self.track_param_dist, self.n_bins_track_param, linewidth=2, histtype='step', stacked=True, fill=False)
         dy = max(counts)*0.05
         axes.set_ylim([-dy, max(counts)+dy])
 #         print "n, bins = ", n, bins
@@ -303,5 +348,5 @@ class QtGui(Ui_MainWindow):
         chosen_param_name = self.get_chosen_track_parameter()
         self.controller.on_track_param_plot_update(chosen_param_name)
     
-    
+
     
