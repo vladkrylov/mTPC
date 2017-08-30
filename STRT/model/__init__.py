@@ -97,7 +97,7 @@ class Model():
         for ev in self.events:
             for tr in ev.tracks:
                 for par_name, calc_function in track_params_dict.iteritems():
-                    tr.parameters[par_name] = calc_function(tr)
+                    tr.parameters[par_name] = calc_function(tr, ev)
     
     def get_param_distribution(self, parameter_name):
         return [tr.parameters.get(parameter_name) for ev in self.events 
