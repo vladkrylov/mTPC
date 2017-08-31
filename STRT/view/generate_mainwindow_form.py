@@ -43,7 +43,7 @@ def generate_mainwindow():
 # FIXME add docstrings, fix dry
 def analysis_add_matplotlib_widget_import(pyform_file):
     str_to_find = "from PyQt5 import QtCore, QtGui, QtWidgets"
-    str_substit = "%s\nfrom axes import TrackParametersCanvas, MatplotlibToolbar" % str_to_find
+    str_substit = "%s\nfrom axes import TrackParametersCanvas, HoughTransformCanvas, MatplotlibToolbar" % str_to_find
     substitute(pyform_file, str_to_find, str_substit)
 
 
@@ -55,6 +55,14 @@ def analysis_add_matplotlib_widget_and_toolbar(pyform_file):
     substitute(pyform_file, "self.parametersPlotWidget = QtWidgets.QWidget(self.parametersWidgetPage)", "")
 
 
+def Hough_add_matplotlib_widget_and_toolbar(pyform_file):
+    substitute(pyform_file, "self.HTMatplotlibToolbar = QtWidgets.QWidget(self.HoughWidgetPage)",
+               """self.HTCanvas = HoughTransformCanvas(self.HoughWidgetPage)
+        self.HTMatplotlibToolbar = MatplotlibToolbar(self.HTCanvas, self.HoughWidgetPage)
+        """)
+    substitute(pyform_file, "self.HTCanvas = QtWidgets.QWidget(self.HoughWidgetPage)", "")
+    
+
 def generate_analysis_form():
     qtform_file = "tracks_parameters.ui"
     pyform_file = "tracks_parameters.py"
@@ -63,6 +71,7 @@ def generate_analysis_form():
     
     analysis_add_matplotlib_widget_import(pyform_file)
     analysis_add_matplotlib_widget_and_toolbar(pyform_file)
+    Hough_add_matplotlib_widget_and_toolbar(pyform_file)
 
 if __name__ == "__main__":
     generate_mainwindow()

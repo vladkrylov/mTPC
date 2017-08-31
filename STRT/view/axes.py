@@ -119,7 +119,19 @@ class TrackParametersCanvas(MyMplCanvas):
         s = sin(k*pi*t)
         self.axes.plot(t, s)
         self.draw()
-    
+        
+
+class HoughTransformCanvas(MyMplCanvas):
+    def __init__(self, *args, **kwargs):
+        MyMplCanvas.__init__(self, *args, **kwargs)
+        # customize axes view
+        self.figure.tight_layout()
+        self.figure.canvas.draw()
+        
+    def compute_initial_figure(self):
+        t = arange(0.0, 3.0, 0.01)
+        s = sin(2*pi*t)
+        self.axes.plot(t, s)
     
 class MatplotlibToolbar(NavigationToolbar):
     pass

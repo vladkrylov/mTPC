@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from axes import TrackParametersCanvas, MatplotlibToolbar
+from axes import TrackParametersCanvas, HoughTransformCanvas, MatplotlibToolbar
 
 class Ui_DockWidget(object):
     def setupUi(self, DockWidget):
@@ -64,13 +64,48 @@ class Ui_DockWidget(object):
         self.tabWidget.addTab(self.parametersWidgetPage, "")
         self.HoughWidgetPage = QtWidgets.QWidget()
         self.HoughWidgetPage.setObjectName("HoughWidgetPage")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.HoughWidgetPage)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.HTCanvas = HoughTransformCanvas(self.HoughWidgetPage)
+        self.HTMatplotlibToolbar = MatplotlibToolbar(self.HTCanvas, self.HoughWidgetPage)
+        
+        self.HTMatplotlibToolbar.setObjectName("HTMatplotlibToolbar")
+        self.verticalLayout_4.addWidget(self.HTMatplotlibToolbar)
+        
+        self.HTCanvas.setObjectName("HTCanvas")
+        self.verticalLayout_4.addWidget(self.HTCanvas)
+        self.gridLayout_3.addLayout(self.verticalLayout_4, 0, 0, 1, 1)
+        self.HTActionsGroup = QtWidgets.QGroupBox(self.HoughWidgetPage)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.HTActionsGroup.sizePolicy().hasHeightForWidth())
+        self.HTActionsGroup.setSizePolicy(sizePolicy)
+        self.HTActionsGroup.setMinimumSize(QtCore.QSize(100, 0))
+        self.HTActionsGroup.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.HTActionsGroup.setObjectName("HTActionsGroup")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.HTActionsGroup)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.transfomEventButton = QtWidgets.QPushButton(self.HTActionsGroup)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.transfomEventButton.sizePolicy().hasHeightForWidth())
+        self.transfomEventButton.setSizePolicy(sizePolicy)
+        self.transfomEventButton.setObjectName("transfomEventButton")
+        self.verticalLayout_3.addWidget(self.transfomEventButton)
+        spacerItem = QtWidgets.QSpacerItem(20, 473, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem)
+        self.gridLayout_3.addWidget(self.HTActionsGroup, 0, 1, 1, 1)
         self.tabWidget.addTab(self.HoughWidgetPage, "")
         self.horizontalLayout.addWidget(self.tabWidget)
         self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
         DockWidget.setWidget(self.dockWidgetContents)
 
         self.retranslateUi(DockWidget)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(DockWidget)
 
     def retranslateUi(self, DockWidget):
@@ -78,6 +113,8 @@ class Ui_DockWidget(object):
         DockWidget.setWindowTitle(_translate("DockWidget", "A&nalysis"))
         self.parameterNames.setTitle(_translate("DockWidget", "Track parameters"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.parametersWidgetPage), _translate("DockWidget", "Track parameters"))
+        self.HTActionsGroup.setTitle(_translate("DockWidget", "Actions"))
+        self.transfomEventButton.setText(_translate("DockWidget", "Transform Event"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.HoughWidgetPage), _translate("DockWidget", "Hough transform"))
 
 
