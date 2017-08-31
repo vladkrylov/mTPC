@@ -106,7 +106,7 @@ class TrackParametersCanvas(MyMplCanvas):
 #                                     right=0.95,
 #                                     top=0.98,
 #                                     bottom=0.05)
-        self.compute_initial_figure()
+#         self.compute_initial_figure()
         self.figure.canvas.draw()
         
     def compute_initial_figure(self):

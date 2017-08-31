@@ -22,7 +22,8 @@ class QtGui(Ui_MainWindow):
         self.analysis_widget = QtWidgets.QDockWidget(MainWindow)
         self.analysis_form = analysis_form()
         self.analysis_form.setupUi(self.analysis_widget)
-        MainWindow.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.analysis_widget);
+        MainWindow.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.analysis_widget)
+        self.analysis_widget.hide()
         
     def connect_signals_slots(self):
         # matplotlib events
@@ -223,7 +224,8 @@ class QtGui(Ui_MainWindow):
         self.controller.on_save_session(dirname)
         
     def load_session(self):
-        test_dir_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/outdata/Run25"
+#         test_dir_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/STRT/outdata/Run25"
+        test_dir_path = "/home/vlad/Program_Files/ilcsoft/marlintpc/workspace/Run25/raw/session"
         dirname = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Open Directory", test_dir_path, QtWidgets.QFileDialog.ShowDirsOnly) 
         self.controller.on_load_session(dirname)
         
@@ -232,7 +234,7 @@ class QtGui(Ui_MainWindow):
     
     def explore_parameters(self):
         self.analysis_widget.show()
-        par_name = self.get_chosen_track_parameter()
+#         par_name = self.get_chosen_track_parameter()
 #         self.controller.on_track_param_update(par_name)
         
     def recalculate_track_parameters(self):
@@ -311,10 +313,12 @@ class QtGui(Ui_MainWindow):
     def track_param_lineedit2slider(self):
         val = int(self.trackParamBinningLine.text())
         self.trackParamBinningSlider.setValue(val)
+        self.set_nbins_in_hist_track_param(val)
         
     def track_param_slider2lineedit(self):
         val = self.trackParamBinningSlider.value()
         self.trackParamBinningLine.setText(str(val))
+        self.set_nbins_in_hist_track_param(val)
         
     def update_nbins_slider_lineedit_range(self, minval, maxval):
         self.trackParamBinningLine.setValidator(QIntValidator(minval, maxval))
@@ -323,15 +327,18 @@ class QtGui(Ui_MainWindow):
     def set_nbins_track_param(self, n_bins):
         self.n_bins_track_param = n_bins
         self.trackParamBinningLine.setText(str(self.n_bins_track_param))
-        self.track_param_lineedit2slider()
+        self.trackParamBinningSlider.setValue(self.n_bins_track_param)
+        
+    def set_nbins_in_hist_track_param(self, n_bins):
+        self.update_track_param_plot(self.track_param_dist, n_bins)
     
     def update_track_param_plot(self, distribution, n_bins=10):
         # filter None values
         self.track_param_dist = filter(lambda x: x is not None, distribution)
         n_entries = len(self.track_param_dist)
         self.update_nbins_slider_lineedit_range(1, 2*n_entries)
-        if not hasattr(self, "n_bins_track_param") or self.n_bins_track_param > n_entries:
-            self.set_nbins_track_param(n_bins)
+#         if not hasattr(self, "n_bins_track_param") or self.n_bins_track_param > n_entries:
+        self.set_nbins_track_param(n_bins)
         # plot 
         axes = self.analysis_form.parametersPlotWidget.axes
         if n_entries == 0:
@@ -343,7 +350,7 @@ class QtGui(Ui_MainWindow):
         axes.set_ylim([-dy, max(counts)+dy])
 #         print "n, bins = ", n, bins
         self.analysis_form.parametersPlotWidget.draw()
-    
+        
     def track_param_changed(self):
         chosen_param_name = self.get_chosen_track_parameter()
         self.controller.on_track_param_plot_update(chosen_param_name)
