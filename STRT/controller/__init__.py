@@ -122,6 +122,8 @@ class Controller():
         param_distribution = self.model.get_param_distribution(parameter_name)
         self.view.update_track_param_plot(param_distribution)
         
-        
+    def on_Hough_transform(self, event_id):
+        HT = self.model.Hough_transform(event_id)
+        self.view.update_Hough_transform_canvas(HT)
     
     

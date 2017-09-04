@@ -132,6 +132,16 @@ class HoughTransformCanvas(MyMplCanvas):
         t = arange(0.0, 3.0, 0.01)
         s = sin(2*pi*t)
         self.axes.plot(t, s)
+        
+    def display_Hough_transform(self, HT):
+        img = self.axes.imshow(HT, interpolation='nearest', aspect='auto')
+        self.figure.subplots_adjust(left=0.01,
+                                    right=0.99,
+                                    top=0.99,
+                                    bottom=0.01)
+        img.set_cmap('hot')
+        self.axes.axis('off')
+        self.figure.canvas.draw()
     
 class MatplotlibToolbar(NavigationToolbar):
     pass

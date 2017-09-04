@@ -15,7 +15,6 @@ class QtGui(Ui_MainWindow):
     def setupUi(self, MainWindow):
         Ui_MainWindow.setupUi(self, MainWindow)
         self.tracksLayout = self.verticalLayout_6
-        self.connect_signals_slots()
         self.lasso = LassoManager(self.plotWidget.figure.canvas)
         self.lasso.add_listener(self)
         # analysis form
@@ -24,6 +23,8 @@ class QtGui(Ui_MainWindow):
         self.analysis_form.setupUi(self.analysis_widget)
         MainWindow.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.analysis_widget)
         self.analysis_widget.hide()
+        # css
+        self.connect_signals_slots()
         
     def connect_signals_slots(self):
         # matplotlib events
@@ -38,8 +39,10 @@ class QtGui(Ui_MainWindow):
         # Qt menu actions
         self.action_save_session.triggered.connect(self.save_session)
         self.action_load_session.triggered.connect(self.load_session)
-        self.action_Hough_transform.triggered.connect(self.Hough_transform)
+        self.action_Hough_transform.triggered.connect(self.show_Hough_transform_canvas)
         self.action_explore_parameters.triggered.connect(self.explore_parameters)
+        # 
+        self.analysis_form.transfomEventButton.clicked.connect(self.Hough_transform_requested)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -229,7 +232,7 @@ class QtGui(Ui_MainWindow):
         dirname = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Open Directory", test_dir_path, QtWidgets.QFileDialog.ShowDirsOnly) 
         self.controller.on_load_session(dirname)
         
-    def Hough_transform(self):
+    def show_Hough_transform_canvas(self):
         self.analysis_widget.show()
     
     def explore_parameters(self):
@@ -355,5 +358,10 @@ class QtGui(Ui_MainWindow):
         chosen_param_name = self.get_chosen_track_parameter()
         self.controller.on_track_param_plot_update(chosen_param_name)
     
-
-    
+    def Hough_transform_requested(self):
+        self.controller.on_Hough_transform(self.current_event.id)
+        
+    def update_Hough_transform_canvas(self, HT):
+        self.analysis_form.HTCanvas.display_Hough_transform(HT)
+        
+        
