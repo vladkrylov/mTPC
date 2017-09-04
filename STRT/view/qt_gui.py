@@ -42,7 +42,8 @@ class QtGui(Ui_MainWindow):
         self.action_Hough_transform.triggered.connect(self.show_Hough_transform_canvas)
         self.action_explore_parameters.triggered.connect(self.explore_parameters)
         # 
-        self.analysis_form.transfomEventButton.clicked.connect(self.Hough_transform_requested)
+        self.analysis_form.transfomEventButton.clicked.connect(self.event_Hough_transform_requested)
+        self.analysis_form.transformTrackButton.clicked.connect(self.track_Hough_transform_requested)
     
     def add_listener(self, controller):
         self.controller = controller
@@ -237,8 +238,6 @@ class QtGui(Ui_MainWindow):
     
     def explore_parameters(self):
         self.analysis_widget.show()
-#         par_name = self.get_chosen_track_parameter()
-#         self.controller.on_track_param_update(par_name)
         
     def recalculate_track_parameters(self):
         self.controller.on_recalculate_track_parameters()
@@ -292,10 +291,10 @@ class QtGui(Ui_MainWindow):
         self.analysis_form.parametersMatplotlibToolbar.addWidget(self.trackParamBinningSlider)
         # 5) synchronize lineedit and slider
         self.sync_nbins_lineedit_slider()
-        self.add_tooltip_to_track_param_slider()
+        self.add_tooltip_to_slider(self.trackParamBinningSlider)
         
-    def add_tooltip_to_track_param_slider(self):
-        self.trackParamBinningSlider.valueChanged.connect(self.track_param_slider_val_changed)
+    def add_tooltip_to_slider(self, sliderWidget):
+        sliderWidget.valueChanged.connect(self.track_param_slider_val_changed)
     
     def track_param_slider_val_changed(self, value):
         # taken from here https://stackoverflow.com/questions/31653647/how-to-make-a-tip-to-follow-the-handler-of-slider-with-pyqt
@@ -358,10 +357,14 @@ class QtGui(Ui_MainWindow):
         chosen_param_name = self.get_chosen_track_parameter()
         self.controller.on_track_param_plot_update(chosen_param_name)
     
-    def Hough_transform_requested(self):
-        self.controller.on_Hough_transform(self.current_event.id)
+    def event_Hough_transform_requested(self):
+        self.controller.on_event_Hough_transform(self.current_event.id)
+        
+    def track_Hough_transform_requested(self):
+        self.controller.on_track_Hough_transform(self.current_event.id, self.get_selected_track().track.id)
         
     def update_Hough_transform_canvas(self, HT):
         self.analysis_form.HTCanvas.display_Hough_transform(HT)
         
-        
+    
+    

@@ -44,7 +44,7 @@ def hough_line_img(img, angle_step=1):
     return accumulator, thetas, rhos
 
 
-def hough_line_event(event, angle_step=1):
+def hough_line_event(event, track_id=None, angle_step=1):
     """
     Hough transform for lines
     Input:
@@ -60,8 +60,14 @@ def hough_line_event(event, angle_step=1):
     pixelize_step = 0.055
     rho_scale = 20
     
-    xs = [int(h.x/pixelize_step / rho_scale) for h in event.hits]
-    ys = [int(h.y/pixelize_step / rho_scale) for h in event.hits]
+    track = event.get_track(track_id)
+    if track is not None:
+        hits = [event.hits[i] for i in track.hit_indices]
+    else:
+        hits = event.hits
+    xs = [int(h.x/pixelize_step / rho_scale) for h in hits]
+    ys = [int(h.y/pixelize_step / rho_scale) for h in hits]
+    
     xmin = min(xs)
     xmax = max(xs)
     ymin = min(ys)

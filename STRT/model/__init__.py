@@ -106,28 +106,9 @@ class Model():
         return [tr.parameters.get(parameter_name) for ev in self.events 
                                                   for tr in ev.tracks]
         
-    def Hough_transform(self, event_id):
+    def Hough_transform(self, event_id, track_id=None):
         event = self.get_event(event_id)
-        HT, _, _ = hough_line_event(event)
-#         img = cv2.imread('HTtest.jpg')
-#         print img
-#         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#         edges = cv2.Canny(gray, 50, 150, apertureSize = 3)
-#          
-#         lines = cv2.HoughLines(edges, 1, np.pi/180, 200)
-#         for rho,theta in lines[0]:
-#             a = np.cos(theta)
-#             b = np.sin(theta)
-#             x0 = a*rho
-#             y0 = b*rho
-#             x1 = int(x0 + 1000*(-b))
-#             y1 = int(y0 + 1000*(a))
-#             x2 = int(x0 - 1000*(-b))
-#             y2 = int(y0 - 1000*(a))
-#          
-#             cv2.line(img, (x1,y1), (x2,y2), (0,0,255), 2)
-#  
-        cv2.imwrite('houghlines3.jpg', HT)
+        HT, _, _ = hough_line_event(event, track_id)
         return HT
         
 
