@@ -34,7 +34,7 @@ class Event():
             return True
         return False
 
-            
+        
 class Hit():
     def __init__(self, x, y):
         self.x = x

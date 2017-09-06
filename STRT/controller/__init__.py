@@ -131,3 +131,9 @@ class Controller():
         self.view.update_Hough_transform_canvas(HT)
     
     
+    
+    
+    
+    
+    
+    

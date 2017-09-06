@@ -361,10 +361,20 @@ class QtGui(Ui_MainWindow):
         self.controller.on_event_Hough_transform(self.current_event.id)
         
     def track_Hough_transform_requested(self):
+        current_track_repr = self.get_selected_track()
+        if current_track_repr is None:
+            return
         self.controller.on_track_Hough_transform(self.current_event.id, self.get_selected_track().track.id)
         
     def update_Hough_transform_canvas(self, HT):
         self.analysis_form.HTCanvas.display_Hough_transform(HT)
         
-    
+
+
+
+
+
+
+
+
     

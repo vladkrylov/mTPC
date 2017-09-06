@@ -1,5 +1,6 @@
 # taken from https://github.com/alyssaq/hough_transform/blob/master/hough_transform.py
 
+import cv2
 import numpy as np
 from scipy import misc
 
@@ -60,18 +61,18 @@ def hough_line_event(event, track_id=None, angle_step=1):
     pixelize_step = 0.055
     rho_scale = 20
     
-    track = event.get_track(track_id)
-    if track is not None:
-        hits = [event.hits[i] for i in track.hit_indices]
-    else:
-        hits = event.hits
-    xs = [int(h.x/pixelize_step / rho_scale) for h in hits]
-    ys = [int(h.y/pixelize_step / rho_scale) for h in hits]
-    
+    xs = [int(h.x/pixelize_step / rho_scale) for h in event.hits]
+    ys = [int(h.y/pixelize_step / rho_scale) for h in event.hits]
     xmin = min(xs)
     xmax = max(xs)
     ymin = min(ys)
     ymax = max(ys)
+    
+    track = event.get_track(track_id)
+    if track is not None:
+        xs = map(lambda i: xs[i], track.hit_indices)
+        ys = map(lambda i: ys[i], track.hit_indices)
+    
     # Rho and Theta ranges
     thetas = np.deg2rad(np.arange(-90.0, 90.0, angle_step))
     width = xmax - xmin
@@ -91,45 +92,62 @@ def hough_line_event(event, track_id=None, angle_step=1):
     rho_inds = []
     # Vote in the hough accumulator
     for i in range(len(x_idxs)):
-        x = (x_idxs[i] - xmin)
-        y = (y_idxs[i] - ymin)
+        x = x_idxs[i] - xmin
+        y = y_idxs[i] - ymin
      
         for t_idx in range(num_thetas):
             # Calculate rho. diag_len is added for a positive index
             rho = round(x * cos_t[t_idx] + y * sin_t[t_idx]) + diag_len
 #             rho_inds.append(rho)
             accumulator[rho, t_idx] += 1
+    dump_lines(event)
     return accumulator, thetas, rhos
 
 
-def show_hough_line(img, accumulator):
-    import matplotlib.pyplot as plt
+# def show_hough_line(img, accumulator):
+#     import matplotlib.pyplot as plt
+#     
+#     fig, ax = plt.subplots(1, 2, figsize=(10, 10))
+#     
+#     ax[0].imshow(img, cmap=plt.cm.gray)
+#     ax[0].set_title('Input image')
+#     ax[0].axis('image')
+#     
+#     ax[1].imshow(
+#         accumulator, cmap='jet',
+#         extent=[np.rad2deg(thetas[-1]), np.rad2deg(thetas[0]), rhos[-1], rhos[0]])
+#     ax[1].set_aspect('equal', adjustable='box')
+#     ax[1].set_title('Hough transform')
+#     ax[1].set_xlabel('Angles (degrees)')
+#     ax[1].set_ylabel('Distance (pixels)')
+#     ax[1].axis('image')
+#     
+#     #plt.axis('off')
+#     plt.savefig('imgs/output.png', bbox_inches='tight')
+#     plt.show()
     
-    fig, ax = plt.subplots(1, 2, figsize=(10, 10))
-    
-    ax[0].imshow(img, cmap=plt.cm.gray)
-    ax[0].set_title('Input image')
-    ax[0].axis('image')
-    
-    ax[1].imshow(
-        accumulator, cmap='jet',
-        extent=[np.rad2deg(thetas[-1]), np.rad2deg(thetas[0]), rhos[-1], rhos[0]])
-    ax[1].set_aspect('equal', adjustable='box')
-    ax[1].set_title('Hough transform')
-    ax[1].set_xlabel('Angles (degrees)')
-    ax[1].set_ylabel('Distance (pixels)')
-    ax[1].axis('image')
-    
-    #plt.axis('off')
-    plt.savefig('imgs/output.png', bbox_inches='tight')
-    plt.show()
 
+def dump_lines(event):
+    pixelize_step = 0.055
+    
+    xs = [int(h.x/pixelize_step) for h in event.hits]
+    ys = [int(h.y/pixelize_step) for h in event.hits]
+    xmin = min(xs)
+    xmax = max(xs)
+    ymin = min(ys)
+    ymax = max(ys)
+    bin_img = np.zeros((ymax-ymin+1, xmax-xmin+1), dtype=np.uint8)
+    for i in range(len(xs)):
+        xp = xs[i] - xmin
+        yp = ys[i] - ymin
+        bin_img[yp, xp] = 1
 
-if __name__ == '__main__':
-    imgpath = 'imgs/binary_crosses.png'
-    img = misc.imread(imgpath)
-    accumulator, thetas, rhos = hough_line_img(img)
-    show_hough_line(img, accumulator)
+    lines = cv2.HoughLinesP(image=bin_img,
+                            rho=0.02,
+                            theta=np.pi/500, 
+                            threshold=10,
+                            lines=np.array([]))
+
   
   
   
