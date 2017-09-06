@@ -80,10 +80,18 @@ class PlotCanvas(MyMplCanvas):
         self.axes.set_ylim([min(y), max(y)])
         self.draw()
         
-    def add_line(self, track):
+    def add_track_line(self, track):
         x, y = track.line
         self.axes.hold(True)
         line, = self.axes.plot(x, y, color=track.color)
+        line.set_visible(True)
+        self.axes.hold(False)
+        self.draw()
+        return line
+    
+    def add_line(self, x, y, color):
+        self.axes.hold(True)
+        line, = self.axes.plot(x, y, color=color)
         line.set_visible(True)
         self.axes.hold(False)
         self.draw()
@@ -142,7 +150,8 @@ class HoughTransformCanvas(MyMplCanvas):
         img.set_cmap('hot')
         self.axes.axis('off')
         self.figure.canvas.draw()
-    
+
+        
 class MatplotlibToolbar(NavigationToolbar):
     pass
 

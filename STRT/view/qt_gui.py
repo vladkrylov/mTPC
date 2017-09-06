@@ -1,3 +1,5 @@
+import numpy as np
+
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QIntValidator
 from mainwindow import Ui_MainWindow
@@ -10,6 +12,7 @@ class QtGui(Ui_MainWindow):
         super(QtGui, self).__init__()
         self.current_event = None
         self.tracks = []
+        self.Houghlines = []
         self.hits_selection_is_on = None
         
     def setupUi(self, MainWindow):
@@ -366,11 +369,29 @@ class QtGui(Ui_MainWindow):
             return
         self.controller.on_track_Hough_transform(self.current_event.id, self.get_selected_track().track.id)
         
-    def update_Hough_transform_canvas(self, HT):
+    def update_Hough_transform_canvas(self, HT, lines):
         self.analysis_form.HTCanvas.display_Hough_transform(HT)
+        self.display_Houghlines(lines)
         
-
-
+    def display_Houghlines(self, lines):
+        self.clear_Houghlines()
+        if len(lines) == 0:
+            return
+        xmin, xmax = self.plotWidget.axes.get_xlim()
+        for l in lines:
+            rho, theta = l[0]
+            x1 = xmin
+            x2 = xmax
+            y1 = rho + x1*np.tan(theta)
+            y2 = rho + x2*np.tan(theta)
+            line = self.plotWidget.add_line((x1, x2), (y1, y2), "k")
+            self.Houghlines.append(line)
+    
+    def clear_Houghlines(self):
+        if len(self.Houghlines) != 0:
+            for l in self.Houghlines:
+                l.set_visible(False)
+            self.Houghlines = []
 
 
 

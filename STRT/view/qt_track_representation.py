@@ -55,9 +55,9 @@ class TrackRepresentation(QtWidgets.QWidget):
         if not self.track.has_line():
             self.track.set_random_line(self.canvas.axes.get_xlim(), self.canvas.axes.get_ylim())
             track_changed = True
-            self.line = self.canvas.add_line(self.track)
+            self.line = self.canvas.add_track_line(self.track)
         elif self.line is None:
-            self.line = self.canvas.add_line(self.track)
+            self.line = self.canvas.add_track_line(self.track)
         self.line.set_picker(5)  # possibly wrong, should be called when the line is created, not visibility changed
         self.line.set_visible(True)
         self.canvas.draw()

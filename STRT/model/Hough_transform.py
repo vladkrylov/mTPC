@@ -100,8 +100,8 @@ def hough_line_event(event, track_id=None, angle_step=1):
             rho = round(x * cos_t[t_idx] + y * sin_t[t_idx]) + diag_len
 #             rho_inds.append(rho)
             accumulator[rho, t_idx] += 1
-    dump_lines(event)
-    return accumulator, thetas, rhos
+    lines = dump_lines(event)
+    return lines, accumulator, thetas, rhos
 
 
 # def show_hough_line(img, accumulator):
@@ -142,12 +142,14 @@ def dump_lines(event):
         yp = ys[i] - ymin
         bin_img[yp, xp] = 1
 
-    lines = cv2.HoughLinesP(image=bin_img,
-                            rho=0.02,
-                            theta=np.pi/500, 
-                            threshold=10,
-                            lines=np.array([]))
+    lines = cv2.HoughLines(image=bin_img, rho=1, theta=np.pi/180, threshold=10)
+    if lines is None:
+        lines = []
+    else:
+        for l in lines:
+            # retain pho units
+            l[0, 0] *= pixelize_step
+    return lines
 
-  
-  
-  
+
+

@@ -123,12 +123,12 @@ class Controller():
         self.view.update_track_param_plot(param_distribution)
         
     def on_event_Hough_transform(self, event_id):
-        HT = self.model.Hough_transform(event_id)
-        self.view.update_Hough_transform_canvas(HT)
+        HT, lines = self.model.Hough_transform(event_id)
+        self.view.update_Hough_transform_canvas(HT, lines)
         
     def on_track_Hough_transform(self, event_id, track_id):
-        HT = self.model.Hough_transform(event_id, track_id)
-        self.view.update_Hough_transform_canvas(HT)
+        HT, lines = self.model.Hough_transform(event_id, track_id)
+        self.view.update_Hough_transform_canvas(HT, lines)
     
     
     

@@ -108,8 +108,8 @@ class Model():
         
     def Hough_transform(self, event_id, track_id=None):
         event = self.get_event(event_id)
-        HT, _, _ = hough_line_event(event, track_id)
-        return HT
+        lines, HT, _, _ = hough_line_event(event, track_id)
+        return HT, lines
         
 
 
